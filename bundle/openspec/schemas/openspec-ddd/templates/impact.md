@@ -7,8 +7,10 @@
 | Owner / exact capability path | Relationship | Disposition | Reason / needed change |
 | --- | --- | --- | --- |
 
-<!-- Dispositions: contract delta, implementation only, unchanged, unresolved.
+<!-- Dispositions: contract delta, documentation only, implementation only, unchanged, unresolved.
+Every contract-delta owner needs a corresponding delta file and intended requirement changes.
 Review transitive consumers plus callers/composition outside the catalog.
+Name proposed model edits and affected requirements; do not duplicate model definitions.
 For manual use without a catalog, record the relevant dependency relationships here. -->
 
 ## Additional Owners

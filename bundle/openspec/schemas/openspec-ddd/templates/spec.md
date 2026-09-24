@@ -1,4 +1,6 @@
-<!-- One file per owning capability. Retain only applicable sections.
+<!-- One file per owning capability. Retain only applicable sections. Tailor the content
+to the owner: domain invariants/transitions, feature outcomes/rejections, port guarantees,
+or adapter representations/mappings. Keep definitions in a model companion when useful.
 New capabilities start with a descriptive ## Purpose section.
 For existing requirements copy the full block and exact name into MODIFIED.
 Use ADDED for new requirements. Do not copy empty sections into the result. -->

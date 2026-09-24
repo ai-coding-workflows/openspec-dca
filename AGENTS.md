@@ -18,7 +18,7 @@ For changes, run `python3 -m unittest discover -s tests -v`. For schema/workflow
 changes, use OpenSpec 1.13.1 on PATH or set `OPENSPEC_BIN` and confirm the integration
 tests ran instead of skipping. They mutate temporary copies only.
 
-Run `./docs.sh build` and `python3 tooling/check.py --rendered`, then inspect affected
+Run `./scripts/docs.sh build` and `python3 tooling/check.py --rendered`, then inspect affected
 rendered chapters. Docker is the default toolchain; a locally installed mdBook 0.5.4
 also works. Do not edit or commit generated `build/` output. Native OpenSpec schema
 interfaces can change; validate upgrades against the real CLI and refresh docs.

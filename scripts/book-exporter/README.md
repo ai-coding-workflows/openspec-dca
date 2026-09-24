@@ -15,11 +15,11 @@ existing book.toml and mdBook source files is needed.
 
 Generate Typst source with:
 
-    uv run --no-cache --project tooling/book-exporter python tooling/book-exporter/export_book.py book.toml --format typst
+    uv run --no-cache --project scripts/book-exporter python scripts/book-exporter/export_book.py book.toml --format typst
 
 Generate Typst source and a PDF with:
 
-    uv run --extra typst-output --no-cache --project tooling/book-exporter python tooling/book-exporter/export_book.py book.toml --format pdf
+    uv run --extra typst-output --no-cache --project scripts/book-exporter python scripts/book-exporter/export_book.py book.toml --format pdf
 
 Typst output is <build-dir>/<title>.typ. PDF output also writes that source file
 beside <title>.pdf. PDF compilation uses the typst Python binding. The first PDF
@@ -29,7 +29,7 @@ packages used by the default template. Typst's package cache is reused later.
 Select a custom Typst template with --template. A relative template path is
 resolved against the directory containing book.toml:
 
-    uv run --no-cache --project tooling/book-exporter python tooling/book-exporter/export_book.py book.toml --format typst --template templates/print.typ
+    uv run --no-cache --project scripts/book-exporter python scripts/book-exporter/export_book.py book.toml --format typst --template templates/print.typ
 
 The template must contain both <code>{{title}}</code> and
 <code>{{content}}</code> placeholders. The default template is
@@ -56,4 +56,4 @@ running headers and page numbers. Both include Mermaid and checklist support.
 
 Select the modern guide design when exporting a PDF:
 
-    uv run --extra typst-output --no-cache --project tooling/book-exporter python tooling/book-exporter/export_book.py book.toml --format pdf --template tooling/book-exporter/templates/modern-guide.typ
+    uv run --extra typst-output --no-cache --project scripts/book-exporter python scripts/book-exporter/export_book.py book.toml --format pdf --template scripts/book-exporter/templates/modern-guide.typ

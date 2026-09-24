@@ -106,11 +106,17 @@ def _summary_chapters(summary: Path, source_dir: Path) -> list[Chapter]:
             label, destination = match.groups()
             destination = destination.strip().split(maxsplit=1)[0].strip("<>")
             parsed = urlsplit(destination)
-            if parsed.scheme or parsed.netloc or not parsed.path.lower().endswith(".md"):
+            if (
+                parsed.scheme
+                or parsed.netloc
+                or not parsed.path.lower().endswith(".md")
+            ):
                 continue
             chapter_path = (source_dir / unquote(parsed.path)).resolve()
             if not chapter_path.is_file():
-                raise ExportError(f"chapter listed in {summary} does not exist: {destination}")
+                raise ExportError(
+                    f"chapter listed in {summary} does not exist: {destination}"
+                )
             chapters.append(Chapter(chapter_path, label, ""))
 
     if not chapters:
@@ -146,7 +152,9 @@ def _rewrite_chapter_links(
         target = (source.parent / unquote(parsed.path)).resolve()
         if target not in chapter_anchors:
             return match.group(0)
-        fragment = unquote(parsed.fragment) if parsed.fragment else chapter_anchors[target]
+        fragment = (
+            unquote(parsed.fragment) if parsed.fragment else chapter_anchors[target]
+        )
         if typst_labels:
             fragment = _slug(fragment) or chapter_anchors[target]
             target_label = f"chapter-{chapter_anchors[target]}--{fragment}"
@@ -188,7 +196,9 @@ def _rewrite_images(text: str, source: Path, assets_dir: Path) -> str:
                 )
             image_path = (source.parent / unquote(parsed.path)).resolve()
             if not image_path.is_file():
-                raise ExportError(f"image referenced by {source} does not exist: {destination}")
+                raise ExportError(
+                    f"image referenced by {source} does not exist: {destination}"
+                )
             suffix = image_path.suffix.lower()
             if not re.fullmatch(r"\.[a-z0-9]{1,10}", suffix):
                 suffix = ".img"
@@ -228,7 +238,9 @@ def _expand_file(
     except (OSError, UnicodeError) as exc:
         raise ExportError(f"cannot read Markdown source {path}: {exc}") from exc
 
-    source = _rewrite_chapter_links(source, path, chapter_anchors, typst_labels=typst_labels)
+    source = _rewrite_chapter_links(
+        source, path, chapter_anchors, typst_labels=typst_labels
+    )
     if assets_dir is not None:
         source = _rewrite_images(source, path, assets_dir)
 
@@ -319,7 +331,7 @@ def export_pdf(book_toml: Path, template: Path | None = None) -> Path:
     except ImportError as exc:
         raise ExportError(
             "PDF output requires the optional typst dependency; run with "
-            "uv run --extra typst-output --project tooling/book-exporter ..."
+            "uv run --extra typst-output --project scripts/book-exporter ..."
         ) from exc
     try:
         typst.compile(str(typst_path), output=str(temporary), format="pdf")
@@ -345,7 +357,9 @@ def export_book(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Export an mdBook as Markdown, Typst, or PDF")
+    parser = argparse.ArgumentParser(
+        description="Export an mdBook as Markdown, Typst, or PDF"
+    )
     parser.add_argument(
         "book_toml",
         nargs="?",

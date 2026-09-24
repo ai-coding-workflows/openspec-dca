@@ -7,8 +7,10 @@ artifacts:
     description: Outcome, scope, acceptance, and starting contract owners
     template: proposal.md
     instruction: |
-      Describe one coherent delivery effort. Start from the requested feature or
-      outcome. Read project instructions and the relevant main specs before writing.
+      Describe one coherent delivery effort. Explain the problem or desired outcome and
+      who benefits; reference an existing product goal when available. A separate need
+      is not required for every domain rule or boundary guarantee. Start from the requested
+      feature or outcome. Read project instructions and relevant main specs before writing.
       List exact capability paths relative to openspec/specs, separated into new
       and modified capabilities; catalog aliases are not OpenSpec capability paths.
       Include necessary domain and port refinements in this effort and explain why.
@@ -30,9 +32,13 @@ artifacts:
       Read relevant architecture fragments and ADRs, including shared scope.
       Assign every lasting rule to one owner; references elsewhere must not create
       competing definitions. Record paths and catalog aliases where available.
-      Distinguish contract deltas, implementation-only adaptations, unchanged
-      consumers with rationale, and unresolved review. Transitive impact is a review
-      set, never automatic edit scope. Check external callers and composition too.
+      Distinguish contract deltas, documentation-only work, implementation-only adaptations,
+      unchanged owners with rationale, and unresolved review. Every contract-delta owner
+      needs a corresponding delta file with intended requirement changes; a generated glob
+      artifact being present is not proof that all owners are covered. Transitive impact is
+      a review set, never automatic edit scope. Check external callers and composition too.
+      If a domain model companion exists, name proposed model edits and affected requirements;
+      keep model definitions authoritative there instead of duplicating them in requirements.
       Surface additional domain/port owners to the user with a brief reason.
       Apply routine adapter consequences of an agreed contract; clarify material
       behavior or compatibility choices. A shared bounded context is not blanket
@@ -57,6 +63,10 @@ artifacts:
       is not updated by requirement deltas. Treat pure metadata corrections separately.
       Put shared invariants in domain owners, boundary guarantees in ports, use-case
       behavior in features, and protocol behavior in adapters. Refer to shared rules.
+      Tailor requirement content to its owner: domain definitions/invariants/transitions;
+      feature outcomes and rejections; port guarantees and failure semantics; adapter
+      representations and mappings. Keep definitions in a model companion when useful,
+      but retain Requirement and Scenario headings for normative behavior.
       Keep technology choices and implementation sequence in design and tasks.
       Include rejection, failure, and compatibility scenarios where relevant.
       Keep proposal, impact, and delta scope coherent. Never silently broaden scope.
@@ -71,13 +81,19 @@ artifacts:
       Read main contracts together with their proposed deltas, impact, architecture,
       and relevant decisions. Write one design for this change, proportionate to risk.
       Describe code boundaries, dependency direction, delivery slices, compatibility,
-      migration and rollback where needed. List concrete architecture/ADR paths to
-      update, preserving the rationale of superseded accepted decisions.
+      migration and rollback where needed. List concrete architecture/ADR and domain-model
+      paths to update, preserving the rationale of superseded accepted decisions. Name the
+      affected requirements when proposing a model edit; a model-only clarification still
+      needs review, while changed obligations also need requirement deltas.
       Keep proposed architecture in this change until implemented or clearly label
       its status. Main architecture is not a delta spec and is not merged by sync.
       Do not generate separate plans for every spec. Split into linked changes only
       when outcomes can be delivered independently or the coordination becomes too large.
-      Resolve questions affecting behavior or approach before dependent tasks.
+      Resolve questions affecting behavior or approach before dependent tasks. In Verification,
+      identify how changed requirements, affected baseline guarantees, and significant risks
+      will be checked. Plan representative success, rejection, failure, and compatibility
+      examples without claiming exhaustive coverage. Record actual execution results later in
+      verification.md.
     requires: [specs, impact]
   - id: tasks
     generates: tasks.md
@@ -89,8 +105,11 @@ artifacts:
       Read design and impact; unresolved material choices block dependent tasks.
       Include contract/scenario tests, code, adapter integration, architecture/ADRs,
       catalog adjustments when new main owners are created, and verification evidence.
-      Each task states how completion is checked. Do not invent code work for a
-      documentation-only change. Never mark work complete from artifact presence.
+      Each task states how completion is checked; every implementation or documentation change
+      needs a task. For executable behavior, plan small test-first slices: add or adapt a
+      relevant test, observe the expected failure, then implement. State a reason when this
+      order is not appropriate. Do not invent code work for a documentation-only change.
+      Never mark work complete from artifact presence.
       On revision preserve valid completed history; append new tasks for newly
       discovered work and explain tasks reopened because earlier work is invalidated.
       Synchronization and archive are closure operations after acceptance review,
@@ -103,12 +122,16 @@ apply:
     Follow project instructions and the selected change only. Never implement an
     archived change. Read its impact/design, the owning main specs plus deltas,
     relevant architecture and ADRs; do not treat baseline specs alone as the target.
-    Work through dependency-ordered slices and record actual verification results.
+    Work through dependency-ordered slices and record actual verification results. For each
+    small behavior change, add or adapt a test, check the expected failure, implement, then
+    refactor while tests pass; record why when test-first sequencing is inappropriate.
     Mark tasks complete only when their stated work and verification are complete.
     If discovery changes a contract or design, reconcile the change artifacts before
     continuing dependent code; respect the chosen native update/creation workflow.
     Update current architecture with implemented behavior and retain accepted ADR
     history. Report additionally affected domain/port owners and why they were needed.
-    Record acceptance evidence and remaining gaps in verification.md. Its presence
-    and checked tasks do not prove conformance. Run structural and project-specific
-    checks; do not sync or archive merely because tasks are checked.
+    Give every changed requirement and affected baseline guarantee an explicit evidence
+    disposition, including not-run and partial results with reasons. Record acceptance
+    evidence and remaining gaps in verification.md. Its presence and checked tasks do not
+    prove conformance. Run structural and project-specific checks; do not sync or archive
+    merely because tasks are checked.

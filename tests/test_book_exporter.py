@@ -3,9 +3,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT / "tooling" / "book-exporter"))
+sys.path.insert(0, str(PROJECT_ROOT / "scripts" / "book-exporter"))
 
 from export_book import ExportError, export_book, export_typst  # noqa: E402
 from markdown_to_typst import MarkdownToTypst  # noqa: E402
@@ -121,11 +120,13 @@ class BookExporterTests(unittest.TestCase):
             "\n{{#include ../snippets/image.md}}\n",
         )
         self.write("content/second.md", "# Second chapter\n\n## Details\n\nContent.\n")
-        self.write("snippets/image.md", "![A local image](../content/media/pixel.png)\n")
+        self.write(
+            "snippets/image.md", "![A local image](../content/media/pixel.png)\n"
+        )
         self.write("content/media/pixel.png", "image bytes")
         self.write(
             "simple.typ",
-            '#let title = {{title}}\n{{content}}\n',
+            "#let title = {{title}}\n{{content}}\n",
         )
 
         output = export_typst(self.book_toml, Path("simple.typ"))
@@ -140,7 +141,9 @@ class BookExporterTests(unittest.TestCase):
 
     def test_remote_typst_images_are_rejected(self):
         self.write("content/SUMMARY.md", "[Intro](README.md)\n")
-        self.write("content/README.md", "# Intro\n\n![Logo](https://example.org/logo.png)\n")
+        self.write(
+            "content/README.md", "# Intro\n\n![Logo](https://example.org/logo.png)\n"
+        )
 
         with self.assertRaisesRegex(ExportError, "remote image cannot be included"):
             export_typst(self.book_toml, Path("simple.typ"))

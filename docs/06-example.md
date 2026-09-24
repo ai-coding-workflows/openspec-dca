@@ -1,8 +1,9 @@
 # A worked OpenSpec change
 
 The equipment-lending example shows one fictional baseline and one proposed change.
-It contains five main specs, four delta specs, one design, and one task list. It has
-no application implementation; its seven delivery tasks are intentionally open.
+It contains five main specs, a domain-model companion, four delta specs, one design,
+and one task list. It has no application implementation; its seven delivery tasks are
+intentionally open.
 
 ## Follow the change
 
@@ -19,14 +20,26 @@ The baseline port requires a durable returned state and explicit failure behavio
 
 {{#include ../examples/equipment-lending/openspec/specs/contexts/lending/ports/loan-store/spec.md}}
 
+The baseline assumes a save reported as failed is confirmed not to have committed.
+Check this against the intended adapter. If an adapter cannot establish whether it
+committed, resolve the port and consumer contracts explicitly before implementation.
+An indeterminate outcome would be a separate behavior decision, not an editorial
+weakening of this baseline.
+
 The change replaces that requirement with its full updated content. Its exact name
 is preserved, and the existing failure guarantee remains:
 
 {{#include ../examples/equipment-lending/openspec/changes/record-return-condition/specs/contexts/lending/ports/loan-store/spec.md}}
 
-Other deltas add the domain condition rule and update feature and HTTP behavior.
-Unchanged requirements, such as rejection of unknown or already returned loans,
-remain in the main spec and need not be copied into a delta.
+The domain delta proposes the new-return obligation while the baseline model companion
+remains unchanged during this unfinished effort:
+
+{{#include ../examples/equipment-lending/openspec/specs/contexts/lending/domain/model.md}}
+
+The proposed model edit is recorded in `impact.md` and specified in `design.md`; the
+durable model update is an explicit delivery task. Other deltas update feature and
+HTTP behavior. Unchanged requirements, such as rejection of unknown or already returned
+loans, remain in the main spec and need not be copied into a delta.
 
 ## One delivery design and backlog
 
@@ -44,9 +57,10 @@ The proposed ADR stays with the active change until accepted:
 
 {{#include ../examples/equipment-lending/openspec/changes/record-return-condition/decisions/adr-lending-001.md}}
 
-An implementation task updates the current fragments and promotes the decision.
-Spec sync does neither automatically. This also demonstrates how an arc42 chapter
-can include local fragments without creating duplicate editable copies.
+Implementation tasks update the domain model and current architecture fragments and
+promote the decision. Requirement sync does none of this automatically. This also
+demonstrates how an arc42 chapter can include local fragments without creating
+duplicate editable copies.
 
 ## Try the native commands
 

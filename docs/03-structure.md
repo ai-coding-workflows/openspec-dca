@@ -4,6 +4,9 @@ Keep OpenSpec's `specs` and `changes` roots. Organize the capability paths below
 them around contract ownership. The same relative path identifies the owner in a
 main spec and in a change's delta spec.
 
+This guide uses **spec owner** as the general term: a feature, domain, port, or
+adapter can own a spec. Not every OpenSpec capability path is a user-facing feature.
+
 ```text
 openspec/
 ├── config.yaml
@@ -12,7 +15,9 @@ openspec/
 ├── ddd/ddd.py                            optional read-only helper
 ├── specs/
 │   ├── contexts/lending/
-│   │   ├── domain/spec.md
+│   │   ├── domain/
+│   │   │   ├── model.md
+│   │   │   └── spec.md
 │   │   ├── ports/loan-store/spec.md
 │   │   ├── features/return-equipment/
 │   │   │   ├── spec.md
@@ -49,7 +54,8 @@ migration, not an incidental naming cleanup inside a behavioral change.
 
 | Rule or information | Owner |
 | --- | --- |
-| Meaning and allowed values of return condition | Domain spec |
+| Vocabulary, concepts, and state meanings | Domain model companion, when useful |
+| Normative obligations and invariants for domain behavior | Domain spec |
 | Successful save persists state and condition together | Storage port spec |
 | Return accepts input, applies rules, and reports an outcome | Feature spec |
 | JSON mapping and HTTP status codes | HTTP adapter spec |
@@ -59,6 +65,55 @@ migration, not an incidental naming cleanup inside a behavioral change.
 A storage adapter may refer to its port's guarantees without repeating them. If the
 guarantee changes, its implementation and architecture may need work even when its
 spec needs no delta. Record this disposition in `impact.md`.
+
+## Needs, models, and requirements
+
+A **need** explains the problem or desired outcome and who benefits. Record it in
+`proposal.md`, or reference an existing product goal. A separate needs document is
+not required, and a new need is not needed for every domain rule, port guarantee, or
+adapter mapping. Requirements may share a need or follow from existing constraints.
+
+A **domain model** explains the meaning of concepts and their relationships. A
+**requirement** states an obligation of its owning contract. A **scenario** makes
+that obligation concrete through an observable example. Do not force definitions
+into requirement-shaped statements or treat implementation tasks as stakeholder
+needs.
+
+Keep OpenSpec's `Requirement` and `Scenario` headings for normative behavior. Tailor
+their content to the owner: domain invariants and transitions; feature outcomes and
+failure behavior; port guarantees; adapter representations and mappings. Quality
+requirements and cross-cutting constraints also need an owner and a suitable check;
+they need not be forced into a user-interaction narrative.
+
+## Documenting the domain model
+
+Use a companion such as `domain/model.md` when requirements alone cannot explain
+the domain clearly. Cover vocabulary, concepts, identity, relationships, value
+meanings, and state semantics where useful. A small domain does not need a complete
+inventory of DDD patterns. This is an additional documentation view of the same
+owner, not a new OpenSpec capability or a second specification lifecycle.
+
+Keep each definition authoritative in one place. Requirements should refer to the
+model rather than independently listing the same values or redefining their meaning.
+When a referenced definition changes, review its effect on those requirements and
+their consumers. A model update does not replace a requirement delta when an
+obligation changes.
+
+For example, a historical return without a recorded condition can be valid historical data while a new return without a condition is rejected. Explain the meaning
+of historical unrecorded data in the model; state the new-return obligation in the
+domain spec. Do not replace this distinction with an invariant requiring every
+historical return to have a recorded condition.
+
+Keep implementation choices such as database columns and class layout in
+architecture documentation. Diagrams and state tables may summarize the model,
+but identify the authoritative definition rather than maintaining competing rules.
+
+Name proposed model edits and affected requirements in `impact.md` and `design.md`;
+track the durable update in `tasks.md`. Keep proposed wording change-local or clearly
+marked as proposed. Update the maintained model consistently with the accepted
+contract baseline, and record any deliberately early-synced state. Model-only
+clarifications still need review; changed obligations also need requirement deltas.
+The optional companion is not automatically merged by native requirement sync.
 
 ## Three identifiers with different jobs
 

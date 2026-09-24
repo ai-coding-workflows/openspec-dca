@@ -1,11 +1,11 @@
 services:
   handbook:
-    build: ./tooling
+    build: .
     image: openspec-ddd:mdbook-0.5.4
     init: true
     user: "${GUIDE_UID:-1000}:${GUIDE_GID:-1000}"
     volumes:
-      - .:/book:ro
-      - ./build:/book/build
+      - ../..:/book:ro
+      - ../../build:/book/build
     ports:
       - "127.0.0.1:3002:3002"

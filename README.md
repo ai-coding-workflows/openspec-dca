@@ -2,8 +2,9 @@
 
 A practical guide and reusable OpenSpec schema for domain-centered living
 specifications, change delivery, and modular arc42 documentation. OpenSpec already
-maintains living specifications; this project adds explicit contract ownership and
-dependency review across domains, ports, features, adapters, and shared modules.
+maintains living specifications; this project adds explicit contract ownership, useful
+domain-model companions, test-first delivery guidance, and evidence-aware consumer
+review across domains, ports, features, adapters, and shared modules.
 
 Start with [the introduction](docs/README.md) or [the workflow guide](docs/05-change-workflow.md).
 For installation and Pi commands, see [using the bundle](docs/09-tooling.md).
@@ -32,36 +33,36 @@ All chapters are ordinary Markdown. Docker Compose builds the handbook with
 checksum-pinned mdBook 0.5.4:
 
 ```sh
-./docs.sh build
-./docs.sh serve
+./scripts/docs.sh build
+./scripts/docs.sh serve
 ```
 
 Preview: http://127.0.0.1:3002. Stop with Ctrl+C. Output: `build/book/`.
 The Docker toolchain is only for publishing documentation. With mdBook 0.5.4
 installed locally, `mdbook build` works too.
 
-`./docs.sh build` also exports the chapters and includes into
-`build/book/OpenSpec DDD.md`. The exporter in `tooling/book-exporter/`
+`./scripts/docs.sh build` also exports the chapters and includes into
+`build/book/OpenSpec DDD.md`. The exporter in `scripts/book-exporter/`
 reads the title, source directory, and build directory from any supplied
 `book.toml` and requires Python 3.11 or newer. Markdown export has no required
 third-party dependencies.
 For another mdBook, run it with that book's config:
 
 ```sh
-uv run --no-cache --project tooling/book-exporter python tooling/book-exporter/export_book.py /path/to/book.toml
+uv run --no-cache --project scripts/book-exporter python scripts/book-exporter/export_book.py /path/to/book.toml
 ```
 
 Use `--format typst` to generate Typst source or `--format pdf` to generate
 Typst source and PDF. PDF compilation uses the optional Typst Python binding:
 
-    uv run --extra typst-output --no-cache --project tooling/book-exporter python tooling/book-exporter/export_book.py /path/to/book.toml --format pdf
+    uv run --extra typst-output --no-cache --project scripts/book-exporter python scripts/book-exporter/export_book.py /path/to/book.toml --format pdf
 
 The Typst output retains local images, routes Mermaid through Merman, and renders
-task lists through Cheq. See the [exporter guide](tooling/book-exporter/README.md)
+task lists through Cheq. See the [exporter guide](scripts/book-exporter/README.md)
 for templates and supported Markdown details.
 
 ```sh
-python3 tooling/check.py --rendered
+python3 scripts/check.py --rendered
 python3 -m unittest discover -s tests -v
 ```
 

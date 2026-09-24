@@ -87,7 +87,9 @@ An entry has a stable alias, a main spec path, and consumed owner IDs:
 
 All referenced owners must exist in the catalog. Paths are project-relative existing
 files. Optional `contracts`, `architecture`, and `decisions` arrays identify additional
-context explicitly. New proposed owners remain in `impact.md` until main specs exist.
+context explicitly. A `domain/model.md` companion remains documentation owned by its
+main spec owner; it does not create another capability or catalog node, and native spec
+sync does not update it. New proposed owners remain in `impact.md` until main specs exist.
 
 From the application root:
 
@@ -106,6 +108,10 @@ references. `impact` lists transitive consumers for review, not an edit instruct
 reports main specs missing from the catalog. It does not validate actual architecture,
 discover external callers, or evaluate proposed deltas. OpenSpec handles change and
 spec validation; the helper supplies only the additional DDD graph.
+
+The helper does not implement the optional requirement-to-test traceability convention
+described in the [workflow guide](05-change-workflow.md). That manifest is project-owned
+and does not change `depends_on`, catalog validation, or OpenSpec acceptance behavior.
 
 ## Pass a spec or a change
 

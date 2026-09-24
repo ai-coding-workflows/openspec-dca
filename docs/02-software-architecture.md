@@ -11,10 +11,21 @@ For equipment lending, those might be a loan, a borrower, and a return condition
 The domain should not need to understand HTTP requests or database rows to express
 whether a return condition is valid.
 
-A **use case** describes an operation the system performs for someone. “Return
-equipment” is a use case. Its application logic loads the relevant loan, applies
-the rules, saves the result, and reports the outcome. A lasting capability can be
-documented as a **feature**, containing one or several related use cases.
+A **use case** describes an operation performed for a person or another system,
+with a recognizable goal and outcome. Returning equipment is a use case. Validating
+one field or calling a repository method is normally a step, not a separate use case.
+Its application logic coordinates domain rules and ports to produce the outcome.
+
+A **feature** is a lasting capability and a stable home for one or several related
+use cases. Keep features as the default organizational unit. A feature may contain
+only one use case; no additional grouping or folder is required. Split out a use
+case only when separate contract ownership or independent evolution justifies it,
+not because it has its own endpoint or application class.
+
+A **scenario** is a concrete example of a requirement, such as rejecting a return
+without a condition. Alternative and failure scenarios normally remain with the
+requirement they explain. A **change** is the temporary delivery effort that adds
+or modifies these lasting contracts; it is not another level of feature granularity.
 
 A **bounded context** is an area where a model and its vocabulary have a consistent
 meaning. Lending and maintenance could eventually become distinct contexts if their

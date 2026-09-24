@@ -12,12 +12,15 @@
 
 ## Architecture and ADR Updates
 
-<!-- Exact current-document paths; accepted rationale to preserve; proposed decisions. -->
+<!-- Exact current-document paths, including any domain model companion; accepted rationale
+to preserve; proposed decisions. Name affected requirements for model edits. -->
 
 ## Compatibility, Migration, and Risks
 
 <!-- Deployment/rollback if relevant. Omit sections without useful content. -->
 
-## Verification
+## Verification Strategy
 
-<!-- Scenario coverage, appropriate tests, documentation checks and evidence location. -->
+<!-- Plan representative checks for changed requirements, affected baseline guarantees,
+risks, and compatibility. Cover useful success, rejection, failure, and migration examples.
+Name test levels and evidence location; this is a plan, not execution evidence. -->
