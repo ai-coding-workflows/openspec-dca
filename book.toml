@@ -1,0 +1,17 @@
+[book]
+title = "OpenSpec DDD"
+description = "Domain-centered contracts, OpenSpec changes, and modular architecture documentation"
+language = "en"
+src = "docs"
+
+[build]
+build-dir = "build/book"
+create-missing = false
+extra-watch-dirs = ["examples", "templates", "bundle"]
+
+[output.html]
+additional-css = ["docs/theme/guide.css"]
+
+[output.html.fold]
+enable = true
+level = 1

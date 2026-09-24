@@ -1,0 +1,24 @@
+schema: openspec-ddd
+
+# Merge this into an existing config; retain existing context, rules, and tool settings.
+context: |
+  Use main specs as the baseline and change delta specs as the proposed target.
+  One change coordinates one outcome across owners with one design and task list.
+  Read project agent instructions and relevant architecture/ADRs before implementation.
+  Contract ownership follows domain, ports, features, adapters, modules and system scope.
+  If openspec/catalog.json exists, use its depends_on edges for context and consumer review.
+  If openspec/ddd/ddd.py is installed, it provides read-only check/context/impact commands.
+  Report additional domain/port changes and why they are necessary.
+  Clarify material behavior or compatibility choices; retain existing authorizations.
+  Keep main requirements unchanged until deliberate spec sync. Update architecture
+  with implemented behavior. Sync does not merge architecture, ADRs, or the catalog.
+
+operations:
+  apply:
+    guidance:
+      - Read baseline specs together with the selected change's deltas and impact review.
+      - Record actual checks and acceptance findings in the change's verification.md.
+  archive:
+    guidance:
+      - Review acceptance evidence and unresolved work before closing the change.
+      - Check durable architecture, ADRs, and the catalog separately from spec sync.

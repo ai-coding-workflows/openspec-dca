@@ -1,0 +1,15 @@
+/* Keep long capability paths readable inside contract/impact tables. */
+.content table {
+    width: 100%;
+}
+
+.content table th,
+.content table td {
+    padding: 0.5em 0.65em;
+    vertical-align: top;
+}
+
+.content table td:first-child,
+.content table code {
+    overflow-wrap: anywhere;
+}

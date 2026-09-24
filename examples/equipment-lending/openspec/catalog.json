@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "specs": [
+    {
+      "id": "lending.domain",
+      "kind": "domain",
+      "path": "openspec/specs/contexts/lending/domain/spec.md",
+      "depends_on": []
+    },
+    {
+      "id": "lending.loan-store",
+      "kind": "port",
+      "path": "openspec/specs/contexts/lending/ports/loan-store/spec.md",
+      "depends_on": [
+        "lending.domain"
+      ]
+    },
+    {
+      "id": "lending.return",
+      "kind": "feature",
+      "path": "openspec/specs/contexts/lending/features/return-equipment/spec.md",
+      "depends_on": [
+        "lending.domain",
+        "lending.loan-store"
+      ],
+      "architecture": [
+        "openspec/specs/contexts/lending/features/return-equipment/architecture/runtime.md"
+      ]
+    },
+    {
+      "id": "lending.http",
+      "kind": "adapter",
+      "path": "openspec/specs/contexts/lending/adapters/in/http/spec.md",
+      "depends_on": [
+        "lending.return"
+      ]
+    },
+    {
+      "id": "lending.database",
+      "kind": "adapter",
+      "path": "openspec/specs/contexts/lending/adapters/out/database/spec.md",
+      "depends_on": [
+        "lending.loan-store"
+      ],
+      "architecture": [
+        "openspec/specs/contexts/lending/adapters/out/database/architecture/mapping.md"
+      ]
+    }
+  ]
+}

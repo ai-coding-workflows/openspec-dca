@@ -1,0 +1,114 @@
+name: openspec-ddd
+version: 1
+description: Domain-centered contract changes with explicit ownership and consumer review
+artifacts:
+  - id: proposal
+    generates: proposal.md
+    description: Outcome, scope, acceptance, and starting contract owners
+    template: proposal.md
+    instruction: |
+      Describe one coherent delivery effort. Start from the requested feature or
+      outcome. Read project instructions and the relevant main specs before writing.
+      List exact capability paths relative to openspec/specs, separated into new
+      and modified capabilities; catalog aliases are not OpenSpec capability paths.
+      Include necessary domain and port refinements in this effort and explain why.
+      Material policy, boundary, and compatibility choices need an explicit answer
+      before dependent work. Reuse decisions already made by the user or project.
+      Keep unrelated improvements outside scope. Include observable acceptance.
+      Do not edit main requirements while preparing a delta-based change.
+      For work with no behavior changes, explain this and set skip_specs: true in
+      the change's .openspec.yaml; do not invent delta requirements.
+    requires: []
+  - id: impact
+    generates: impact.md
+    description: Contract ownership, dependency context, and consumer disposition
+    template: impact.md
+    instruction: |
+      Read proposal and owning contracts in dependency order, then review their
+      consumers. If openspec/catalog.json exists, use the read-only DDD helper or
+      inspect its depends_on graph. Otherwise record a small manual dependency map.
+      Read relevant architecture fragments and ADRs, including shared scope.
+      Assign every lasting rule to one owner; references elsewhere must not create
+      competing definitions. Record paths and catalog aliases where available.
+      Distinguish contract deltas, implementation-only adaptations, unchanged
+      consumers with rationale, and unresolved review. Transitive impact is a review
+      set, never automatic edit scope. Check external callers and composition too.
+      Surface additional domain/port owners to the user with a brief reason.
+      Apply routine adapter consequences of an agreed contract; clarify material
+      behavior or compatibility choices. A shared bounded context is not blanket
+      permission to broaden scope. Reconcile proposal capability scope when needed.
+      Record new owners here; add them to the main catalog when main specs exist.
+    requires: [proposal]
+  - id: specs
+    generates: "specs/**/spec.md"
+    description: OpenSpec deltas at the exact paths of their owning contracts
+    template: spec.md
+    instruction: |
+      Produce one delta per changed owner at specs/<capability-path>/spec.md inside
+      the change. Preserve the exact nested capability path from the main specs.
+      Use ADDED Requirements for new requirements, MODIFIED Requirements for a full
+      replacement of an existing named requirement, REMOVED Requirements with
+      Reason and Migration, or RENAMED Requirements with FROM and TO entries.
+      Read the entire original requirement including scenarios before modifying it.
+      A MODIFIED entry keeps its exact requirement name and all still-valid behavior.
+      Each added or modified requirement uses a '### Requirement: <name>' heading,
+      SHALL or MUST language, and at least one '#### Scenario: <name>' with WHEN/THEN.
+      Give a new capability a meaningful Purpose section; existing Purpose metadata
+      is not updated by requirement deltas. Treat pure metadata corrections separately.
+      Put shared invariants in domain owners, boundary guarantees in ports, use-case
+      behavior in features, and protocol behavior in adapters. Refer to shared rules.
+      Keep technology choices and implementation sequence in design and tasks.
+      Include rejection, failure, and compatibility scenarios where relevant.
+      Keep proposal, impact, and delta scope coherent. Never silently broaden scope.
+      With skip_specs: true no delta files are created; remove that flag if behavior
+      changes. Run OpenSpec validation after writing deltas and resolve its findings.
+    requires: [impact]
+  - id: design
+    generates: design.md
+    description: One implementation approach spanning the affected owners
+    template: design.md
+    instruction: |
+      Read main contracts together with their proposed deltas, impact, architecture,
+      and relevant decisions. Write one design for this change, proportionate to risk.
+      Describe code boundaries, dependency direction, delivery slices, compatibility,
+      migration and rollback where needed. List concrete architecture/ADR paths to
+      update, preserving the rationale of superseded accepted decisions.
+      Keep proposed architecture in this change until implemented or clearly label
+      its status. Main architecture is not a delta spec and is not merged by sync.
+      Do not generate separate plans for every spec. Split into linked changes only
+      when outcomes can be delivered independently or the coordination becomes too large.
+      Resolve questions affecting behavior or approach before dependent tasks.
+    requires: [specs, impact]
+  - id: tasks
+    generates: tasks.md
+    description: One dependency-ordered backlog including verification and documentation
+    template: tasks.md
+    instruction: |
+      Create one task list for the whole change using '- [ ] 1.1 <work and verification>'.
+      Group useful implementation slices and name their owners and prerequisites.
+      Read design and impact; unresolved material choices block dependent tasks.
+      Include contract/scenario tests, code, adapter integration, architecture/ADRs,
+      catalog adjustments when new main owners are created, and verification evidence.
+      Each task states how completion is checked. Do not invent code work for a
+      documentation-only change. Never mark work complete from artifact presence.
+      On revision preserve valid completed history; append new tasks for newly
+      discovered work and explain tasks reopened because earlier work is invalidated.
+      Synchronization and archive are closure operations after acceptance review,
+      not a reason to skip remaining implementation or verification work.
+    requires: [design, specs]
+apply:
+  requires: [proposal, impact, specs, design, tasks]
+  tracks: tasks.md
+  instruction: |
+    Follow project instructions and the selected change only. Never implement an
+    archived change. Read its impact/design, the owning main specs plus deltas,
+    relevant architecture and ADRs; do not treat baseline specs alone as the target.
+    Work through dependency-ordered slices and record actual verification results.
+    Mark tasks complete only when their stated work and verification are complete.
+    If discovery changes a contract or design, reconcile the change artifacts before
+    continuing dependent code; respect the chosen native update/creation workflow.
+    Update current architecture with implemented behavior and retain accepted ADR
+    history. Report additionally affected domain/port owners and why they were needed.
+    Record acceptance evidence and remaining gaps in verification.md. Its presence
+    and checked tasks do not prove conformance. Run structural and project-specific
+    checks; do not sync or archive merely because tasks are checked.

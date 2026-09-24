@@ -1,0 +1,11 @@
+schema: openspec-ddd
+context: |
+  This is a teaching fixture, not implemented application software.
+  openspec/specs is the fictional baseline. record-return-condition is proposed.
+  Read openspec/catalog.json for ownership and explicit architecture paths.
+  Preserve the baseline until deliberately demonstrating sync on a temporary copy.
+  Do not mark teaching tasks complete or claim application tests have passed.
+operations:
+  archive:
+    guidance:
+      - Review actual acceptance evidence before closing a real delivery effort.

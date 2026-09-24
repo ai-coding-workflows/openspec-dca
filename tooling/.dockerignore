@@ -1,0 +1,4 @@
+*
+!Dockerfile
+!toolchain.json
+!install-mdbook.py
