@@ -23,4 +23,6 @@ For manual use without a catalog, record the relevant dependency relationships h
 
 ## Architecture and Delivery Consequences
 
-<!-- Current fragments, proposed/superseded ADRs, dependency order and useful slices. -->
+<!-- Affected system-architecture/ sections and owner-local views; current fragments,
+proposed/superseded architectural-decisions/, dependency order and useful slices.
+Keep current and proposed states explicit; spec sync will not update these files. -->

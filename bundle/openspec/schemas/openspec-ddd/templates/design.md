@@ -12,8 +12,10 @@
 
 ## Architecture and ADR Updates
 
-<!-- Exact current-document paths, including any domain model companion; accepted rationale
-to preserve; proposed decisions. Name affected requirements for model edits. -->
+<!-- Exact system-architecture/ and owner-local current-document paths, including
+any domain model companion; accepted rationale to preserve; proposed decisions in
+architectural-decisions/. Name affected requirements for model edits. Keep handbook
+summaries linked to authoritative contracts and views. -->
 
 ## Compatibility, Migration, and Risks
 

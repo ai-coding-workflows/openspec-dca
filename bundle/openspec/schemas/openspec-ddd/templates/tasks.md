@@ -6,7 +6,8 @@
 ## 2. Integration and durable documentation
 
 - [ ] 2.1 {Cross-owner integration and failure coverage; state verification.}
-- [ ] 2.2 {Update relevant architecture/ADRs; verify they describe implemented behavior.}
+- [ ] 2.2 {Update affected handbook sections, local architecture, and scoped ADRs; verify
+they describe implemented behavior without duplicating authoritative contracts.}
 
 ## 3. Acceptance evidence
 
