@@ -1,27 +1,80 @@
+# Merge into openspec/config.yaml; do not replace existing project settings.
+# Rules below use the artifact IDs described in the supplied openspec-ddd guide.
+# Review them against the installed schema and merge lists without duplication.
 schema: openspec-ddd
 
-# Merge this into an existing config; retain existing context, rules, and tool settings.
 context: |
-  Use main specs as the baseline and change delta specs as the proposed target.
-  One change coordinates one outcome across owners with one design and task list.
-  Read project agent instructions and relevant architecture/ADRs before implementation.
-  Contract ownership follows domain, ports, features, adapters, modules and system scope.
-  If openspec/catalog.json exists, use its depends_on edges for context and consumer review.
-  If openspec/ddd/ddd.py is installed, it provides read-only check/context/impact commands.
-  Report additional domain/port changes and why they are necessary.
-  Keep domain model definitions authoritative in a companion when useful; track its
-  accepted update as an explicit delivery task because spec sync does not merge it.
-  Clarify material behavior or compatibility choices; retain existing authorizations.
-  Keep main requirements unchanged until deliberate spec sync. Update architecture
-  with implemented behavior. Sync does not merge architecture, ADRs, or the catalog.
+  Read the project's OpenSpec DDD agent instructions before planning or delivery.
+  Main specs are the maintained contract baseline; active deltas describe changes
+  to that baseline. One coherent change has one design and one task list.
+  Keep one authoritative owner per definition or normative rule. Use existing
+  capability paths and project conventions; do not infer code layout from spec paths.
+  Keep main requirements unchanged until deliberate native sync. An early-synced
+  baseline must be identified as accepted but not yet fully implemented.
+  Spec sync does not update domain-model companions, architecture views, ADRs,
+  verification evidence, or the optional catalog. These need explicit delivery work.
+
+rules:
+  proposal:
+    - >-
+      Explain the need or desired outcome, who benefits, scope, non-goals, and
+      observable acceptance. Reference existing goals rather than creating a
+      mandatory needs hierarchy or a second set of normative requirements.
+  impact:
+    - >-
+      Identify exact owner paths, prerequisite contracts, and affected consumers,
+      including callers outside the optional catalog. Give a disposition and reason;
+      review does not automatically require a consumer edit. Explain added owners.
+    - >-
+      Identify affected model definitions, architecture views, and decisions. State
+      what needs creation, update, or reuse and which open choices block delivery.
+      Every contract-delta disposition needs the corresponding actual delta content.
+  specs:
+    - >-
+      Keep each normative rule with its owner. Reference authoritative domain
+      definitions; do not duplicate them across feature, port, and adapter specs.
+      Keep implementation choices and tasks outside behavioral requirements.
+    - >-
+      Use native requirement/scenario structure and concrete observable examples,
+      including relevant rejection or failure behavior. Preserve exact requirement
+      names when modifying existing requirements; use explicit native renames where
+      intended. In MODIFIED deltas, include the complete updated requirement.
+  design:
+    - >-
+      Explain the approach, significant alternatives, delivery dependencies, and
+      compatibility or migration risks. Plan the next slice in detail; later work
+      may remain coarser. Identify unresolved decisions and the work they block.
+    - >-
+      Apply the project's architecture-view rules. Include or link necessary
+      proposed views, identify their durable destinations, and plan suitable checks
+      for changed requirements and affected baseline guarantees. Actual results
+      belong in verification.md, not in a second test-plan artifact.
+  tasks:
+    - >-
+      Keep one actionable backlog with useful delivery slices, dependencies, and
+      suitable verification. Include required model, diagram, ADR, catalog, and
+      evidence updates. Preserve valid completed history and record newly found work.
 
 operations:
   apply:
     guidance:
-      - Read baseline specs together with the selected change's deltas and impact review.
-      - Use test-first slices for changed executable behavior and record actual evidence.
-      - Record actual checks and acceptance findings in the change's verification.md.
+      - >-
+        Read baseline plus deltas and reconcile impact, design, and tasks before
+        the affected slice. Respect existing authorization; resolve material open
+        behavior or compatibility choices before implementing dependent work.
+      - >-
+        Use test-first slices for changed executable behavior, reusing adequate
+        tests and recording justified exceptions. Keep actual results and checked
+        revisions in verification.md; do not infer success from task completion.
+      - >-
+        Keep durable model and architecture views consistent with their stated
+        baseline, update diagram sources, and explicitly decide ADR status.
   archive:
     guidance:
-      - Review acceptance evidence and unresolved work before closing the change.
-      - Check durable architecture, ADRs, and the catalog separately from spec sync.
+      - >-
+        Review actual evidence, remaining gaps, and the recorded acceptance decision.
+        Failed or skipped checks remain visible even when a limitation is accepted.
+      - >-
+        Check durable documentation, diagram sources, ADR status, and catalog
+        registration separately from native spec sync. File presence is not
+        conformance, and this guidance is not a machine-enforced acceptance gate.

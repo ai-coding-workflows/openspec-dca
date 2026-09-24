@@ -18,7 +18,9 @@ For changes, run `python3 -m unittest discover -s tests -v`. For schema/workflow
 changes, use OpenSpec 1.13.1 on PATH or set `OPENSPEC_BIN` and confirm the integration
 tests ran instead of skipping. They mutate temporary copies only.
 
-Run `./scripts/docs.sh build` and `python3 tooling/check.py --rendered`, then inspect affected
-rendered chapters. Docker is the default toolchain; a locally installed mdBook 0.5.4
-also works. Do not edit or commit generated `build/` output. Native OpenSpec schema
+Run `./scripts/docs.sh build` and `python3 scripts/check.py --rendered`, then inspect affected
+rendered chapters. Docker is the default toolchain; `scripts/native_docs.sh` is the
+local alternative and fetches the latest mdBook release only when no `mdbook` command
+is available. The runners and checker read the output path from `book.toml`. Do not edit
+or commit generated output under that configured directory. Native OpenSpec schema
 interfaces can change; validate upgrades against the real CLI and refresh docs.

@@ -20,6 +20,7 @@ and does not maintain a second change engine.
 - `bundle/openspec/schemas/openspec-ddd/`: native schema and artifact templates.
 - `bundle/openspec/ddd/`: optional read-only catalog and impact helper.
 - `templates/`: project configuration, catalog, architecture, ADR, and evidence templates.
+- `scripts/`: Docker/native documentation commands, mdBook bootstrap, and exporter.
 - `examples/equipment-lending/`: baseline contracts and one deliberately unfinished change.
 - `tests/`: helper tests and compatibility tests against the real OpenSpec CLI.
 
@@ -29,23 +30,38 @@ terminal commands and project conventions from enforced checks.
 
 ## Read and build
 
-All chapters are ordinary Markdown. Docker Compose builds the handbook with
-checksum-pinned mdBook 0.5.4:
+All chapters are ordinary Markdown. The shared Python runner reads the output path
+from `[build].build-dir` in `book.toml`. Docker Compose uses the pinned mdBook 0.5.4
+image by default; the native mode uses mdBook from `PATH` or downloads the latest stable
+release when needed:
 
 ```sh
 ./scripts/docs.sh build
 ./scripts/docs.sh serve
+./scripts/native_docs.sh build
+./scripts/native_docs.sh serve
 ```
 
-Preview: http://127.0.0.1:3002. Stop with Ctrl+C. Output: `build/book/`.
-The Docker toolchain is only for publishing documentation. With mdBook 0.5.4
-installed locally, `mdbook build` works too.
+On Windows, use the PowerShell starter for either mode:
 
-`./scripts/docs.sh build` also exports the chapters and includes into
-`build/book/OpenSpec DDD.md`. The exporter in `scripts/book-exporter/`
-reads the title, source directory, and build directory from any supplied
-`book.toml` and requires Python 3.11 or newer. Markdown export has no required
-third-party dependencies.
+```powershell
+.\scripts\docs.ps1 build
+.\scripts\docs.ps1 serve
+.\scripts\docs.ps1 build -Native
+.\scripts\docs.ps1 serve -Native
+```
+
+The native mode caches mdBook beneath the configured output root, verifies the GitHub
+release asset SHA-256 digest, and does not install anything globally. The runners need
+Python 3.11+ or Python 3.10 with `tomli`; builds also need `uv`. See
+[mdBook releases](https://github.com/rust-lang/mdBook/releases/latest).
+
+Preview: http://127.0.0.1:3002. Stop with Ctrl+C. The current output is `build/book/`;
+changing `build-dir` to `target/book`, for example, moves HTML and exported files there
+and moves the native mdBook cache under `target/`. Add any custom generated output root
+to `.gitignore`. The exporter in `scripts/book-exporter/` also reads the title, source
+directory, and build directory from `book.toml` and requires Python 3.11 or newer.
+Markdown export has no required third-party dependencies.
 For another mdBook, run it with that book's config:
 
 ```sh
