@@ -6,6 +6,8 @@ services:
     user: "${GUIDE_UID:-1000}:${GUIDE_GID:-1000}"
     volumes:
       - ../..:/book:ro
-      - ../../build:/book/build
+      - type: bind
+        source: ${DOCS_BOOK_BUILD_HOST:?docs.py must set DOCS_BOOK_BUILD_HOST}
+        target: /book/${DOCS_BOOK_BUILD_PATH:?docs.py must set DOCS_BOOK_BUILD_PATH}
     ports:
       - "127.0.0.1:3002:3002"

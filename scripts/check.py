@@ -2,9 +2,12 @@
 """Check handbook source references and optionally built local HTML references."""
 import argparse
 import re
-from pathlib import Path
 from html.parser import HTMLParser
+from pathlib import Path
 from urllib.parse import unquote, urlsplit
+
+from book_paths import read_book_paths
+
 
 def without_code(text: str) -> str:
     return re.sub(r"(?ms)^(`{3,}|~{3,})[^\n]*\n.*?^\1[^\n]*$", "", text)
@@ -52,8 +55,9 @@ def main():
     parser.add_argument("--rendered", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
+    paths = read_book_paths(root / "book.toml")
     for page in root.rglob("*.md"):
-        if page.is_relative_to(root / "build"):
+        if page.is_relative_to(paths.output_root):
             continue
         content = without_code(page.read_text())
         references = re.findall(r"\{\{#include\s+([^}\s]+)\s*\}\}", content)
@@ -66,7 +70,7 @@ def main():
             if not target.is_relative_to(root) or not target.exists():
                 raise ValueError(f"Missing or external local reference {ref} in {page.relative_to(root)}")
     if args.rendered:
-        validate_html(root / "build/book")
+        validate_html(paths.build_dir)
     print("Handbook references verified" + (" (source and rendered)" if args.rendered else " (source)"))
 
 

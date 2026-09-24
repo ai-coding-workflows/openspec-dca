@@ -39,9 +39,11 @@ def read_book_paths(book_toml: Path) -> BookPaths:
 
     build = config.get("build", {})
     if not isinstance(build, dict):
-        raise ValueError(f"[build] in {book_toml} must be a table")
+        raise TypeError(f"[build] in {book_toml} must be a table")
     value = build.get("build-dir", "book")
-    if not isinstance(value, str) or not value.strip():
+    if not isinstance(value, str):
+        raise TypeError(f"[build].build-dir in {book_toml} must be a string")
+    if not value.strip():
         raise ValueError(f"[build].build-dir in {book_toml} must be a non-empty path")
 
     repository = book_toml.parent
@@ -52,8 +54,6 @@ def read_book_paths(book_toml: Path) -> BookPaths:
     if build_dir == repository:
         raise ValueError("[build].build-dir must be a child path of the repository")
     if build_dir.parent == repository:
-        output_root = build_dir
-    elif build_dir.parent == repository:
         output_root = build_dir
     else:
         output_root = build_dir.parent
