@@ -11,5 +11,5 @@
 
 ## 3. Complete documentation and evidence
 
-- [ ] 3.1 Update the accepted domain model, runtime and database architecture fragments, decide ADR-LENDING-001, and register its durable path in the catalog; review these against the implemented design.
+- [ ] 3.1 Update the accepted domain model, runtime and database architecture fragments; decide ADR-LENDING-001 and register its durable path in the catalog; review affected system-architecture handbook sections and decision index against the implemented design.
 - [ ] 3.2 Run applicable application, migration, OpenSpec, and documentation checks; record actual results, acceptance coverage, and remaining gaps in verification.md.

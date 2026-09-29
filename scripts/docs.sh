@@ -9,4 +9,4 @@ else
   echo "docs requires Python 3.11+ (or Python 3.10 with tomli)." >&2
   exit 127
 fi
-exec "$python" "$script_dir/docs.py" "$@"
+exec "$python" "$script_dir/md-book/docs.py" "$@"

@@ -41,10 +41,24 @@ cp -R bundle/openspec/schemas/openspec-ddd /path/to/project/openspec/schemas/
 ```
 
 Review and merge `templates/config.yaml` into the existing `openspec/config.yaml`.
+Use `templates/openspec-README.md` for `openspec/README.md` and selected files from
+`templates/system-architecture/` for `openspec/system-architecture/`; create only
+useful sections. Local architecture stays with its responsible scope, including
+`openspec/specs/technical-capabilities/` when applicable. Use
+`templates/architectural-decision.md` for records under scoped
+`architectural-decisions/` directories; the handbook's `architectural-decisions.md`
+is their shared index. See the [template destination map](08-templates.md).
 At minimum set `schema: openspec-ddd`. Keep existing context, rules, operation
 guidance, and agent settings. Add the relevant project checks and architecture
 entry points. Merge `templates/agent-instructions.md` into the project's agent
 instructions so the ownership rules also apply to ordinary review/refinement requests.
+
+Read the [architecture-view policy](04-architecture-documentation.md#architecture-views-and-diagrams)
+and [template responsibilities](08-templates.md) when merging instructions. Keep
+configuration rules, project agent guidance, native artifact templates, and support
+templates aligned. Adopt `templates/domain-model.md` only where the model needs an
+explicit companion. A new policy does not silently install a renderer, a helper
+extension, a test framework, or an acceptance gate.
 
 From the application root, verify the installation:
 
@@ -54,9 +68,10 @@ openspec schema validate openspec-ddd
 openspec templates --schema openspec-ddd
 ```
 
-The schema defines `proposal → impact → specs → design → tasks`. Apply tracks
-`tasks.md` and requires all five planning artifacts. OpenSpec decides readiness from
-artifact existence. The prose instructions require meaningful content and review;
+The schema defines `proposal → impact → specs → design → tasks`. For a
+contract-changing effort, Apply tracks `tasks.md` and requires all five planning
+artifacts; the existing no-spec route below handles changes without behavioral
+deltas. OpenSpec decides readiness from artifact existence. The prose instructions require meaningful content and review;
 they are not enforced semantic gates.
 
 For updates, diff the installed schema against this bundle and merge changes with
@@ -91,6 +106,17 @@ context explicitly. A `domain/model.md` companion remains documentation owned by
 main spec owner; it does not create another capability or catalog node, and native spec
 sync does not update it. New proposed owners remain in `impact.md` until main specs exist.
 
+Keep the catalog schema and field names unchanged. In particular, `decisions` remains
+the path-reference field even though record directories are named
+`architectural-decisions/`; update path values, not the field name. New technical
+capability paths use `openspec/specs/technical-capabilities/`, without introducing
+new catalog fields or changing the meaning of `depends_on`.
+
+The catalog is not the handbook's table of contents. Architecture-only scopes can
+appear in `openspec/system-architecture/` navigation without a catalog entry. Do not
+create dummy specs for them. If no main specs exist and there is no existing catalog
+to preserve or reconcile, the empty shape in `templates/catalog.json` is sufficient.
+
 From the application root:
 
 ```sh
@@ -110,7 +136,8 @@ discover external callers, or evaluate proposed deltas. OpenSpec handles change 
 spec validation; the helper supplies only the additional DDD graph.
 
 The helper does not implement the optional requirement-to-test traceability convention
-described in the [workflow guide](05-change-workflow.md). That manifest is project-owned
+described in the [workflow guide](05-change-workflow.md). A manifest is not required:
+start with useful code-entry-point and evidence links. Any adopted manifest is project-owned
 and does not change `depends_on`, catalog validation, or OpenSpec acceptance behavior.
 
 ## Pass a spec or a change
@@ -194,9 +221,23 @@ sets `skip_specs: true` in its `.openspec.yaml`; the specs artifact is skipped w
 impact, design, tasks, and verification still describe the actual work. Never use
 this flag to hide a genuine behavior change or leave delta files beside it.
 
-Main specs receive requirement deltas during native sync/archive. Architecture,
-ADRs, catalog changes, and non-spec documents remain explicit tasks. Catalog
-registration of a newly created owner must be included in the closure review.
+Main specs receive requirement deltas during native sync/archive. The
+`openspec/system-architecture/` handbook, local architecture, scoped
+`architectural-decisions/` records, their handbook index, catalog changes, and other
+non-spec documents remain explicit tasks. Catalog registration of a newly created
+spec owner must be included in the closure review.
+
+Documentation checks should distinguish source/link/rendering success from semantic
+review of the actual architecture. Record the checked revision and unavailable or
+unexecuted checks accurately; publication success does not establish requirement
+conformance. Before acceptance, review the relevant maintained views, actual ADR
+status, and any evidence affected by later changes. No fixed diagram count or
+universal code-coverage percentage follows from this bundle.
+
+The internal architecture-only brownfield route is separate from a native
+`skip_specs` change. It uses its approved runtime checklist and review evidence and
+does not create `.openspec.yaml`, change artifacts, specs, or needs simply to make
+architecture documentation discoverable. See [adoption](07-adoption.md).
 
 The guide's integration tests check the supported CLI version, nested spec discovery
 and merge, native Pi generation, artifact readiness, the no-spec route, and the

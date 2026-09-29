@@ -35,9 +35,12 @@ adapter-specific enumerations without an explicit mapping.
 Update `openspec/specs/contexts/lending/domain/model.md`,
 `openspec/specs/contexts/lending/features/return-equipment/architecture/runtime.md`,
 and `openspec/specs/contexts/lending/adapters/out/database/architecture/mapping.md`.
-The model update is tracked here because native requirement sync does not merge it.
+Review `openspec/system-architecture/goals-and-stakeholders.md`,
+`system-context.md`, and `architectural-decisions.md` for any changes needed to
+reflect the accepted design, without restating owned requirements. The model update
+is tracked here because native requirement sync does not merge it.
 When accepted, promote the proposed ADR to
-`openspec/specs/contexts/lending/decisions/adr-lending-001.md` with its actual status
+`openspec/specs/contexts/lending/architectural-decisions/adr-lending-001.md` with its actual status
 and add that path to relevant catalog entries. No accepted ADR is superseded here.
 These are explicit implementation tasks, not OpenSpec spec-sync side effects.
 

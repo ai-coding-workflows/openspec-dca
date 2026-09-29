@@ -18,7 +18,7 @@ verify the lending behavior and do not complete these delivery tasks.
 ## Model, Architecture, and Contract Review
 
 The baseline model remains unchanged while the proposal is active. Its durable update,
-architecture changes, and ADR decision are still open tasks.
+architecture changes, affected handbook review, and ADR decision are still open tasks.
 
 ## Remaining Gaps and Closure
 

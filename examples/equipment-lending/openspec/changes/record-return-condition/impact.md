@@ -1,6 +1,7 @@
 ## Starting Point and Context
 
-Start from `lending.return`. Read the domain model and `lending.domain`, then
+Start from `lending.return`. Read `openspec/README.md` and the relevant system
+architecture sections. Read the domain model and `lending.domain`, then
 `lending.loan-store`, then the feature. Read its runtime fragment and the database
 mapping listed in the catalog. This example has no earlier accepted ADRs.
 
@@ -37,7 +38,10 @@ returns remain unrecorded; they are never backfilled with an invented value.
 
 ## Architecture and Delivery Consequences
 
+Review the handbook goals, context, and decision index against the delivered design;
+update affected sections if the proposed behavior changes their current descriptions.
 Update the feature runtime and database mapping after implementation. A proposed
-atomic-save decision is in decisions/adr-lending-001.md inside this change.
+atomic-save decision is in `architectural-decisions/adr-lending-001.md` inside this
+change. Keep the handbook index marked Proposed until the decision is actually made.
 Domain and port behavior is understood first; tasks then coordinate storage, use case,
 HTTP, and caller work. They do not form separate per-spec backlogs.

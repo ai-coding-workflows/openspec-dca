@@ -1,9 +1,50 @@
 # Adoption and migration
 
-Start with one real change in one context. Establish a small trusted baseline from
+For contract work, start with one real change in one context. Establish a small baseline from
 existing behavior, add the schema, and use one proposal, impact review, design, and
 task list. Add owners only where separate contracts help; a small project does not
 need a large directory tree or dependency catalog.
+
+## Naming a new baseline
+
+Use `openspec/system-architecture/` for the editable system handbook,
+`openspec/specs/technical-capabilities/` for independently owned technical contracts,
+and `architectural-decisions/` for scoped ADR records. These are the guide's baseline
+names, not optional renames deferred to a later change. The handbook's
+`architectural-decisions.md` is an index. Do not create parallel legacy trees in a
+new setup. Generated publication output may remain outside `openspec/`.
+
+### Architecture-only brownfield reconstruction
+
+The separate internal brownfield workflow can establish an evidence-backed
+architecture baseline before any new contracts are authored. Use the same handbook
+and local-scope paths, without creating `spec.md`, `needs.md`, or a native OpenSpec
+change merely to host the documentation. Keep the runtime plan and review evidence
+separate from the published baseline; its approved checklist is the sole task source.
+Document observed behavior, distinguish it from documented intent and inference,
+and preserve existing specifications and ADRs. Architecture-only scopes belong in
+handbook navigation, not in the spec-owner catalog unless a main spec exists.
+
+Use the same [view policy](04-architecture-documentation.md#architecture-views-and-diagrams)
+for the declared reconstruction scope: a context overview and structural diagram,
+plus only the additional views needed to explain significant evidence. Existing
+views can satisfy it. Record gaps instead of inventing boundaries or reorganizing
+the implementation into an idealized DDD structure.
+
+Give each runtime task an evidence starting point, focus, approved destination,
+and observable completion check (`Start`, `Focus`, `Target`, and `Check`). Keep
+architecture reconstruction and review separate from catalog/book publication;
+publication can navigate architecture-only areas without creating spec owners.
+Preserve existing product code, tests, needs, specifications, and manual reasoning.
+Record safe checks actually executed, missing prerequisites, and the reviewed
+revision. Test source is evidence of a test's intent, not a passing run.
+
+In that internal workflow, `blocked` waits for user input and normally resumes at
+the same stage. Reviews keep their existing `success` and `issues` outcomes. A
+publication-stage architecture problem requires explicit upstream recovery rather
+than treating every blocker as an architecture correction. These are internal
+orchestration responsibilities, not new native OpenSpec commands or changes to
+the contract-delivery lifecycle.
 
 ## Adopting from ordinary OpenSpec
 
@@ -12,9 +53,17 @@ retain their own schema metadata; changing the project default does not migrate
 their artifacts. Finish them with their existing workflow or explicitly adapt one
 after reviewing what the added impact artifact requires.
 
-Keep existing capability paths whenever possible. The catalog can assign meaningful
-DDD aliases to a flat tree. Move paths only as a separate reviewed migration, with
-all references updated and overlapping active changes accounted for.
+An existing adopting repository may already have stable capability paths and manual
+documentation. The catalog can assign meaningful DDD aliases to a flat tree. Preserve
+those sources unless a separate migration is explicitly approved; the new naming
+baseline does not authorize a brownfield documentation pass to relocate them.
+
+For an approved migration from legacy `docs/architecture/`, `modules/`, or
+`decisions/` locations, update links, includes, publication source paths, catalog
+references, and overlapping active changes. Preserve ADR identifiers and accepted
+rationale. Keep catalog field names such as `decisions` and `depends_on` unchanged;
+a directory rename is not a catalog-schema change. Do not make capability-path
+moves incidental to a behavioral change.
 
 ## Moving from the Living Specs / Spec Kit guide
 

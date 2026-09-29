@@ -1,0 +1,8 @@
+[book]
+title = "Project architecture"
+language = "en"
+src = "openspec/system-architecture"
+
+[build]
+build-dir = "build/book"
+create-missing = false

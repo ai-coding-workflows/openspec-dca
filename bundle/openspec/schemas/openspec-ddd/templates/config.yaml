@@ -1,0 +1,36 @@
+schema: openspec-ddd
+
+# Starter for openspec/config.yaml. Merge; preserve project context, rules, operation
+# guidance, permissions, and tool settings. This copy is not the live configuration.
+# Generic artifact-writing rules live in schema.yaml, not a second copy under rules.
+context: |
+  Start at openspec/README.md and relevant openspec/system-architecture/ sections.
+  Read the project's agent instructions and the selected schema's artifact guidance.
+  The schema template library is openspec/schemas/openspec-ddd/templates/; its
+  agent-instructions.md supplies shared conventions, not registered agent commands.
+  Baseline specs plus selected change deltas describe a native change's target.
+  Keep one coherent outcome, one design, and one task list across necessary owners.
+  Organize real contracts under contexts/, technical-capabilities/, or an explicit
+  system/ responsibility; spec paths need not mirror code. Architecture-only folders
+  need no placeholder spec or catalog owner. Record exact paths, not inferred aliases.
+  Keep the system handbook in openspec/system-architecture/, owned views in architecture/,
+  and scoped ADRs in architectural-decisions/. The handbook's architectural-decisions.md
+  is an index, not another editable copy of the records.
+  Models explain meaning; specs own obligations; diagrams explain the design.
+  Use one authoritative source per definition or view. Sync does not update models,
+  handbook pages, local views, diagrams, ADRs, or the optional catalog.
+  If the DDD helper/catalog exist, use them for read-only contract-consumer review.
+  Do not change depends_on or decisions field semantics because directories changed.
+  An explicitly selected architecture-only brownfield workflow uses its approved
+  runtime plan/reviews, not native changes/specs/needs or a second task list.
+
+operations:
+  apply:
+    guidance:
+      - Follow the selected schema's instructions and the approved change scope; report added owners and material open decisions.
+      - Verify relevant model, handbook, local diagram, and ADR updates against the implemented design and record actual evidence.
+      - Distinguish verification readiness, actual acceptance, and deliberately early-synced targets.
+  archive:
+    guidance:
+      - Review required checks, actual acceptance, gaps, and authorized limitations before closure.
+      - Complete coordinated model, architecture, ADR/index, and catalog finalization separately from requirement sync.

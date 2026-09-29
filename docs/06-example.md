@@ -1,66 +1,25 @@
 # A worked OpenSpec change
 
-The equipment-lending example shows one fictional baseline and one proposed change.
-It contains five main specs, a domain-model companion, four delta specs, one design,
-and one task list. It has no application implementation; its seven delivery tasks are
-intentionally open.
+The equipment-lending example lives in `examples/equipment-lending/`. It shows a
+fictional baseline and one proposed return-condition change. There is no application
+implementation or accepted delivery evidence; all seven delivery tasks remain open.
 
-## Follow the change
+Read `examples/equipment-lending/openspec/README.md` for the project entry point and
+`examples/equipment-lending/openspec/worked-change.md` for the reading order and
+commentary. The example keeps its system handbook, main specs, deltas, design, tasks,
+proposed ADR, and verification record in their own OpenSpec locations.
 
-The request is: “record the condition of returned equipment.” Start from the return
-feature, include the necessary domain and storage rules, then review consumers.
-The database adapter needs implementation changes but already delegates its guarantee
-to the port; it does not need a duplicate spec delta.
+To browse the example as its own mdBook, run from the guide's root with mdBook on
+`PATH`:
 
-{{#include ../examples/equipment-lending/openspec/changes/record-return-condition/impact.md}}
+```sh
+mdbook serve examples/equipment-lending
+```
 
-## Baseline and proposed requirement
-
-The baseline port requires a durable returned state and explicit failure behavior:
-
-{{#include ../examples/equipment-lending/openspec/specs/contexts/lending/ports/loan-store/spec.md}}
-
-The baseline assumes a save reported as failed is confirmed not to have committed.
-Check this against the intended adapter. If an adapter cannot establish whether it
-committed, resolve the port and consumer contracts explicitly before implementation.
-An indeterminate outcome would be a separate behavior decision, not an editorial
-weakening of this baseline.
-
-The change replaces that requirement with its full updated content. Its exact name
-is preserved, and the existing failure guarantee remains:
-
-{{#include ../examples/equipment-lending/openspec/changes/record-return-condition/specs/contexts/lending/ports/loan-store/spec.md}}
-
-The domain delta proposes the new-return obligation while the baseline model companion
-remains unchanged during this unfinished effort:
-
-{{#include ../examples/equipment-lending/openspec/specs/contexts/lending/domain/model.md}}
-
-The proposed model edit is recorded in `impact.md` and specified in `design.md`; the
-durable model update is an explicit delivery task. Other deltas update feature and
-HTTP behavior. Unchanged requirements, such as rejection of unknown or already returned
-loans, remain in the main spec and need not be copied into a delta.
-
-## One delivery design and backlog
-
-{{#include ../examples/equipment-lending/openspec/changes/record-return-condition/design.md}}
-
-{{#include ../examples/equipment-lending/openspec/changes/record-return-condition/tasks.md}}
-
-## Architecture has a separate lifecycle
-
-The current runtime fragment still describes the illustrative baseline:
-
-{{#include ../examples/equipment-lending/openspec/specs/contexts/lending/features/return-equipment/architecture/runtime.md}}
-
-The proposed ADR stays with the active change until accepted:
-
-{{#include ../examples/equipment-lending/openspec/changes/record-return-condition/decisions/adr-lending-001.md}}
-
-Implementation tasks update the domain model and current architecture fragments and
-promote the decision. Requirement sync does none of this automatically. This also
-demonstrates how an arc42 chapter can include local fragments without creating
-duplicate editable copies.
+`mdbook build examples/equipment-lending` writes static HTML to
+`examples/equipment-lending/build/book/`. The book's
+navigation is `openspec/SUMMARY.md`; its architecture entry point remains
+`openspec/system-architecture/README.md`.
 
 ## Try the native commands
 

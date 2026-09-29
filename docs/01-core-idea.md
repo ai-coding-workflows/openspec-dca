@@ -1,6 +1,7 @@
 # The core idea
 
-Work is coordinated through a **change**. Lasting behavior is owned by **main specs**.
+Contract delivery is coordinated through a **change**. Lasting behavior is owned by
+**main specs**.
 OpenSpec keeps a proposed contract change as a delta until it is synchronized into
 those main specs. A change can affect several owners while keeping one design and
 one task list.
@@ -11,13 +12,19 @@ one task list.
 | Proposed contract delta | `openspec/changes/<change>/specs/<capability>/spec.md` | Added, modified, removed, or renamed requirements |
 | Proposal and impact review | Change directory | Outcome, scope, owners, compatibility, affected consumers |
 | Design and tasks | Change directory | Delivery approach and remaining work |
-| Architecture and ADRs | Near their owner or in system documentation | Current design and retained decision rationale |
+| System architecture handbook | `openspec/system-architecture/` | Goals, constraints, system context, and current system-wide design |
+| Local models and architecture | Near the responsible scope under `openspec/specs/` | Detailed meaning and current design, referenced by the handbook |
+| Architectural decision records | `architectural-decisions/` at the responsible scope; proposed records may be change-local | Significant choices and retained rationale; indexed by the handbook's `architectural-decisions.md` |
 | Verification evidence | Change directory and test/review systems | Evidence for acceptance, with actual results |
 
 Each normative rule has one owner. The lending domain defines valid return
 conditions. A feature uses that definition. The storage port defines a successful
 save. An adapter specifies its boundary behavior and documents its implementation
 separately. Repeating a summary is useful; maintaining competing rule definitions is not.
+
+A documentation scope does not require a native spec. Architecture-only material
+can describe an evidenced responsibility before its contract is specified. Do not
+create a placeholder `spec.md` or catalog entry merely to document that area.
 
 ## Two dependency graphs
 
@@ -48,3 +55,9 @@ Synchronization merges contract text. It does not verify code, update architectu
 fragments, or accept ADRs. Likewise, artifact files and checked task boxes do not
 prove correctness. Record tests, acceptance review, and unresolved gaps before
 closing the change.
+
+Keep agreement, implementation, and evidence separate. An accepted ADR authorizes
+a choice; it does not establish that the choice is implemented. A reviewed change
+may be ready for acceptance without already being accepted. Record the actual
+decision and identify the code, documentation, and contract basis of the checks;
+revisit evidence affected by later changes.

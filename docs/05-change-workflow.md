@@ -8,7 +8,9 @@ owner; one design and task list coordinate the work.
 Necessary domain/port changes are included and reported with a reason. Review
 dependent adapters in the same effort. Routine mappings follow the agreed contract;
 choices such as whether existing callers may omit the new field need clarification.
-Being inside one bounded context does not make unrelated improvements part of the change.
+The effort may cross contexts, technical capabilities, and system responsibilities
+when the outcome requires it. Neither sharing a context nor crossing one makes
+unrelated improvements part of the change.
 
 The examples below use **Pi's `/opsx-*` commands**. These are agent prompts, not shell
 commands. Other integrations may use a different spelling; see [setup](09-tooling.md).
@@ -77,16 +79,26 @@ new work and explain any tasks reopened by the revision.
 
 ### Planning depth and readiness
 
-All required planning artifacts still exist before `apply`; they need not contain an
-exhaustive design or every future test case. Plan the next delivery slice in detail
-and keep later work coarse but actionable. Record open questions together with the
+All planning artifacts required for the selected change still exist before `apply`;
+they need not contain an exhaustive design or every future test case. Plan the next
+delivery slice in detail and keep later work coarse but actionable. Record open questions together with the
 decisions or slices they block. Do not implement dependent behavior while its
 contract or compatibility decision is unresolved; independent slices may proceed.
 
 Before apply, and after scope revisions, reconcile `impact.md` with the actual work.
+Review affected `openspec/system-architecture/` sections and owner-local views.
+Name proposed records under the change's `architectural-decisions/`, their intended
+durable scopes, and any updates to the handbook's `architectural-decisions.md` index.
 Every owner marked `contract delta` needs the corresponding delta file and intended
 requirement changes, not merely an existing glob artifact. Every implementation or
 documentation change needs a task. Retain reasons for reviewed-but-unchanged owners.
+
+Apply the [architecture-view rules](04-architecture-documentation.md#architecture-views-and-diagrams)
+to relevant boundaries and interactions. In impact, record which views to create,
+update, or reuse. In design, explain the necessary proposals and their durable
+destinations. Required diagram-source updates are ordinary delivery tasks; no
+separate diagram artifact, per-feature quota, or complete graphical upfront design
+is required.
 
 In `design.md`, identify how changed requirements, affected baseline guarantees,
 and significant risks will be checked. Use representative success, rejection,
@@ -116,6 +128,9 @@ cover it, then apply and review again. This is the former “converge” loop. I
 required behavior changes instead, return to the refinement workflow.
 
 Archive after acceptance, required checks, and durable documentation are complete.
+Review `openspec/system-architecture/`, local architecture, the handbook's
+`architectural-decisions.md` index, and scoped `architectural-decisions/` records
+against the implemented design; these updates remain explicit tasks.
 The native archive workflow handles outstanding spec synchronization and archives the
 change. `sync` is useful when you deliberately want the main specs updated while
 keeping the change active. It is not another implementation step or an acceptance gate.
@@ -156,6 +171,22 @@ check the intended rules. This process sets no universal percentage. Select chec
 according to behavioral obligations and risk, and apply any additional project policy.
 Neither a completed traceability table nor a checked task list proves conformance.
 
+### Verification status and acceptance
+
+Identify the checked revision, specification basis, and relevant execution context.
+When checking uncommitted work, identify the base revision and the actual diff;
+do not attribute those results to an unchanged commit. For documentation-only work,
+identify the checked documentation revision. Reading tests or linking a test name
+is not execution evidence.
+
+Keep verification progress separate from acceptance: **Ready for acceptance** is
+not **Accepted**. Record the actual project acceptance decision or its reference,
+including authorized limitations and their follow-up. A required check is not
+waived by checking a task box. Keep failed, skipped, and partial results visible;
+recheck evidence affected by later code, contract, model, or architecture changes.
+The [verification template](08-templates.md#verification-template) records these
+facts without creating another pre-apply artifact or task list.
+
 ## Supporting activities
 
 | Need | When and how |
@@ -179,15 +210,22 @@ navigation, and **requirement to tests or other checks**, for verification. Add
 **change to pull request or commit** links for delivery history. These are different
 claims; none substitutes for a recorded result against a known revision.
 
+Start without a new manifest when existing documents suffice: use the optional
+code-entry-point section in a local architecture view for navigation and link
+requirements to checks and run results in `verification.md`. Add test metadata or
+a manifest only when maintaining or generating those associations warrants it.
+Keep each association in one editable source; result records can reference it.
+
 A stable requirement ID is an optional project convention. Keep it when wording or
 code location changes without changing the requirement identity. Record splits,
 merges, and retirement explicitly. An ID in a heading does not replace the
 OpenSpec requirement-name matching: introducing or renaming headings needs an explicit
 migration, not an incidental edit inside a MODIFIED delta.
 
-Maintain requirement-to-check associations in one editable source, such as test
-metadata or a small project-specific manifest, and generate reverse views when useful.
-For example, an adopting project might maintain:
+When adopting a manifest, generate reverse views where useful instead of manually
+maintaining duplicate mappings in both tests and documents. The following is an
+optional format illustration; its ID, paths, and test selector are not files or
+implemented tests supplied by the worked example:
 
 ```yaml
 # Optional project convention, not an OpenSpec or catalog format.

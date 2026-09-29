@@ -161,7 +161,9 @@ def install(cache_root: Path) -> Path:
     if not isinstance(size, int) or size <= 0 or size > MAX_ASSET_SIZE:
         raise RuntimeError(f"unexpected release asset size for {asset_name}: {size!r}")
 
-    destination = cache_root / tag / binary_name
+    # Keep each OS/architecture artifact separate when the repository's build
+    # directory is shared between machines (for example, a synced checkout).
+    destination = cache_root / target / tag / binary_name
     if cached_binary_is_valid(destination, digest, tag):
         print(f"Using cached mdBook {tag}: {destination}", file=sys.stderr)
         return destination
@@ -201,7 +203,7 @@ def main() -> int:
         print(install(Path(sys.argv[1]).expanduser().resolve()))
         return 0
     except (OSError, ValueError, KeyError, urllib.error.URLError, tarfile.TarError, zipfile.BadZipFile, RuntimeError) as error:
-        print(f"native_docs: {error}", file=sys.stderr)
+        print(f"mdBook download: {error}", file=sys.stderr)
         return 1
 
 
