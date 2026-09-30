@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch the latest stable mdBook release into a project-local cache."""
+"""Fetch the latest stable mdBook toolchain into a project-local cache."""
 from __future__ import annotations
 
 import hashlib
@@ -16,13 +16,26 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
+from dataclasses import dataclass
 from pathlib import Path
 
-API_URL = "https://api.github.com/repos/rust-lang/mdBook/releases/latest"
 MAX_ASSET_SIZE = 32 * 1024 * 1024
 
 
-def target_asset() -> tuple[str, str, str]:
+@dataclass(frozen=True)
+class Tool:
+    name: str
+    repository: str
+    asset_prefix: str
+
+
+TOOLS = (
+    Tool("mdbook", "rust-lang/mdBook", "mdbook"),
+    Tool("mdbook-mermaid", "badboy/mdbook-mermaid", "mdbook-mermaid"),
+)
+
+
+def target_asset() -> tuple[str, str]:
     machine = platform.machine().lower()
     if sys.platform.startswith("linux"):
         targets = {
@@ -33,7 +46,7 @@ def target_asset() -> tuple[str, str, str]:
         }
         target = targets.get(machine)
         if target:
-            return target, "tar.gz", "mdbook"
+            return target, "tar.gz"
     elif sys.platform == "darwin":
         targets = {
             "x86_64": "x86_64-apple-darwin",
@@ -43,13 +56,13 @@ def target_asset() -> tuple[str, str, str]:
         }
         target = targets.get(machine)
         if target:
-            return target, "tar.gz", "mdbook"
+            return target, "tar.gz"
     elif sys.platform == "win32" and machine in {"x86_64", "amd64"}:
-        return "x86_64-pc-windows-msvc", "zip", "mdbook.exe"
+        return "x86_64-pc-windows-msvc", "zip"
 
     raise RuntimeError(
         f"unsupported platform/architecture: {platform.system()} {machine}; "
-        "see the official mdBook release assets"
+        "see the official mdBook and mdbook-mermaid release assets"
     )
 
 
@@ -69,11 +82,14 @@ def request_bytes(url: str, *, accept: str = "application/octet-stream") -> byte
     return payload
 
 
-def latest_release() -> dict:
-    payload = request_bytes(API_URL, accept="application/vnd.github+json")
+def latest_release(tool: Tool) -> dict:
+    api_url = f"https://api.github.com/repos/{tool.repository}/releases/latest"
+    payload = request_bytes(api_url, accept="application/vnd.github+json")
     release = json.loads(payload)
     if release.get("draft") or release.get("prerelease"):
-        raise RuntimeError("GitHub latest endpoint returned a draft or prerelease")
+        raise RuntimeError(
+            f"GitHub latest endpoint returned a draft or prerelease for {tool.name}"
+        )
     return release
 
 
@@ -130,18 +146,25 @@ def extract_binary(archive: bytes, archive_type: str, binary_name: str) -> bytes
         return stream.read()
 
 
-def install(cache_root: Path) -> Path:
-    target, archive_type, binary_name = target_asset()
+def install_tool(cache_root: Path, tool: Tool, target: str, archive_type: str) -> Path:
+    binary_name = f"{tool.name}.exe" if archive_type == "zip" else tool.name
     extension = "zip" if archive_type == "zip" else "tar.gz"
-    release = latest_release()
+    release = latest_release(tool)
     tag = release.get("tag_name")
     if not isinstance(tag, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._+-]*", tag):
-        raise RuntimeError(f"unexpected mdBook release tag: {tag!r}")
+        raise RuntimeError(f"unexpected {tool.name} release tag: {tag!r}")
 
-    asset_name = f"mdbook-{tag}-{target}.{extension}"
-    asset = next((item for item in release.get("assets", []) if item.get("name") == asset_name), None)
+    asset_name = f"{tool.asset_prefix}-{tag}-{target}.{extension}"
+    asset = next(
+        (
+            item
+            for item in release.get("assets", [])
+            if item.get("name") == asset_name
+        ),
+        None,
+    )
     if asset is None:
-        raise RuntimeError(f"latest release {tag} has no asset for {target}")
+        raise RuntimeError(f"latest {tool.name} release {tag} has no asset for {target}")
 
     digest = asset.get("digest")
     if not isinstance(digest, str) or not re.fullmatch(r"sha256:[0-9a-fA-F]{64}", digest):
@@ -150,10 +173,11 @@ def install(cache_root: Path) -> Path:
 
     url = asset.get("browser_download_url", "")
     parsed_url = urllib.parse.urlparse(url)
+    expected_path = f"/{tool.repository}/releases/download/"
     if (
         parsed_url.scheme != "https"
         or parsed_url.hostname != "github.com"
-        or not parsed_url.path.startswith("/rust-lang/mdBook/releases/download/")
+        or not parsed_url.path.startswith(expected_path)
     ):
         raise RuntimeError(f"unexpected release asset URL: {url!r}")
 
@@ -161,14 +185,12 @@ def install(cache_root: Path) -> Path:
     if not isinstance(size, int) or size <= 0 or size > MAX_ASSET_SIZE:
         raise RuntimeError(f"unexpected release asset size for {asset_name}: {size!r}")
 
-    # Keep each OS/architecture artifact separate when the repository's build
-    # directory is shared between machines (for example, a synced checkout).
-    destination = cache_root / target / tag / binary_name
+    destination = cache_root / tool.name / target / tag / binary_name
     if cached_binary_is_valid(destination, digest, tag):
-        print(f"Using cached mdBook {tag}: {destination}", file=sys.stderr)
+        print(f"Using cached {tool.name} {tag}: {destination}", file=sys.stderr)
         return destination
 
-    print(f"Downloading latest mdBook release {tag} from GitHub", file=sys.stderr)
+    print(f"Downloading latest {tool.name} release {tag} from GitHub", file=sys.stderr)
     archive = request_bytes(url)
     actual_digest = hashlib.sha256(archive).hexdigest()
     if actual_digest != expected_digest:
@@ -191,8 +213,16 @@ def install(cache_root: Path) -> Path:
         temporary_path.unlink(missing_ok=True)
 
     if not cached_binary_is_valid(destination, digest, tag):
-        raise RuntimeError(f"downloaded mdBook binary failed its version check: {destination}")
+        raise RuntimeError(f"downloaded {tool.name} binary failed its version check: {destination}")
     return destination
+
+
+def install(cache_root: Path) -> dict[str, Path]:
+    target, archive_type = target_asset()
+    return {
+        tool.name: install_tool(cache_root, tool, target, archive_type)
+        for tool in TOOLS
+    }
 
 
 def main() -> int:
@@ -200,10 +230,19 @@ def main() -> int:
         print(f"Usage: {Path(sys.argv[0]).name} CACHE_DIRECTORY", file=sys.stderr)
         return 2
     try:
-        print(install(Path(sys.argv[1]).expanduser().resolve()))
+        installed = install(Path(sys.argv[1]).expanduser().resolve())
+        print(json.dumps({name: str(path) for name, path in installed.items()}))
         return 0
-    except (OSError, ValueError, KeyError, urllib.error.URLError, tarfile.TarError, zipfile.BadZipFile, RuntimeError) as error:
-        print(f"mdBook download: {error}", file=sys.stderr)
+    except (
+        OSError,
+        ValueError,
+        KeyError,
+        urllib.error.URLError,
+        tarfile.TarError,
+        zipfile.BadZipFile,
+        RuntimeError,
+    ) as error:
+        print(f"mdBook toolchain download: {error}", file=sys.stderr)
         return 1
 
 

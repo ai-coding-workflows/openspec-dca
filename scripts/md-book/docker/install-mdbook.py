@@ -1,4 +1,4 @@
-"""Install a checksum-verified upstream release binary during image construction."""
+"""Install checksum-verified upstream mdBook toolchain binaries."""
 import hashlib
 import io
 import json
@@ -10,16 +10,33 @@ from pathlib import Path
 
 config = json.loads(Path(__file__).with_name("toolchain.json").read_text())
 asset = config["linux"][sys.argv[1]]
-version = config["mdbook_version"]
-url = f"https://github.com/rust-lang/mdBook/releases/download/v{version}/mdbook-v{version}-{asset['target']}.tar.gz"
-with urllib.request.urlopen(url, timeout=120) as response:
-    archive = response.read()
-if hashlib.sha256(archive).hexdigest() != asset["sha256"]:
-    raise SystemExit("mdBook release checksum mismatch")
-with tarfile.open(fileobj=io.BytesIO(archive), mode="r:gz") as tar:
-    member = next(item for item in tar.getmembers() if item.name in ("mdbook", "./mdbook"))
-    if not member.isfile():
-        raise SystemExit("Expected a regular mdbook executable")
-    executable = tar.extractfile(member)
-    Path('/usr/local/bin/mdbook').write_bytes(executable.read())
-os.chmod('/usr/local/bin/mdbook', 0o755)
+
+tools = (
+    ("mdbook", "rust-lang/mdBook", config["mdbook_version"], asset["mdbook_sha256"]),
+    (
+        "mdbook-mermaid",
+        "badboy/mdbook-mermaid",
+        config["mdbook_mermaid_version"],
+        asset["mdbook_mermaid_sha256"],
+    ),
+)
+
+for name, repository, version, expected_digest in tools:
+    url = (
+        f"https://github.com/{repository}/releases/download/v{version}/"
+        f"{name}-v{version}-{asset['target']}.tar.gz"
+    )
+    with urllib.request.urlopen(url, timeout=120) as response:
+        archive = response.read()
+    if hashlib.sha256(archive).hexdigest() != expected_digest:
+        raise SystemExit(f"{name} release checksum mismatch")
+    with tarfile.open(fileobj=io.BytesIO(archive), mode="r:gz") as tar:
+        member = next((item for item in tar.getmembers() if Path(item.name).name == name), None)
+        if member is None or not member.isfile():
+            raise SystemExit(f"Expected a regular {name} executable")
+        executable = tar.extractfile(member)
+        if executable is None:
+            raise SystemExit(f"Could not read {name} executable")
+        destination = Path("/usr/local/bin") / name
+        destination.write_bytes(executable.read())
+    os.chmod(destination, 0o755)

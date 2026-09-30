@@ -1,13 +1,16 @@
 {
   "mdbook_version": "0.5.4",
+  "mdbook_mermaid_version": "0.17.1",
   "linux": {
     "amd64": {
       "target": "x86_64-unknown-linux-musl",
-      "sha256": "5222beabd3e37dc5be0d18ff99b79058469354db5c220153a1b92db5ba12be89"
+      "mdbook_sha256": "5222beabd3e37dc5be0d18ff99b79058469354db5c220153a1b92db5ba12be89",
+      "mdbook_mermaid_sha256": "42aca57eea8521971cc595fe4bb853c5b8b7d9f7138a2ec9f14a0a72c210922d"
     },
     "arm64": {
       "target": "aarch64-unknown-linux-musl",
-      "sha256": "753e5c5c363ee8a56972344dcf91466f005a51db84a7aeffe427ae3ef83d6d44"
+      "mdbook_sha256": "753e5c5c363ee8a56972344dcf91466f005a51db84a7aeffe427ae3ef83d6d44",
+      "mdbook_mermaid_sha256": "b1782ecaf775bfbe069dead6cdd8ac7cc739d5e62d138bd0e800efec6467cf3a"
     }
   }
 }

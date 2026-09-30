@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import shutil
 import socket
@@ -101,11 +102,13 @@ def native_command(action: str, paths, port: int | None, open_browser: bool) -> 
         print("native docs build requires uv to export the single-file handbook.", file=sys.stderr)
         return 127
 
-    mdbook = shutil.which("mdbook")
-    if mdbook:
-        print(f"Using mdBook from PATH: {mdbook}", file=sys.stderr)
-    else:
-        cache_dir = paths.output_root / "native-tools" / "mdbook"
+    commands = {
+        "mdbook": shutil.which("mdbook"),
+        "mdbook-mermaid": shutil.which("mdbook-mermaid"),
+    }
+    missing = [name for name, command in commands.items() if not command]
+    if missing:
+        cache_dir = paths.output_root / "native-tools"
         downloaded = subprocess.run(
             [sys.executable, str(MD_BOOK_DOWNLOADER), str(cache_dir)],
             cwd=REPOSITORY,
@@ -119,20 +122,40 @@ def native_command(action: str, paths, port: int | None, open_browser: bool) -> 
             if downloaded.stderr:
                 print(downloaded.stderr, end="", file=sys.stderr)
             return downloaded.returncode
-        mdbook = downloaded.stdout.strip().splitlines()[-1]
+        try:
+            installed = json.loads(downloaded.stdout.strip().splitlines()[-1])
+            for name in missing:
+                commands[name] = installed[name]
+        except (IndexError, KeyError, json.JSONDecodeError):
+            print("mdBook toolchain downloader returned an invalid result.", file=sys.stderr)
+            return 1
         if downloaded.stderr:
             print(downloaded.stderr, end="", file=sys.stderr)
+    else:
+        for name, command in commands.items():
+            print(f"Using {name} from PATH: {command}", file=sys.stderr)
+
+    mdbook = commands["mdbook"]
+    mermaid = commands["mdbook-mermaid"]
+    if not mdbook or not mermaid:
+        print("mdBook toolchain installation is incomplete.", file=sys.stderr)
+        return 1
+    tool_env = os.environ.copy()
+    tool_dirs = os.pathsep.join(
+        dict.fromkeys((str(Path(mdbook).parent), str(Path(mermaid).parent)))
+    )
+    tool_env["PATH"] = tool_dirs + os.pathsep + tool_env.get("PATH", "")
 
     if action == "serve":
         return serve_process(
             [mdbook, "serve", "--hostname", "127.0.0.1", "--port", str(port)],
             cwd=REPOSITORY,
-            env=None,
+            env=tool_env,
             port=port,
             open_browser=open_browser,
         )
 
-    result = run([mdbook, "build"], cwd=REPOSITORY)
+    result = run([mdbook, "build"], cwd=REPOSITORY, env=tool_env)
     if result:
         return result
     return run(
