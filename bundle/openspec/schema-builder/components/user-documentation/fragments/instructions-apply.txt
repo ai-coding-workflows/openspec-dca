@@ -1,0 +1,20 @@
+User documentation Apply: read the reader/page assessment and design mappings. Snapshot
+and preserve project-root user-documentation/** (or the explicitly selected existing root)
+and all mapped maintained navigation, image, reference, and publication files. Check additions,
+deletions, renames, regeneration, and pre-existing dirty work, not only tracked edits.
+Being outside openspec/ does not make these mapped destinations ordinary writable files.
+
+Write and verify only the selected change's user-documentation drafts. Confirm real entry
+points, roles, configuration names/defaults, and outcomes from authorized sources; surface
+spec/implementation mismatches before documenting an unsupported promise. Preserve exact
+conditions and place safety warnings before consequential actions. Test only approved,
+safe examples with appropriate fixtures, not real credentials or unapproved live writes.
+
+Check proposed pages together with reused baseline pages in a disposable preview where
+possible; account for removals, renames, links, and relative images without editing the
+baseline. Only actual approved checks may run; do not install tools, change CI, start a
+service, or deploy a site merely to make docs checks pass. Record what was read versus run,
+the product/docs snapshot, permissions/environment, results, and remaining limitations in
+verification.md. Missing required checks block the affected work; optional unavailable
+checks remain visible as not run. A build or test link is not a verified user procedure.
+Leave publication pending in the existing Integration Handoff until separately authorized.

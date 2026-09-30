@@ -1,0 +1,25 @@
+## User Documentation Plan
+
+<!-- Reference User Documentation Impact instead of repeating its coverage table.
+Omit mapping rows when no edits are needed; identify reused pages and any relevant checks.
+State the reader, supported product version, page type, and place in the navigation.
+Use concise descriptions; put long paths and evidence below using local labels if useful. -->
+
+| Page or supporting asset | Action / change-local draft | Intended maintained destination |
+| --- | --- | --- |
+
+<!-- This table and its source notes are the single user-doc publication map. For each
+change, identify the inspected source/basis, relevant conditions, and publication prerequisite.
+Sources and maintained destinations are project-relative; drafts are change-relative.
+Default target: user-documentation/ at the project root, not openspec/user-documentation/.
+Default draft location: user-documentation/ inside the selected change. Existing project
+roots require an explicit recorded choice, not a silent migration. Include affected images,
+navigation, generated references, redirects, removals, and renames where needed.
+
+Split by independently useful reader goals or audiences, not a word quota. Preserve safety
+warnings, qualifiers, and incoming links. Use only evidence-backed entry points/examples.
+In Verification Strategy above, plan source/example checks, user-task walkthroughs, and a
+preview of unchanged baseline plus proposed pages, accounting for deleted/renamed content.
+Record product version, safe test context, and mandatory versus optional tooling. This is
+planning, not a claim of checks passed or permission to publish. Tasks/Handoff reference
+this map rather than maintain another copy. -->

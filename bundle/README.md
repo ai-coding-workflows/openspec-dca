@@ -1,8 +1,21 @@
 # OpenSpec DDD bundle
 
-Copy `openspec/schemas/openspec-ddd/` into an initialized project's
-`openspec/schemas/`. Merge `schema: openspec-ddd` and the relevant guidance from
-the guide's configuration template into `openspec/config.yaml`.
+From this repository's root, copy the bundle into an initialized OpenSpec
+project:
+
+```sh
+mkdir -p /path/to/project/openspec
+cp -R bundle/openspec/. /path/to/project/openspec/
+```
+
+Set `schema: openspec-ddd` in the project's `openspec/config.yaml`, preserving
+existing settings. Merge relevant guidance from [the configuration template](openspec/schemas/openspec-ddd/templates/config.yaml)
+and [agent instructions](openspec/schemas/openspec-ddd/templates/agent-instructions.md) rather than replacing
+project-specific instructions. The copy also includes the optional `ddd/ddd.py`
+helper; it is only used when the project has an `openspec/catalog.json` catalog.
+
+For an optional architecture documentation site, install the separate
+[mdBook addon](md-book/README.md).
 
 OpenSpec installs its own agent commands with `openspec init --tools pi` (or another
 supported integration). This bundle does not copy or fork generated commands.
@@ -37,3 +50,8 @@ Use OpenSpec for creating changes, artifact status, task progress, validation,
 synchronization, and archive. No active-change pointer, `change.json`, or separate
 planning engine is introduced. Full setup and workflow guidance is in
 [the tooling chapter](../docs/09-tooling.md).
+
+For the modular v3 variant, see [the Python schema builder](../schema_builder/README.md).
+Its sources live under `openspec/schema-builder/`; select DDD alone or add arc42,
+user documentation, and separately selected architecture-reconstruction guidance.
+Components contribute additive blocks through shared hooks and own their support files.

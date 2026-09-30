@@ -8,6 +8,8 @@
 
 ## Capabilities
 
+<!-- use Mermaid Diagrams to explain Flows, if helpful !-->
+
 ### New Capabilities
 
 <!-- Exact paths relative to openspec/specs, or None. -->
@@ -15,6 +17,10 @@
 ### Modified Capabilities
 
 <!-- Exact existing paths and the intended behavioral change, or None. -->
+
+## Architectural Changes
+
+<!-- If there are Architectures Changes Draw a Mermaid Diagram and explain them -->
 
 ## Acceptance
 

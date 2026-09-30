@@ -1,0 +1,7 @@
+### User documentation (optional)
+
+[User-documentation templates](user-documentation/README.md) help describe user tasks,
+configuration, and results. Their maintained destination is project-root
+`user-documentation/`, outside `openspec/`; proposed pages stay inside the selected
+change until separate publication. This component works with or without arc42,
+adds no native artifact, and does not install a publisher, linter, or CI pipeline.

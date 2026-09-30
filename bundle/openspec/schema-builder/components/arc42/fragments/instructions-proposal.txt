@@ -1,0 +1,2 @@
+arc42 scope: read the relevant openspec/system-architecture/ pages as baseline
+context and identify likely affected sections. Templates are not baseline evidence.

@@ -1,9 +1,22 @@
-<!-- One file per owning capability. Retain only applicable sections. Tailor the content
-to the owner: domain invariants/transitions, feature outcomes/rejections, port guarantees,
-or adapter representations/mappings. Keep definitions in a model companion when useful.
-New capabilities start with a descriptive ## Purpose section.
-For existing requirements copy the full block and exact name into MODIFIED.
-Use ADDED for new requirements. Do not copy empty sections into the result. -->
+<!-- One delta file per changed owning capability. Keep only applicable sections.
+New capabilities start with a descriptive ## Purpose section. Existing Purpose
+metadata is not changed by requirement deltas. Do not generate placeholder rules.
+
+Tailor obligations to the owner: domain invariants/transitions, feature outcomes and
+rejections, port guarantees/failure semantics, or adapter representations/mappings.
+A feature normally owns behavior offered through inbound ports; do not duplicate it
+for folder symmetry. Contexts, technical capabilities, and system responsibilities
+use the same contract rules. Keep explanatory meanings in an authoritative model
+when useful; a semantic definition change cannot conceal an obligation change.
+
+For MODIFIED, read and copy the full original block and exact name, retaining still-
+valid behavior and scenarios. An optional ID does not replace exact-name matching;
+adding one to an existing heading requires deliberate renaming. Distinguish supported
+historical data from permitted new transitions. Keep implementation design elsewhere.
+
+Use at least one WHEN/THEN scenario for each added/modified rule. Include meaningful
+rejection/failure/compatibility cases; examples are not passing tests and need not all
+be E2E tests. With skip_specs: true, create no delta files or empty sections. -->
 
 ## ADDED Requirements
 

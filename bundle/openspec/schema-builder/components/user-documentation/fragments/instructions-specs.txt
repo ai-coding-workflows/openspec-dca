@@ -1,0 +1,7 @@
+User documentation requirements: preserve and check accepted obligations to provide
+user information. Add or change a documentation requirement only when the delivery
+actually changes that obligation; otherwise track explanatory page edits in impact,
+design, and tasks. Normative rules stay with their contract owner. Neither the handbook
+nor a page filename becomes a new owner by itself. Do not repeat style rules in every
+feature spec, translate every scenario into a user page, or assume an example in a
+spec establishes the current UI, command, default value, or a passing user procedure.

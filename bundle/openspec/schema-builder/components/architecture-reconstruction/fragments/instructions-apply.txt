@@ -1,0 +1,3 @@
+Architecture-only reconstruction remains a separate workflow with its own runtime
+checklist and success/issues reviews. Do not alter its routing or create a native
+change just to reconstruct documentation.
