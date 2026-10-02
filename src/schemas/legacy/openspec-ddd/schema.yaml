@@ -1,0 +1,232 @@
+name: openspec-ddd
+version: 1
+description: Domain-centered contract changes with explicit ownership and consumer review
+artifacts:
+  - id: proposal
+    generates: proposal.md
+    description: Outcome, scope, acceptance, and starting contract owners
+    template: proposal.md
+    instruction: |
+      Describe one coherent delivery effort and observable acceptance. Explain the problem,
+      who benefits, and the intended outcome; reference existing goals rather than inventing
+      a need for every rule. A feature is a stable capability containing one or more
+      actor-goal use cases, not necessarily one endpoint, class, or spec per interaction.
+      Read project instructions, openspec/README.md, relevant openspec/system-architecture/
+      sections, and main specs. Read existing sources; do not fabricate undocumented intent.
+      List exact capability paths relative to openspec/specs, separated into new and modified
+      capabilities; catalog aliases are not capability paths. New owners may be in contexts/,
+      technical-capabilities/, or an explicitly owned system/ scope. Create an owner only
+      for an independently meaningful contract, not a directory or reused implementation.
+      Include necessary domain/port refinements and explain their contribution. Keep unrelated
+      improvements outside scope. Identify non-goals, important failure outcomes, and breaks.
+      Reuse existing decisions and authorizations. Resolve material policy, boundary, and
+      compatibility choices before dependent work; mark open decisions and what they block.
+      Do not edit main requirements while preparing a delta-based change. For a native change
+      with no behavioral change, explain this and set skip_specs: true in its .openspec.yaml;
+      do not create delta files or placeholders. Remove that flag if obligations change.
+      This schema is not the separate architecture-only brownfield reconstruction workflow.
+      When that workflow is explicitly requested, use its approved runtime plan and reviews;
+      do not create a native change, specs, or needs merely to document existing architecture.
+    requires: []
+  - id: impact
+    generates: impact.md
+    description: Contract ownership, dependency context, and consumer disposition
+    template: impact.md
+    instruction: |
+      Read proposal and prerequisite contracts before reviewing their consumers. Read the
+      relevant handbook, domain model, local architecture, and architectural-decisions/ records.
+      Use the optional catalog's depends_on graph or a small manual dependency map. Its edges
+      mean contract consumption, not code imports, task order, or arbitrary data flow.
+      Assign every definition and lasting rule one authoritative source. Record exact paths
+      and existing aliases. Distinguish contract delta, documentation only, implementation
+      only, unchanged with rationale, and unresolved. Every contract-delta owner needs an
+      actual matching delta file and intended requirement changes; glob existence is not
+      coverage. Reconcile proposal and all planned/existing deltas in both directions.
+      Transitive consumers are a review set, not automatic edit scope. Include external
+      callers, shared technical capabilities, system boundaries, and composition as relevant.
+      Ports/adapters may belong to any justified responsibility scope. State their reference
+      boundary: in/out is a driving/driven role, not the direction of results. A consuming
+      context can own a port and an adapter to another context's published contract without
+      creating shared ownership. A shared server or library alone does not justify a shared
+      contract. Do not duplicate feature behavior in a separate inbound-port spec for symmetry.
+      Identify proposed model edits, their authoritative definitions, affected requirements,
+      and consumers. A definition change that changes obligations also needs contract deltas;
+      it is not documentation-only work. Distinguish historical states from allowed new actions.
+      Inventory affected openspec/system-architecture/ sections, owned models/views, diagram
+      sources, and scoped architectural-decisions/ records. Record create, update, or reuse,
+      its reason, and authoritative/durable paths. Initial baselines need a context overview
+      and a structural diagram; a simple context may use a table. Identify relevant gaps
+      without making an unrelated change rebuild the entire handbook. Do not create empty
+      chapters, pretend templates are implemented views, or assign catalog entries to docs.
+      Surface additional owners and reasons. Apply routine adapter consequences of an agreed
+      contract; resolve material behavior/compatibility choices before dependent work. A shared
+      context does not authorize broader edits. Register new catalog owners only after main
+      specs exist. Folder naming does not change catalog fields or allowed metadata values.
+    requires: [proposal]
+  - id: specs
+    generates: "specs/**/spec.md"
+    description: OpenSpec deltas at the exact paths of their owning contracts
+    template: spec.md
+    instruction: |
+      Produce one delta per changed owner at specs/<capability-path>/spec.md inside the change.
+      Preserve the main spec's exact nested path. Use ADDED Requirements for new rules,
+      MODIFIED Requirements for full replacement of a named existing rule, REMOVED Requirements
+      with Reason and Migration, and RENAMED Requirements with FROM and TO entries.
+      Read each original requirement and all scenarios before modifying it. A MODIFIED entry
+      keeps its exact name and all still-valid behavior. Optional stable IDs do not change
+      exact-name matching; introducing IDs into existing headings is a deliberate rename.
+      Every added/modified rule has a '### Requirement: <name>' heading, SHALL or MUST language,
+      and at least one '#### Scenario: <name>' with WHEN/THEN. Retain only applicable sections.
+      Give a new capability a meaningful Purpose section. Existing Purpose metadata is not
+      updated by requirement deltas; handle pure metadata corrections separately.
+      Keep domain obligations/invariants/transitions at domain owners, use-case outcomes and
+      rejections in features, needed/offered boundary guarantees in ports, and protocol
+      representations/mappings in adapters. A feature can expose several use cases and need
+      not duplicate its behavior in an inbound-port spec. Technical and system owners use
+      the same rules; scope is determined by responsibility, not by folder symmetry.
+      Keep explanatory meanings, identities, and relationships in an authoritative model
+      companion when useful. Reference definitions instead of copying value lists. A small
+      model may remain in a clearly identified spec section. A model edit cannot hide an
+      obligation change. Supported historical data does not automatically permit an equivalent
+      new transition. Keep implementation choices, diagrams, and sequencing in design/views.
+      Include representative success, rejection, failure, and compatibility scenarios where
+      relevant. Markdown examples are not executed tests and need not each become E2E tests.
+      Do not strengthen or weaken guarantees merely to fit a planned adapter; resolve any
+      mismatch explicitly. Keep proposal, impact, and actual delta coverage coherent.
+      With skip_specs: true create no delta files; remove that flag when behavior changes.
+      Run the installed OpenSpec validation after writing deltas and address its findings.
+    requires: [impact]
+  - id: design
+    generates: design.md
+    description: One implementation approach spanning the affected owners
+    template: design.md
+    instruction: |
+      Read the main contracts together with their proposed deltas, impact, domain model,
+      handbook, owned views, and relevant decisions. Write one proportionate design, not a
+      separate plan per spec. Split into linked changes only when independently deliverable
+      outcomes or coordination costs justify it. Detail the next useful slices; keep later
+      work actionable without an exhaustive upfront implementation or test inventory.
+      Explain code boundaries, dependency direction, delivery dependencies, compatibility,
+      migration, rollback, and risks where material. Separate contract dependencies from task
+      order. Resolve material choices before dependent work; independent slices may proceed.
+      Reference impact's model/view/ADR inventory instead of maintaining a second list. Name
+      concrete new destinations. The handbook is openspec/system-architecture/; owned details
+      remain under contexts/, technical-capabilities/, or genuine system/ responsibilities
+      in openspec/specs. Do not create a competing system handbook in specs/system/architecture/.
+      Use this schema's architecture.md, domain-model.md, and architectural-decision.md support
+      templates when useful. They are not native artifact IDs and do not add prerequisites.
+      Explain necessary views or reuse adequate existing ones. Require a focused diagram when
+      a significant changed boundary, dependency, interaction, or deployment would otherwise
+      remain ambiguous. Use representative runtime/failure paths; no diagram per feature is
+      required. State each view's question, scope, status, editable source, and relationship
+      semantics. Distinguish runtime calls, code dependencies, contract consumption, and
+      execution boundaries. Explain important in/out roles and cross-context translations.
+      Keep proposed model wording/views change-local until coordinated publication, or clearly
+      label proposals. Name model definitions and affected requirements; changed obligations
+      need deltas. Publish accepted model meanings consistently with the contract baseline,
+      including any explicitly early-synced target. Current architecture describes implemented
+      behavior, not merely an accepted decision. Requirement sync does not update these files.
+      Proposed ADRs may live in architectural-decisions/ in the change. Name the durable scope
+      and handbook index updates; retain accepted rationale and explicit supersession. Do not
+      infer decision acceptance from code or invent historical alternatives. Use existing
+      project decision authority rather than introducing another approval mechanism.
+      In Verification Strategy, map changed requirements, affected guarantees, and significant
+      risks to representative checks and appropriate levels, including real-adapter conformance
+      and integration/migration where relevant. Include success/rejection/failure/compatibility
+      cases. Reuse existing tests and explain test-first exceptions. No universal coverage
+      percentage or complete up-front dataset is required. Link code entry points or tests
+      only where useful; IDs/manifests are optional, and links are not passing results.
+      Record actual checks later in verification.md or its referenced evidence, not as results
+      in this strategy. Its support template is optional, not an additional planning artifact.
+    requires: [specs, impact]
+  - id: tasks
+    generates: tasks.md
+    description: One dependency-ordered backlog including verification and documentation
+    template: tasks.md
+    instruction: |
+      Create one task list for the entire change using '- [ ] 1.1 <work and verification>'.
+      Replace illustrative tasks with useful slices, owners, prerequisites, and completion
+      checks. Read design and impact; material unresolved choices block dependent work.
+      Cover every actual implementation or documentation change without a separate backlog
+      for each owner, tests, architecture, or diagrams. Do not invent code work for docs-only
+      changes or force irrelevant example tasks into the output.
+      For changed executable behavior, plan small test-first cycles: select an example,
+      add/adapt a meaningful test, observe the expected failure, implement, and refactor.
+      Reuse adequate tests and state exceptions. Do not manufacture failure when existing
+      behavior already conforms; protect refactoring with regression checks.
+      Include relevant contract/scenario, domain, use-case, boundary, real-adapter conformance,
+      integration, migration, and failure checks. Select levels according to the obligation;
+      a fake is not proof that a real adapter conforms. Avoid requiring E2E tests for every
+      scenario, exhaustive upfront coverage, or a fixed code-coverage percentage.
+      Reference impact/design's affected-view inventory. Track explicit model, handbook,
+      local view/diagram-source, ADR/index, and catalog updates as relevant. Catalog records
+      require existing main specs. Identify finalization steps tied to synchronization and
+      verify them when due; do not mark them complete merely because preparation is finished.
+      Keep proposed/current and accepted/implemented states distinct and preserve ADR history.
+      Record actual checks, inspected revisions, gaps, and acceptance references in verification.md.
+      Its template is a support document, not another prerequisite or second task list.
+      Preserve valid completed history; append newly discovered work and explain reopened tasks.
+      Never mark work complete from artifact existence or a test reference alone. Synchronize
+      and archive deliberately after acceptance review, or label an authorized early sync;
+      neither operation substitutes for unfinished implementation, checks, or documentation.
+    requires: [design, specs]
+apply:
+  requires: [proposal, impact, specs, design, tasks]
+  tracks: tasks.md
+  instruction: |
+    Follow project instructions and the selected native change only; never implement an
+    archived change. Read impact/design, baseline plus deltas, model definitions, relevant
+    openspec/system-architecture/ sections, owned views, and architectural-decisions/ records.
+    The template library at openspec/schemas/openspec-ddd/templates/ is not the target system
+    baseline. Use its support templates selectively, without creating new native artifacts.
+    Reconcile actual delta coverage and tasks before dependent work. Resolve material choices
+    without repeating decisions already made. Report newly affected owners and reasons;
+    consumers are a review set, not automatic scope. Keep one design and task list.
+    For changed executable behavior use small test-first cycles, then refactor with tests
+    green. Reuse adequate tests; explain exceptions and do not force a red phase for unchanged
+    behavior or documentation. Run checks at the relevant real boundaries, not only fakes.
+    Mark tasks complete only when their work and required checks are complete. Record not-run
+    or partial checks and required blockers accurately. If discovery changes a contract,
+    model, or approach, reconcile affected artifacts before dependent implementation.
+    Use optional code-entry-point links and requirement-to-check associations where useful;
+    maintain reusable mappings in one source. Exact capability paths/names suffice; neither
+    stable IDs nor a separate manifest are mandatory. Executed lines do not prove assertions.
+    Update affected handbook and local views, including their single editable diagram sources;
+    review adequate reused views without cosmetic rewrites. Check participants, boundaries,
+    important failure behavior, and proposal/current status against the reviewed implementation.
+    Coordinate accepted model updates with the main-spec baseline; label early-synced targets.
+    Preserve accepted ADR rationale, record actual acceptance/supersession, and update the
+    handbook's architectural-decisions.md index. Acceptance of a decision is not implementation.
+    Give each changed requirement and affected baseline guarantee an evidence disposition.
+    Use verification.md for actual commands/results, source/test/review links, checked code or
+    documentation revision, specification/model basis, and environment. Identify uncommitted
+    snapshots and recheck affected evidence after later changes. Distinguish Passed, Failed,
+    Not run, and Partial; a limitation accepted by the project does not turn it into Passed.
+    Keep Ready for acceptance separate from Accepted, with an actual decision reference.
+    Run structural and project-specific checks; rendering, file presence, and checked tasks
+    are not conformance or authorization. Complete explicit handbook/model/ADR/catalog
+    finalization at the appropriate closure point; spec sync does not perform those updates.
+    Do not sync or archive merely because tasks are checked. The separate architecture-only
+    brownfield workflow keeps its runtime checklist, existing two review outcomes, and user-
+    waiting blocked state; do not execute or change its routing through this native schema.
+
+    Apply implements the selected change; it does not publish its contract baseline.
+
+    Treat all main-spec files under openspec/specs/**/spec.md as read-only during
+    this operation. Do not create, edit, delete, rename, or reformat them, including
+    for newly introduced capabilities.
+
+    Keep requirement changes in the selected change's delta specs under
+    openspec/changes/<change>/specs/. If implementation reveals a contract issue,
+    reconcile those deltas and the related change artifacts before continuing.
+
+    Do not invoke spec synchronization or archive as part of Apply. Completed
+    implementation, passing tests, accepted design decisions, or checked tasks
+    do not authorize either operation.
+
+    If a task requires publishing main specs or registering a new catalog owner
+    whose main spec does not yet exist, report it as deferred integration work.
+    Do not create a main spec merely to satisfy that task or a catalog check.
+
+    Stop after the Apply work and its verification. Baseline publication requires
+    a separate, explicitly authorized sync/archive operation.

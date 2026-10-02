@@ -1,0 +1,5 @@
+## arc42 Handbook Impact
+
+<!-- Identify affected handbook sections and local views, their create/update/reuse
+dispositions, reasons, and material baseline gaps. Reference the owner review rather
+than duplicate it. Maintained handbook: openspec/system-architecture/. -->

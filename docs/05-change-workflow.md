@@ -15,11 +15,29 @@ unrelated improvements part of the change.
 The examples below use **Pi's `/opsx-*` commands**. These are agent prompts, not shell
 commands. Other integrations may use a different spelling; see [setup](09-tooling.md).
 
-## Define and plan a new change
-
-```text
-(opsx-explore) → opsx-propose → review planning → opsx-apply
+```mermaid
+flowchart TB
+    idea["Outcome or change idea"] --> unclear{"Problem or compatibility unclear?"}
+    unclear -->|Yes| explore["opsx-explore"]
+    unclear -->|No| propose["opsx-propose"]
+    explore --> propose
+    propose --> artifacts["proposal → impact → specs → design → tasks"]
+    artifacts --> planning_review["Review planning consistency"]
+    planning_review --> ready{"Planning current and complete?"}
+    ready -->|No| update["opsx-update"]
+    update --> missing["Create missing artifacts when needed"]
+    missing --> planning_review
+    ready -->|Yes| apply["opsx-apply"]
+    apply --> acceptance["Acceptance review and verification"]
+    acceptance --> close{"Accepted, checks passed, and durable docs current?"}
+    close -->|Implementation gap| reconcile["Reconcile tasks"]
+    reconcile --> apply
+    close -->|Requirement changed| impact_review["Read-only impact review when useful"]
+    impact_review --> update
+    close -->|Yes| archive["opsx-archive"]
 ```
+
+## Define and plan a new change
 
 Use `explore` while the problem or compatibility choices are unclear. Use `propose`
 when the intended outcome is clear enough to prepare the change. With this schema,
@@ -43,10 +61,6 @@ workflows. `new` starts the effort; `continue` advances an available artifact;
 to write is `openspec status` followed by `openspec instructions <artifact-id>`.
 
 ## Refine an active change
-
-```text
-(read-only impact/diff review) → opsx-update → fill missing artifacts → opsx-apply
-```
 
 `update` revises existing planning artifacts and reconciles their consequences.
 This covers the former `update → diff → propagate` loop without a separate propagation
@@ -107,11 +121,6 @@ of complete coverage or a second backlog. Add cases as understanding improves;
 record actual execution results later in `verification.md`.
 
 ## Implement, review, and close gaps
-
-```text
-opsx-apply → acceptance review → (reconcile tasks → opsx-apply → review)
-          → opsx-archive
-```
 
 `apply` executes the selected change's tasks. Implement useful slices across owners
 instead of starting a new plan/tasks pair for every spec. For larger work, use several

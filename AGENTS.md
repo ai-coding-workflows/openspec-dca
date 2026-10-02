@@ -5,8 +5,11 @@ This repository is a guide and reusable bundle, not the equipment-lending applic
 
 - Keep OpenSpec's native change lifecycle and generated agent integrations. Extend
   schema instructions instead of vendoring or editing upstream command prompts.
-- The canonical schema and helper live under `bundle/openspec/`. The example shares
-  them by installation into a temporary copy; do not add divergent schema copies.
+- The canonical schema sources live under `src/schemas/` and the helper under
+  `src/helpers/ddd/`. Build all variants with `python3 build.py`;
+  generated schemas under `build/schemas/` are never edited or committed. The example uses
+  the separately retained five-artifact legacy schema. Install shared sources into
+  temporary example copies; do not add divergent schema copies.
 - Example baseline specs and proposed deltas must stay distinct. Its delivery tasks
   are intentionally unchecked; guide checks do not establish application acceptance.
 - Preserve the difference between artifact readiness, task completion, and verified

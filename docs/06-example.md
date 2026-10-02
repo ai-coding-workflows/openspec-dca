@@ -27,7 +27,10 @@ From this guide's root, prepare a disposable copy at a path that does not exist 
 
 ```sh
 cp -R examples/equipment-lending /tmp/lending-ddd-demo
-cp -R bundle/openspec/. /tmp/lending-ddd-demo/openspec/
+python3 build.py
+mkdir -p /tmp/lending-ddd-demo/openspec/schemas
+cp -R build/schemas/legacy /tmp/lending-ddd-demo/openspec/schemas/openspec-ddd
+cp -R src/helpers/ddd /tmp/lending-ddd-demo/openspec/
 cd /tmp/lending-ddd-demo
 openspec schema validate openspec-ddd
 openspec validate --all --strict --no-interactive

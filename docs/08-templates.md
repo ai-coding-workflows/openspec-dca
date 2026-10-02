@@ -5,7 +5,7 @@ Keep them in `openspec/schemas/openspec-ddd/templates/` in an adopting project a
 customize them there under version control. They define proposal, impact, delta
 specs, design, and tasks; they do not install agent commands.
 
-The additional files in the guide's `templates/` directory cover the OpenSpec
+The additional files in `src/schemas/legacy/openspec-ddd/templates/` cover the OpenSpec
 entry point, optional system handbook sections, domain models, local architecture,
 architectural decisions, and evidence. Merge the configuration and agent guidance
 into existing project files instead of replacing project-specific instructions. Only require sections that carry
@@ -74,7 +74,7 @@ requirement sync does not merge them.
 ## Impact review template
 
 ```markdown
-{{#include ../bundle/openspec/schemas/openspec-ddd/templates/impact.md}}
+{{#include ../src/schemas/legacy/openspec-ddd/templates/impact.md}}
 ```
 
 ## System handbook starters
@@ -94,7 +94,7 @@ scope and evidence gaps rather than claiming all views are complete.
 ## Domain-model companion template
 
 ```markdown
-{{#include ../templates/domain-model.md}}
+{{#include ../src/schemas/legacy/openspec-ddd/templates/domain-model.md}}
 ```
 
 Keep normative behavior at its owner and reference those rules from the model.
@@ -111,7 +111,7 @@ views name their responsibilities and boundary roles. Optional code entry points
 provide navigation, not a conformance claim.
 
 ```markdown
-{{#include ../templates/architecture.md}}
+{{#include ../src/schemas/legacy/openspec-ddd/templates/architecture.md}}
 ```
 
 ## Architectural decision template
@@ -123,13 +123,13 @@ alternatives for a reconstructed decision. Use the record's existing identity ev
 when its directory or implementation location changes.
 
 ```markdown
-{{#include ../templates/architectural-decision.md}}
+{{#include ../src/schemas/legacy/openspec-ddd/templates/architectural-decision.md}}
 ```
 
 ## Verification template
 
 ```markdown
-{{#include ../templates/verification.md}}
+{{#include ../src/schemas/legacy/openspec-ddd/templates/verification.md}}
 ```
 
 `design.md` holds the verification strategy; `verification.md` records actual results

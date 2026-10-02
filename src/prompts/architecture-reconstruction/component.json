@@ -1,0 +1,10 @@
+{
+  "description": "Guidance for a separately selected architecture-only reconstruction workflow; no runtime implementation.",
+  "requires": [],
+  "contributions": {
+    "project-guidance": "fragments/project-guidance.txt",
+    "instructions.proposal": "fragments/instructions-proposal.txt",
+    "instructions.apply": "fragments/instructions-apply.txt",
+    "support-index": "fragments/support-index.txt"
+  }
+}

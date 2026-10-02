@@ -1,0 +1,4 @@
+arc42 design: map each proposed handbook view to its change-local draft and
+maintained destination under openspec/system-architecture/. Keep owner-local detail
+with its scope under openspec/specs/. Reuse the impact inventory and avoid a second
+handbook. Plan content/link/render checks and review against the implemented design.

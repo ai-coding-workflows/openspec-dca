@@ -1,4 +1,5 @@
 """Compatibility tests; all CLI mutations are confined to disposable project copies."""
+import importlib.util
 import json
 import os
 import shutil
@@ -10,6 +11,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CLI = os.environ.get("OPENSPEC_BIN") or shutil.which("openspec")
 CHANGE = "record-return-condition"
+spec = importlib.util.spec_from_file_location("builder", ROOT / "scripts/schema-builder/build.py")
+builder = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(builder)
 
 
 @unittest.skipUnless(CLI, "Install OpenSpec 1.13.1 or set OPENSPEC_BIN for integration tests")
@@ -18,8 +22,10 @@ class OpenSpecTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / "project"
-        shutil.copytree(ROOT / "examples/equipment-lending", self.root)
-        shutil.copytree(ROOT / "bundle/openspec", self.root / "openspec", dirs_exist_ok=True)
+        shutil.copytree(ROOT / "examples/equipment-lending", self.root,
+                        ignore=shutil.ignore_patterns("build"))
+        builder.build_legacy(self.root / "openspec/schemas/openspec-ddd")
+        shutil.copytree(ROOT / "src/helpers/ddd", self.root / "openspec/ddd")
         self.change = self.root / "openspec/changes" / CHANGE
         self.env = dict(os.environ, OPENSPEC_TELEMETRY="0", DO_NOT_TRACK="1",
                         OPENSPEC_NO_UPDATE_CHECK="1", XDG_CONFIG_HOME=str(Path(self.temp.name) / "config"),

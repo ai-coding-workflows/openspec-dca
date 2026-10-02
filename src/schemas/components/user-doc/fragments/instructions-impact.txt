@@ -1,0 +1,11 @@
+User documentation impact: for each affected reader task, entry point, setting, result,
+permission, or material error, identify the relevant page or section and whether it needs
+adding, updating, removal, splitting, or checked reuse. Explain the user effect and link
+the relevant contract or observed interface. A brief reason is enough when no user-facing
+information changes. No page-per-spec rule or forced handbook expansion is required.
+
+This assessment owns reader/page coverage. Design owns the precise draft-to-target
+mapping; tasks owns the work. Record unknown UI labels, defaults, behavior, or sources
+with the dependent writing or checks they block. A source/spec discrepancy is a finding,
+not permission to weaken a contract. User pages are not catalog owners or depends_on
+edges. Do not silently add broader user-documentation reconstruction to this change.

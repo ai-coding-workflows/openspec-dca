@@ -7,6 +7,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 from book_paths import read_book_paths
+from book_selection import select_book
 
 
 def without_code(text: str) -> str:
@@ -52,11 +53,14 @@ def validate_html(output: Path) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("-b", "--book", help="book alias, directory, or book.toml path")
+    parser.add_argument("--map", type=Path, help="book mapping TOML (default: docs-books.toml)")
     parser.add_argument("--rendered", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[2]
-    paths = read_book_paths(root / "book.toml")
-    for page in root.rglob("*.md"):
+    paths = read_book_paths(select_book(root, args.book, args.map))
+    source_root = paths.repository if args.book else root
+    for page in source_root.rglob("*.md"):
         if page.is_relative_to(paths.output_root):
             continue
         content = without_code(page.read_text())

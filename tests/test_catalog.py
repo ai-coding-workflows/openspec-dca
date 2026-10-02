@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-MODULE = ROOT / "bundle/openspec/ddd/ddd.py"
+MODULE = ROOT / "src/helpers/ddd/ddd.py"
 spec = importlib.util.spec_from_file_location("ddd", MODULE)
 ddd = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ddd)
@@ -17,7 +17,8 @@ class CatalogTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / "project"
-        shutil.copytree(ROOT / "examples/equipment-lending", self.root)
+        shutil.copytree(ROOT / "examples/equipment-lending", self.root,
+                        ignore=shutil.ignore_patterns("build"))
         self.path = self.root / "openspec/catalog.json"
         self.data = json.loads(self.path.read_text())
 

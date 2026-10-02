@@ -7,11 +7,11 @@ src = "docs"
 [build]
 build-dir = "build/book"
 create-missing = false
-extra-watch-dirs = ["examples", "templates", "bundle"]
+extra-watch-dirs = ["examples", "src"]
 
 [output.html]
 additional-css = ["docs/theme/guide.css"]
-additional-js = ["mermaid.min.js", "mermaid-init.js"]
+additional-js = ["src/addons/mdbook/theme/mermaid.min.js", "src/addons/mdbook/theme/mermaid-init.js"]
 
 [output.html.fold]
 enable = true
@@ -21,3 +21,7 @@ level = 1
 
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
+
+# Optional ASCII-to-SVG diagrams; uncomment to enable Docker-built svgbob.
+# [preprocessor.svgbob]
+# command = "mdbook-svgbob"

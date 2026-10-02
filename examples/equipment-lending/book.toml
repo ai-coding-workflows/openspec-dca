@@ -1,0 +1,9 @@
+[book]
+title = "Equipment lending example"
+description = "A fictional OpenSpec DDD baseline and unfinished change"
+language = "en"
+src = "openspec"
+
+[build]
+build-dir = "build/book"
+create-missing = false

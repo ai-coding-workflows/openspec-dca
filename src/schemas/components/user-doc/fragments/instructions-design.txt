@@ -1,0 +1,20 @@
+User documentation design: reuse impact's reader/page assessment. Select page types
+for learning a first task, completing a real task, looking up exact settings, understanding
+a concept, or resolving a problem. Group by reader goals and audience, not DDD internals
+or arc42 chapter numbers. Use the selected templates only for pages that need them.
+
+Map each affected page, section, image, navigation entry, or generated reference to its
+existing source and inspected basis, action, change-local draft, and maintained destination.
+Put user mappings in the User Documentation Plan, not in the architecture-view inventory.
+The default target is project-root user-documentation/; drafts are relative to this change.
+Record removals and renames without deleting baseline files. This is the single publication
+map for user documentation; Integration Handoff and verification reference it.
+
+Plan splitting when distinct reader goals or audiences are mixed. Retain warnings,
+conditions, incoming links, and a useful overview; length is a review signal, not a reason
+to truncate a complete procedure. Use diagrams/screenshots only for a reader question;
+keep exact steps and essential warnings in text, and never invent a screenshot or label.
+Plan a staged preview with unchanged pages and proposed changes, plus appropriate checks
+of navigation, examples, and the actual procedure. Name the target product version and
+reader permissions. Reuse approved tools; installing publishers, linters, or CI and choosing
+a new documentation root need explicit scope, not an incidental docs task.

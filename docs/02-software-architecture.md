@@ -44,14 +44,35 @@ adapt an incoming request into a return operation. A database adapter can implem
 the storage port. A command-line interface could invoke the same operation through
 the same inbound contract.
 
-```text
-At runtime:
-HTTP request → application use case → storage port → database adapter
+At runtime, calls cross the port boundaries while concrete adapters handle the
+technology-specific work:
 
-In the source code:
-application → ports and domain
-HTTP adapter → inbound port
-storage adapter → storage port and domain
+```mermaid
+sequenceDiagram
+    participant caller as HTTP caller
+    participant http as HTTP adapter
+    participant app as Application use case
+    participant database as Database adapter
+
+    caller->>http: HTTP request
+    http->>app: Invoke through inbound contract
+    app->>database: Save through storage port
+    database-->>app: Port result
+    app-->>http: Use-case outcome
+    http-->>caller: HTTP response
+```
+
+The source-code dependencies point toward the contracts and domain instead of
+toward a concrete provider:
+
+```mermaid
+flowchart LR
+    http["HTTP adapter"] -->|depends on| inbound["Inbound port"]
+    application["Application use case"] -->|depends on| inbound
+    application -->|depends on| storage["Storage port"]
+    application -->|depends on| domain["Domain"]
+    database["Database adapter"] -->|implements| storage
+    database -->|maps to and from| domain
 ```
 
 The difference matters. The application invokes storage at runtime, but its code

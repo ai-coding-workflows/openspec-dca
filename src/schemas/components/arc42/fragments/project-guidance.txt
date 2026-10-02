@@ -1,0 +1,13 @@
+arc42 handbook: maintain useful system-wide architecture pages under
+openspec/system-architecture/. Its README.md owns scope and navigation; local
+architecture stays with responsible contexts, technical capabilities, or system
+scopes under openspec/specs/. Architecture-only scopes need no dummy spec or catalog
+entry. The handbook's architectural-decisions.md is an index of scoped ADRs,
+not copied rationale or the change's architectural-decisions.md assessment.
+For a declared initial baseline, provide a context overview and structural diagram;
+a simple context may use a table, and existing adequate views count. Keep only useful
+pages and record gaps rather than invent coverage or rebuild unrelated sections.
+During native planning/Apply, openspec/system-architecture/** is a maintained,
+read-only destination, including new pages and index entries. Stage proposed content
+inside the selected change and publish through the separate Integration handoff.
+Requirement sync does not update handbook pages, local views, or ADR indexes.

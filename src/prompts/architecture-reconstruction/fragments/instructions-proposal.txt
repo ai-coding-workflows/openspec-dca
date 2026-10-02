@@ -1,0 +1,3 @@
+Architecture-only reconstruction uses a separately approved runtime plan and reviews.
+When explicitly requested, do not create this native change or its seven artifacts,
+specs, or needs merely to document existing architecture.

@@ -3,6 +3,9 @@ services:
     build: .
     image: openspec-ddd:mdbook-0.5.4-mermaid-0.17.1
     init: true
+    working_dir: ${DOCS_BOOK_ROOT:-/book}
+    environment:
+      PATH: "${DOCS_SVGBOB_BIN:-/usr/local/bin}:/usr/local/bin:/usr/bin:/bin"
     user: "${GUIDE_UID:-1000}:${GUIDE_GID:-1000}"
     volumes:
       - ../../..:/book:ro

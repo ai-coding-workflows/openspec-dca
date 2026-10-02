@@ -32,12 +32,15 @@ DDD schema. Core commands are sufficient for the default workflow in this guide.
 
 ## Add the DDD schema
 
-For a first installation, copy the schema into the initialized project. Run these
+The handbook workflow and worked example use the retained five-artifact legacy
+schema. Build the schemas, then copy that variant into the initialized project.
+For the composable seven-artifact workflow, select a variant described below. Run these
 commands from this guide's root, replacing the target path:
 
 ```sh
+python3 build.py schemas
 mkdir -p /path/to/project/openspec/schemas
-cp -R bundle/openspec/schemas/openspec-ddd /path/to/project/openspec/schemas/
+cp -R build/schemas/legacy /path/to/project/openspec/schemas/openspec-ddd
 ```
 
 Review and merge `templates/config.yaml` into the existing `openspec/config.yaml`.
@@ -78,12 +81,104 @@ For updates, diff the installed schema against this bundle and merge changes wit
 local customizations. Do not blindly repeat a directory copy over a customized
 installation. `openspec update` refreshes native agent integrations, not this schema.
 
+## Compose the v3 schema with optional documentation
+
+The repository also provides a Python builder for a seven-artifact v3 schema. Its
+DDD base includes explicit domain-model and architectural-decision assessments.
+Optional components contribute documentation guidance and support templates:
+
+```sh
+python3 build.py schemas
+python3 build.py schemas --base --output build/schema-ddd/openspec-ddd
+python3 build.py schemas --component arc42 --component user-doc --output build/schema-docs/openspec-ddd
+```
+
+The default command builds every valid component combination into
+`build/schemas/<variant>/`, with a generated index and a separate
+`legacy` variant. Repeated builds replace only verified builder-owned output.
+Single selections with `--base` or `--component` require a new output directory.
+DDD alone keeps models, local
+architecture, and ADR guidance. `arc42` adds a system handbook; `user-doc` adds
+guides, tutorials, troubleshooting, and audience-specific delivery checks. Select
+either component alone or both together. Components share additive instruction and
+template hooks, so user documentation can extend impact, design, tasks, and evidence
+without changing the DDD base or displacing architecture guidance.
+
+Install the chosen output as the project's `openspec/schemas/openspec-ddd/` and merge
+its support guidance. This does not update an existing installation or change the
+five-artifact handbook workflow described above. User-documentation drafts stay inside
+the selected change; design maps them to the project's maintained destinations and
+the Integration handoff tracks separate publication. Spec sync does not publish them.
+
+The optional `architecture-reconstruction` component supplies guidance for the separate
+host workflow described in adoption. Select it explicitly when that workflow is
+available; arc42 alone does not include it. The component does not implement a runtime
+or create additional native artifacts.
+
+The root `build.py` dispatches to the existing tools. With no command it builds
+schemas; `docs` builds the handbook, `check` runs tests and source/rendered link
+checks, and `all` builds schemas and the handbook before checking. `check` requires
+a built handbook and OpenSpec 1.13.1 on PATH or through `OPENSPEC_BIN`. Arguments
+after `schemas` or `docs` are forwarded, including `docs --docker`. Relative paths
+are resolved from the repository root.
+
+Composition sources live under `src/schemas/`. The builder uses
+Python 3.10+ without extra packages. Components provide whole blocks through artifact
+instruction hooks, template hooks, shared project guidance, and a support index, plus
+component-owned files and explicit dependencies. Single selections append contributions in selected order; the matrix uses a stable
+dependency order and builds each valid subset once. File collisions remain errors.
+The old inline replacement slots are retired.
+See the builder README at `scripts/schema-builder/README.md` for authoring and migration instructions. Required
+checks validate components alone and in combination with real OpenSpec, including
+their contributed instructions and the native lifecycle.
+
+## Optional ASCII diagrams
+
+The handbook runner also supports the optional
+[svgbob preprocessor](https://github.com/boozook/mdbook-svgbob) for ASCII diagrams
+in fenced `bob` blocks. Enable `[preprocessor.svgbob]` in `book.toml`; otherwise no
+svgbob tooling is prepared. The runner uses a native executable on PATH or builds
+the pinned source in a temporary Rust Docker container and caches the executable
+under the configured output root. It removes the builder container and image even
+when compilation fails. Linux and Windows host builds are supported; native macOS
+requires a locally installed binary, while Docker documentation mode uses Linux
+on every supported host. The repository's root `README.md` describes configuration,
+platform limits, and cache details.
+
+## Select a documentation book
+
+The shared `scripts/docs.sh` and `scripts\docs.cmd` runners use the root
+`book.toml` by default. Pass `--book` with a repository-relative book directory or
+its `book.toml` (`-b` is the short alias), or define a root `docs-books.toml` mapping:
+
+```toml
+[books]
+ar42 = "architecture"
+user = "user-guide/book.toml"
+```
+
+These are illustrative destinations for an adopting project. Each selected book
+needs its own configuration named `book.toml` and a distinct output directory.
+Alias paths resolve relative to the mapping file; direct paths resolve relative to
+the repository root. Use `--map` to choose another mapping file. Selected books must
+remain inside the repository.
+
+```sh
+./scripts/docs.sh --book ar42 build
+./scripts/docs.sh --book user serve
+./scripts/docs.sh --docker --book ar42 build
+python3 scripts/md-book/check.py --book ar42 --rendered
+```
+
+Both native and Docker builds, previews, optional svgbob preparation, and exports
+use the selected configuration. These options also pass through `build.py docs`.
+
 ## Optional catalog and helper
 
 Copy the helper and start a catalog only when the ownership graph is useful:
 
 ```sh
-cp -R bundle/openspec/ddd /path/to/project/openspec/
+cp -R src/helpers/ddd /path/to/project/openspec/
 ```
 
 Use `templates/catalog.json` as the starting shape for `openspec/catalog.json`, or

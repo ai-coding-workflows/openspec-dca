@@ -33,10 +33,21 @@ For example, a feature and a database adapter can both consume the same storage
 port. The optional DDD catalog records these relationships.
 
 OpenSpec's artifact dependencies tell you which change documents can be prepared
-next. The custom schema uses this sequence:
+next.
 
-```text
-proposal → impact → specs → design → tasks → apply
+Contract dependencies:
+
+```mermaid
+flowchart TB
+    feature["Return feature"] -->|consumes| store["Storage port contract"]
+    adapter["Database adapter"] -->|consumes| store
+```
+
+Artifact prerequisites in the custom schema:
+
+```mermaid
+flowchart TB
+    proposal --> impact --> specs --> design --> tasks --> apply
 ```
 
 These are documentation prerequisites, not a task execution schedule. Implementation

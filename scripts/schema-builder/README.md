@@ -1,35 +1,53 @@
-# Compose the v3 schema
+# Build OpenSpec schemas
 
-Build with Python 3.10+ and the standard library. Run from the repository root:
+Build with Python 3.10+ and the standard library. The root `build.py` dispatches
+to `scripts/schema-builder/build.py`; both entry points remain available.
+Run from the repository root:
 
 ```sh
-# DDD without optional documentation conventions.
-python3 schema_builder/build.py --output build/schema-ddd/openspec-ddd
+# All eight component combinations plus the separate legacy schema.
+python3 build.py schemas
+
+# One DDD schema without optional components, in a new directory.
+python3 build.py schemas --base --output build/schema-ddd/openspec-ddd
 
 # DDD with both architecture and user documentation.
-python3 schema_builder/build.py --component arc42 --component user-docs --output build/schema-docs/openspec-ddd
+python3 build.py schemas --component arc42 --component user-doc --output build/schema-docs/openspec-ddd
 ```
 
 Each output is a complete native OpenSpec schema directory with `schema.yaml` and
-`templates/`. It retains the native name `openspec-ddd`; the destination's parent
-can distinguish builds. Install one chosen build in a project's
+`templates/` directly in the variant directory. Install one chosen build under
+the name `openspec-ddd` in a project's
 `openspec/schemas/openspec-ddd/`, then merge its configuration and agent guidance
 starters. Support files are templates, not automatically published documentation.
 
-The builder requires a new output directory. It does not update an installed schema
-or merge project customizations. Output beneath `build/` is ignored by Git.
-Generated files are not editable sources.
+The default build writes `build/schemas/<variant>/`, plus `index.json`
+and a readable `README.md`. For example, `ddd+arc42+user-doc` contains DDD with
+both documentation components. The native schema name stays `openspec-ddd`.
+Components are discovered from `component.json`; all dependency-valid subsets are
+built once in a deterministic dependency order. Unknown dependencies, cycles, and
+composition conflicts fail the build. Component order does not resolve prose conflicts.
+
+Repeated matrix builds replace only output whose ownership manifest and content
+hashes still match. Unowned directories, symlinks, and changed output are rejected.
+All variants are composed and staged before replacing the previous output. A matrix
+build can use another dedicated directory with `--output`; never point it at an
+installed schema or a shared output directory such as `build/` itself.
+
+Single-schema builds (`--base`, repeated `--component`, or `--legacy`) require a new
+`--output` directory. They never update installed schemas or merge customizations.
+Output beneath `build/` is ignored by Git. Generated files are not editable sources.
 
 ## Source ownership and components
 
 Canonical sources live in
-[`bundle/openspec/schema-builder/`](../bundle/openspec/schema-builder/):
+[`src/schemas/`](../../src/schemas/):
 
 - `ddd/files/` owns seven native artifacts, DDD ownership/model rules, local
   architecture, ADR assessments and records, verification, and publication boundaries.
 - `components/arc42/` adds handbook templates, locations, navigation, baseline-view
   guidance, and ADR index conventions.
-- `components/user-docs/` adds guide, tutorial, and troubleshooting templates plus
+- `components/user-doc/` adds guide, tutorial, and troubleshooting templates plus
   audience, impact, drafting, publication-mapping, and verification guidance.
 - `components/architecture-reconstruction/` adds guidance for a separately provided
   architecture-only host workflow. It supplies neither that runtime nor a handbook.
@@ -41,11 +59,11 @@ DDD remains the foundation; components do not introduce native artifacts or chan
 the dependency graph. Artifact readiness, completed tasks, verification, acceptance,
 and publication remain separate.
 
-`schema_builder/openspec-ddd_v3/` is the historical supplied snapshot. It is retained
-for reference, not edited or used as the generated-output oracle. Whole-block
-composition intentionally changes wording and placement. The shipped schema at
-`bundle/openspec/schemas/openspec-ddd/` remains the guide's five-artifact installation
-default; the builder does not upgrade it implicitly.
+`src/schemas/legacy/openspec-ddd/` retains the five-artifact schema used by the
+handbook's existing worked example. The build copies it to
+`build/schemas/legacy/`. It is a separate supported workflow, not a
+snapshot of the composed seven-artifact schema. New compositions use `ddd/files/`;
+this repository layout change does not migrate existing projects or example artifacts.
 
 ## Additive extension format
 
@@ -97,7 +115,7 @@ Create `components/<name>/component.json` with exactly these fields:
 Put extra output files under `files/`, using output-relative paths, and contribution
 text under `fragments/`. Multiple hooks may reference one fragment when the same
 complete block makes sense at each destination. Adding an ordinary documentation
-component requires no base edits; `user-docs` demonstrates composition with arc42.
+component requires no base edits; `user-doc` demonstrates composition with arc42.
 
 Dependencies in `requires` must be selected earlier using repeated `--component`
 arguments. There is no implicit dependency selection. Unknown hooks/components,

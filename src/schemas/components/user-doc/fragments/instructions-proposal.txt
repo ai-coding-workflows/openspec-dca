@@ -1,0 +1,7 @@
+User documentation scope: identify affected readers and what they will do differently,
+including configuration and error recovery. Read the relevant existing user pages and
+accepted documentation obligations. Name likely effects, not a complete second plan.
+Use user-documentation/ at the project root unless another maintained root is explicitly
+chosen. Do not add a spec owner for a handbook folder. A documentation-only native
+change may use the existing skip_specs route only when product obligations are unchanged;
+this component neither skips the model/decision assessments nor invents new requirements.

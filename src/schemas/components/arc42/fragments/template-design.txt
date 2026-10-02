@@ -1,0 +1,5 @@
+## arc42 Handbook View Mappings
+
+<!-- Include handbook drafts and destinations in View Integration Targets above.
+Use openspec/system-architecture/ for shared handbook pages, with owned details under
+openspec/specs/. Reference ADR/index mappings in the decision assessment. -->
