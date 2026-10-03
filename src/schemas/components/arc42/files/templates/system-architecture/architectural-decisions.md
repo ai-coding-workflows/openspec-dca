@@ -25,9 +25,15 @@ reasoning, with explicit links to replacements. Do not copy their rationale here
 
 ## Maintenance
 
-<!-- In native delivery, stage intended index/status changes in the decision
-assessment. Keep this maintained page unchanged during planning/Apply, even when a
-change-local ADR has been accepted. Update it during separately authorized publication
-and reconcile existing entries rather than overwrite concurrent additions. Record
-actual publication evidence in the handoff. Requirement sync and catalog presence do not maintain this index automatically.
+<!-- Planning records proposed index effects in the decision assessment without editing
+this maintained page. Apply may update mapped descriptive index prose and links to existing
+durable records, preserving their actual status and concurrent additions. Include affected
+index edits and durable-link/status checks in the one Apply checklist; ordinary descriptive
+updates to this maintained page are not deferred to native sync/archive. Record actual checked
+page/record revisions in verification.md. Index maintenance never accepts, promotes, changes
+status, or activates supersession of a record. Keep entries
+depending on unpublished records in the Integration handoff, even when the change-local ADR
+is accepted; do not link maintained navigation to transient drafts or nonexistent targets.
+After separate record publication, resolve those dependent entries and record actual evidence
+before closure. Requirement sync and catalog presence do not maintain this index automatically.
 The catalog field stays named decisions; directory naming does not change its schema. -->

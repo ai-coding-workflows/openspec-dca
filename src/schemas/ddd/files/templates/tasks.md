@@ -4,34 +4,42 @@ Read impact, domain-model-changes.md, specs when applicable, design, and
 architectural-decisions.md. Preserve completed history; explain reopened tasks.
 Open material model/decision questions block dependent work, not unrelated slices.
 
-Keep maintained baseline paths read-only in planning/Apply. Changes to main specs,
-models, shared views, ADRs/indexes, and catalog belong to a separately authorized
-publication. Reference their assessment/design mappings in the non-checkbox handoff
-below. Do not disguise publishing as an implementation or documentation checkbox. -->
+Planning leaves maintained destinations unchanged.
+Apply updates mapped descriptive documentation outside openspec/specs/** in the development checkout.
+Track actual outside-tree updates and checks beside implementation, plus preparation/checks
+of change-local local-architecture/model/ADR proposals. Optional drafts alone are not outside-tree delivery.
+The entire openspec/specs/** tree remains read-only during planning and Apply.
+This includes creation, edits, deletion, renaming, and indirect/generated writes, regardless of file type.
+During Apply, maintained model companions, ADR records, and openspec/catalog.json also remain
+protected wherever located. Keep sync/archive, local architecture publication and other protected
+publication, shared-store writes, and deployment outside Apply checkboxes. Reference remaining
+separate work in the non-checkbox handoff below. -->
 
 ## 1. Implementation and Contract Checks
 
 - [ ] 1.1 {Owner and prerequisites: add/adapt the relevant test, implement the useful slice, refactor, and verify; explain test-first exceptions.}
 
-## 2. Cross-owner Integration and Change-local Documentation
+## 2. Cross-owner Integration and Documentation Delivery
 
 - [ ] 2.1 {Check real-adapter guarantees, cross-owner behavior, failure cases, compatibility, and migration where applicable; name evidence.}
-- [ ] 2.2 {Prepare or update the referenced model/view/ADR drafts inside this change and check their consistency with the implementation and assessments.}
+- [ ] 2.2 {Update mapped maintained descriptive documentation outside openspec/specs/** and check it against the implementation; optional drafts alone do not complete delivery.}
+- [ ] 2.3 {Prepare and check change-local local-architecture proposals for targets under openspec/specs/** and any model/ADR revisions; record exact publication mappings without writing maintained protected paths.}
 
 ## 3. Apply Evidence and Publication Preparation
 
 - [ ] 3.1 {Record actual checks, reviewed revisions, baseline plus delta/model basis, remaining gaps, and acceptance evidence in verification.md.}
-- [ ] 3.2 {Compare maintained baseline paths with their pre-Apply snapshot, including added/deleted/renamed files and prior dirty work; prepare the Integration handoff without publishing.}
+- [ ] 3.2 {Compare the entire openspec/specs/** tree and other protected files with their pre-Apply snapshot, including new/deleted/renamed paths: protected content unchanged, mapped outside-tree updates delivered, prior dirty work preserved; prepare the publication handoff for pending local views and other protected content.}
 
 <!-- Relevant tests may already exist. Do not force failing tests for documentation
 or unchanged behavior. Pick the right level, not an E2E test for every scenario.
-Check preparation only after it is complete; it does not mean publication happened.
+Check outside-tree documentation delivery only after maintained targets and required checks are complete.
+Checking local-view preparation or handoff readiness does not mean protected maintained publication happened.
 Ready for acceptance is not Accepted. A failed/not-run/partial check remains visible. -->
 
 ## Integration Handoff - Not Executed by Apply
 
-Publication status: Pending
-Authorization / operator reference: {actual separate authorization, or Not yet authorized}
+Remaining separate publication: {Pending / Complete / No separate publication needed, with reason}
+Authorization / operator reference: {actual separate authorization, or Not yet authorized / Not applicable}
 
 | Source of publication details | Required integration effect / prerequisite | Actual publication evidence |
 | --- | --- | --- |
@@ -39,8 +47,12 @@ Authorization / operator reference: {actual separate authorization, or Not yet a
 <!-- Use ordinary table rows, NOT checkboxes. Reference model mappings in
 domain-model-changes.md, view mappings in design.md, and ADR mappings in
 architectural-decisions.md; do not copy those target inventories here. Include spec
-sync, model/view/ADR promotion, reference/index updates, and catalog registration
-only where required. Existing main specs are a prerequisite for catalog entries.
+sync, local architecture publication under openspec/specs/**, model/ADR promotion,
+dependent reference/index updates, catalog registration, and release/deployment only where required.
+Publication of local views in the protected tree belongs to separately authorized sync/archive
+integration, not Apply; native requirement sync does not publish those views. Actual descriptive
+updates outside the protected tree belong in Apply tasks, not deferred handoff rows.
+Existing main specs are a prerequisite for catalog entries.
 No handoff rows are needed for unaffected sources; state No publication needed
 only when that is genuinely true of the change.
 
@@ -50,6 +62,7 @@ re-read the integration baseline, reconcile overlapping changes and ADR IDs, and
 resolve staged/durable links. Keep publication pending until actually performed.
 Archive only after real acceptance, required checks, and handoff resolution; native
 requirement sync alone does not complete non-spec updates. All Apply tasks checked
-means Apply work finished, NOT the baseline was updated or the change was accepted. -->
+means implementation, permitted outside-tree delivery, and change-local preparation finished,
+NOT protected local views/contracts were published, the change was accepted, or a site/release was deployed. -->
 
 {{hook:template.tasks}}

@@ -56,7 +56,9 @@ notation. Rendering alone is not conformance or evidence of deployed behavior.
 ## Owned detail and decisions
 
 Reference relevant contexts, technical capabilities, and system-owned responsibilities
-under openspec/specs/, including architecture-only areas without a spec when useful.
+under openspec/specs/, including existing architecture-only areas without a spec when useful.
+Defer navigation to new local views until their actual maintained targets exist; never link
+maintained navigation to change-local drafts or nonexistent targets.
 A domain model explains meaning; a local architecture view explains implementation.
 Individual ADRs live in architectural-decisions/ at the responsible scope. The index
 links them without copying accepted rationale or inventing retrospective decisions.
@@ -65,11 +67,25 @@ links them without copying accepted rationale or inventing retrospective decisio
 
 For native changes, impact identifies create/update/reuse; domain-model-changes.md
 owns semantic revisions and model mappings; design owns technical drafts; the change's
-architectural-decisions.md assesses record needs and mappings. tasks.md tracks preparation
-and carries a non-checkbox Integration handoff; verification records actual results.
-Keep handbook and other maintained baseline paths read-only during planning/Apply.
-Publish only through separately authorized integration after reconciling the current
-baseline, including prior concurrent changes. Identify changes invalidating evidence.
+architectural-decisions.md assesses record needs and mappings. Planning leaves maintained
+sources unchanged and may use optional change-local drafts. tasks.md tracks actual mapped
+handbook, navigation, and diagram-source updates during Apply in the development checkout;
+verification checks the resulting maintained views against the implemented revision.
+Reconcile current targets, preserve unrelated changes, and identify edits invalidating evidence.
+A draft alone is not a delivered handbook update. The non-checkbox Integration handoff covers
+remaining protected contract/model/ADR/catalog publication or deployment. The entire
+openspec/specs/** tree stays read-only during planning and Apply, including local views,
+diagrams/assets, models, and indexes: no direct or generated create/edit/remove/rename.
+Prepare and check local-view proposals and source-to-maintained-target mappings inside the
+change in the same Apply checklist. Their actual publication and dependent links belong in
+the non-checkbox handoff for separately authorized sync/archive-stage integration, not native
+automatic sync. Staged views are not delivered or maintained-current; report pending publication.
+Ordinary mapped handbook edits outside that tree remain actual Apply delivery. Include concrete
+updates/checks for affected openspec/system-architecture/ pages, diagrams/assets, README.md/navigation,
+and descriptive decision-index links in the one Apply checklist. Complete and verify actual
+maintained targets during Apply; do not leave them pending until sync/archive or treat a draft
+as delivered content. When reviewed pages remain accurate, record justified reuse/no-change.
+Index maintenance reflects actual durable record status; it does not accept or promote an ADR.
 
 Requirement sync does not update this handbook, owned models/diagrams, ADRs, or catalog.
 Keep one editable source; generated publications are derived. Add SUMMARY.md only

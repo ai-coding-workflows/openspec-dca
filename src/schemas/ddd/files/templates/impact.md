@@ -59,7 +59,12 @@ explain which diagrams answer the question or why existing views suffice. No dia
 per feature or unrelated whole-system rebuild is required. Name gaps and useful slices;
 do not create empty chapters. domain-model-changes.md owns model mappings, the
 change-local architectural-decisions.md owns ADR dispositions/mappings, and design
-owns technical drafts. Keep maintained destinations read-only during planning/Apply.
-Sync does not update models, architecture documentation pages, diagrams, ADRs, or catalog metadata. -->
+owns proposed technical content and descriptive delivery mappings. Planning leaves maintained
+destinations unchanged. The entire openspec/specs/** tree stays read-only during planning and Apply.
+Map change-local proposal preparation/checks for local views inside that tree, with actual maintained
+publication in the handoff for separately authorized sync/archive integration. Apply updates mapped
+descriptive views/pages/diagrams outside that tree in the development checkout. Maintained models,
+ADR records, and catalog remain protected wherever located. Native requirement sync does not publish
+local architecture or other non-spec companions; their publication is explicit integration work. -->
 
 {{hook:template.impact}}

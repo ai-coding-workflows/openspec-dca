@@ -35,9 +35,13 @@ recorded by the individual ADR. This table does not grant acceptance. -->
 <!-- Only needed when a record is created or changed. Draft record paths are relative
 to this change (architectural-decisions/...); maintained sources/destinations are
 project-relative. Preserve accepted history and stable IDs. Do not update shared
-numbering, supersession annotations, or architecture documentation/catalog indexes during Apply.
-Prepare those effects here and refer to them from tasks.md's Integration handoff.
-Check identity collisions and concurrent changes before explicit publication. -->
+numbering, maintained record status/supersession, or the catalog during Apply. The entire
+openspec/specs/** tree stays read-only during planning/Apply, including descriptive indexes.
+Mapped descriptive indexes outside that tree may link existing durable records with their actual
+status; this does not accept or promote records. Prepare entries depending on unpublished records
+or protected local views here and reference them from the Integration handoff, not maintained links
+to transient drafts. Check identity collisions/current baselines before separately authorized
+sync/archive publication. -->
 
 ## Open Decisions
 

@@ -1,4 +1,0 @@
-arc42 Apply boundary: snapshot and preserve openspec/system-architecture/**,
-including prior dirty work and additions/deletions/renames. Prepare and verify handbook
-and index changes only inside the selected change. Record checks and pending
-publication in verification.md and the Integration handoff.

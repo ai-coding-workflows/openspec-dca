@@ -1,0 +1,17 @@
+For arc42 delivery:
+Update the affected maintained system architecture under openspec/system-architecture/** during Apply.
+Do not defer ordinary handbook updates to sync/archive.
+Update only mapped descriptive pages, editable diagrams/assets, README.md/navigation, and
+ADR-index links to existing durable records in the development checkout. Use concrete tasks
+and completion checks; record justified reuse/no-change instead of artificial edits.
+Read current targets, preserve unrelated
+and pre-existing dirty content, and run the planned source, link, rendering, and
+architecture review checks against actual maintained results. Keep ADR-index links
+consistent with existing durable records and actual status; defer links needing
+protected publication to the base Integration handoff. All openspec/specs/** content, including local views and assets, remains read-only:
+no direct or generated create/edit/remove/rename. Prepare and check proposals and mappings
+inside the change in the one Apply checklist; protected publication and dependent links
+stay in the non-checkbox Integration handoff for separately authorized sync/archive-stage
+integration. Staged local views are not delivered or
+maintained-current; report pending publication. Optional handbook drafts are not completed
+handbook delivery, and handbook edits authorize neither acceptance nor deployment.

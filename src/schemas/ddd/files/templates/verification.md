@@ -32,23 +32,31 @@ behavioral check. Code coverage is supplementary evidence, not a universal thres
 - Impact/deltas agree with ownership and real consumers, including callers outside the catalog.
 - domain-model-changes.md and referenced model drafts agree with the deltas; historical
   semantics and new actions are distinct. Assessment findings are resolved for dependent work.
-- Change-local technical drafts and reused maintained views explain the reviewed target,
-  with clear scope, semantics, source, and publication status. Do not fail merely because
-  intentionally protected baseline views still describe the earlier implementation.
+- Actual outside-tree documentation and reused views explain the implementation at the checked
+  revision, with clear scope/semantics and one maintained source. Optional drafts alone do not
+  complete outside-tree delivery. Check change-local local-view/model/ADR proposals against that
+  same basis; their preparation is not maintained publication under openspec/specs/**.
 - Real adapters meet their stated guarantees; fakes alone do not establish conformance.
 - The change's architectural-decisions.md assessment and any records reflect actual
   decisions/status and intended supersession, without assumed approval or invented history.
-- Maintained spec/model/view/ADR files, architecture documentation, and catalog remain unchanged from the
-  pre-Apply snapshot, including added/deleted/renamed files and preserved prior dirty work.
-- Proposed publication effects are accounted for in tasks.md's Integration handoff and
-  its linked mappings. Native sync does not perform non-spec publication.
+- The entire openspec/specs/** tree and other protected model/ADR/catalog files remain unchanged
+  from the pre-Apply snapshot, regardless of file type, including new/deleted/renamed paths and
+  generated outputs. Mapped outside-tree documentation received planned updates with prior dirty
+  and unrelated work preserved.
+- The handoff records local architecture publication under openspec/specs/** and other remaining
+  protected work at separately authorized sync/archive integration. Keep unpublished local views
+  Pending; do not report completed outside-tree edits as pending promotion. Native requirement
+  sync does not publish local views or other non-spec companions; record explicit publication evidence.
 A list of files opened is not a review conclusion. Omit inapplicable items. -->
 
 ## Remaining Gaps and Closure
 
 Acceptance: Pending
 Decision reference: {actual project acceptance/authority record, when available}
-Integration / publication: Pending
+Maintained descriptive documentation outside openspec/specs/**: {Complete / Pending / Not affected, with checked targets}
+Change-local local-architecture proposals: {Checked / Pending / Not affected, with basis}
+Local architecture publication under openspec/specs/**: {Pending / Complete / Not affected, with actual publication evidence}
+Remaining separate integration / publication: {Pending / Complete / Not needed, with reason}
 Closure disposition: {Awaiting integration / Blocked / Ready for archive, with actual reason}
 
 <!-- Link unresolved work to the existing backlog. Distinguish blockers from limitations
@@ -56,9 +64,11 @@ actually accepted under project policy; record the decision and follow-up. Accep
 do not become passing tests. Required unavailable checks remain blocking unless an
 exception is genuinely authorized. Do not claim pending sync/model/catalog work is done.
 Ready for acceptance is not Accepted; checked tasks and artifact presence prove neither.
-Apply can finish with Integration / publication pending. A separately authorized operation
-records what was actually published, its revision, reconciliation and link checks, and
-any remaining blockers before Ready for archive is appropriate. Native all_done is not
-that decision. Reassess evidence affected by code/model/spec/view changes or rebasing. -->
+Apply may finish with local-view/contract/model/ADR/catalog publication or release pending.
+Required outside-tree descriptive delivery must actually be completed and checked; local-view
+preparation/checks may be complete while maintained publication remains Pending. Record actual
+revisions, reconciliation, links, and blockers. At separately authorized sync/archive integration,
+explicitly publish mapped protected companions and record results before Ready for archive is
+appropriate. Native requirement sync does not do this automatically; all_done is not that decision. Reassess evidence affected by code/model/spec/view changes or rebasing. -->
 
 {{hook:template.verification}}

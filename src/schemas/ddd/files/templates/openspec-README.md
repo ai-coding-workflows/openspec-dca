@@ -43,11 +43,18 @@ specs own obligations; architecture describes implemented or explicitly proposed
 Scoped `architectural-decisions/` holds records. Any shared decision index
 is navigation, not copied rationale. Acceptance, implementation, and verification differ.
 Requirement sync does not update models, architecture documentation/local diagrams, ADRs, or the catalog.
-During native planning/Apply, keep the maintained specs/models/views/ADRs, architecture documentation,
-and catalog unchanged. Stage proposed content in the selected change and prepare its
-non-checkbox Integration handoff in tasks.md. Baseline publication and archive require
-separate authorization and reconciliation against the current integration baseline.
-All checked Apply tasks are not publication or acceptance. Track actual results and
-revisions at each step.
+Planning leaves maintained destinations unchanged and prepares change-local proposals.
+The entire openspec/specs/** tree remains read-only during planning and Apply, including local
+architecture, diagrams, assets, models, records, and indexes. Prepare/check proposed local views
+inside the change; actual maintained publication belongs in the non-checkbox Integration handoff
+for separately authorized sync/archive integration. Native requirement sync does not publish those
+companions automatically. Maintained model companions, ADR records, and catalog remain protected
+wherever located; shared-store writes and deployment also need separate authorization.
+Apply updates mapped descriptive documentation outside openspec/specs/** in the development checkout,
+including component-authorized pages/navigation/assets. Reconcile current targets, preserve unrelated
+edits, and check maintained results; optional drafts alone do not complete this delivery.
+Keep pending protected publication and dependent links explicit without inventing promotion for
+completed outside-tree docs. Checked Apply tasks are neither acceptance nor proof of publication.
+Track actual results/revisions; editing development sources does not release or deploy them.
 
-{{hook:project-guidance}}
+{{hook:project.readme}}

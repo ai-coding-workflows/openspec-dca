@@ -2,6 +2,13 @@
 
 [User-documentation templates](user-documentation/README.md) help describe user tasks,
 configuration, and results. Their maintained destination is project-root
-`user-documentation/`, outside `openspec/`; proposed pages stay inside the selected
-change until separate publication. This component works with or without arc42,
+`user-documentation/`, outside `openspec/`, unless project instructions/design explicitly
+select an existing root. Planning is change-local/read-only at maintained destinations;
+optional drafts aid planning. Apply updates mapped maintained pages, navigation, assets,
+and approved reference sources outside `openspec/specs/**` in the development checkout.
+The entire protected tree stays read-only, including generator/incidental outputs. Protected-tree
+publication and dependent links, plus remaining separate contract/model/ADR/catalog/release
+work, belong in the non-checkbox Integration Handoff at separately authorized sync/archive-stage
+integration;
+task completion is not acceptance or site deployment. This component works with or without arc42,
 adds no native artifact, and does not install a publisher, linter, or CI pipeline.

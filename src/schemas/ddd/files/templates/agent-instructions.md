@@ -49,7 +49,7 @@ Check the rewrite against the source before finishing: every material rule, iden
 condition, risk, open question, and evidence limitation must remain findable. Do not
 invent old behavior, field names, publication targets, successful tests, or guarantees.
 Keep native spec delta headings and task checkbox syntax unchanged. Readability does
-not add an artifact, bypass a review, or authorize maintained-file writes during Apply.
+not add an artifact, bypass a review, or expand the mapped Apply write scope.
 
 ### Responsibilities and meaning
 
@@ -102,10 +102,13 @@ Keep models with domain meaning and technical views with their responsible scope
 Use one editable source; published output and images may be derived representations.
 Impact identifies create/update/reuse. The model assessment owns semantic drafts and
 source-to-target mappings; the decision assessment owns ADR dispositions and mappings;
-design owns proposed technical views. tasks.md tracks preparation and verification,
-with a non-checkbox Integration handoff referencing those mappings. Keep changed
-views inside the selected change during Apply. Reuse existing views without cosmetic
-edits and record actual conformance findings; templates are not current diagrams.
+design owns proposed technical views and their delivery mappings. Planning keeps
+proposals change-local; separate descriptive drafts are optional when useful. tasks.md
+tracks actual descriptive-view updates outside openspec/specs/** during Apply, plus
+preparation/checks of change-local local-view/model/ADR proposals. Its non-checkbox
+handoff tracks protected publication at separately authorized sync/archive integration.
+Reuse existing views without cosmetic edits and record actual conformance findings;
+templates are not current diagrams.
 
 ### Tests, traceability, and evidence
 
@@ -126,37 +129,52 @@ from Accepted; record the actual decision and any authorized limitations separat
 
 ### Apply boundary and separately authorized publication
 
-In native planning and Apply, treat openspec/specs/**, mapped maintained architecture paths,
-openspec/catalog.json, and all explicitly mapped maintained documentation targets as
-read-only. This includes new main specs and maintained models, local views, ADRs, and
-shared indexes. Do not create, edit, delete, rename, reformat, regenerate, or indirectly
-write them. Do not invoke sync/archive or baseline promotion within Apply. Approved
-code/test changes remain in scope; this is not a prohibition on implementation.
+Planning leaves maintained destinations unchanged and prepares proposals in the change.
+Apply updates mapped descriptive documentation outside openspec/specs/** in the development checkout.
+This includes component-authorized handbook/user pages, navigation, assets, and other mapped
+outside-tree descriptive sources. Read current destinations, reconcile overlaps, and preserve
+unaffected content and prior dirty work. This covers repo-local development sources, not a
+shared canonical store, release, or site deployment.
 
-Prepare all proposed documentation in the selected change: domain-model-changes.md or
-models/ drafts, delta specs, design.md or architecture/ drafts, and the decision
-assessment with optional architectural-decisions/ records. Use exact project-relative
-destinations and change-relative draft paths. An implemented change-local view is not
-its published baseline. Main model meanings remain authoritative for the existing
-baseline while the assessment defines the proposed revision; do not silently swap them.
+The entire openspec/specs/** tree remains read-only during planning and Apply.
+This includes creation, edits, deletion, renaming, and indirect/generated writes, regardless
+of file type: specs, local descriptive architecture, models, diagrams/assets, records, and indexes.
+During Apply, maintained model companions, ADR records, and openspec/catalog.json also remain
+protected wherever located, including supersession/status. Do not invoke sync/archive or publish
+protected content within Apply. Prepare and check local-view/model/spec/ADR proposals inside the
+selected change, with exact maintained destinations and change-relative content references.
+Local architecture publication under openspec/specs/** belongs to separately authorized sync/archive
+integration; a checked proposal is not a current maintained view. In outside-tree mixed-content
+descriptive files, preserve protected meaning/status and report staged or blocked revisions.
+Descriptive status does not exempt a file from the directory-wide boundary. Keep one editable
+maintained source. A view can be published without a main spec; never create a placeholder spec or
+catalog entry for a link/helper. Maintain links only to existing durable sources; publication-dependent
+links belong in the handoff, not maintained navigation to transient drafts or nonexistent targets.
 
-Keep publishing actions OUT of Apply checkboxes. Record a non-checkbox Integration
-handoff in tasks.md with source mapping references, prerequisites, actual authorization,
-and publication status/evidence. Preparing it is Apply work; executing it is not.
-If an old task conflicts, preserve its intent in that handoff and report the conflict;
-do not publish to satisfy the checklist. Never create a main spec to satisfy the helper.
-At Apply start record the baseline snapshot, including existing dirty files. At the
-end check protected additions/deletions/renames/content; preserve unrelated user edits.
-A prompt is not an enforced write boundary: use runner/permission checks where available.
+Track outside-tree descriptive updates and change-local proposal preparation/checks in the
+one Apply checklist. Keep sync/archive, local-view/model/ADR publication, catalog registration,
+shared-store writes, and deployment OUT of Apply checkboxes. The non-checkbox Integration handoff
+records remaining separate work, prerequisites, actual authorization, and status/evidence.
+State No separate publication needed only when true; completed outside-tree edits are not pending
+promotion, but local views inside the protected tree stay pending until actually published.
+Preparing/checking the handoff is Apply work, not permission to execute it. Preserve any conflicting
+task's intent in that handoff and report the conflict.
 
-When tracked work is finished, report verification and pending integration, then stop.
-Later explicit publication re-reads the current integration baseline, reconciles
-concurrent semantic/text changes, checks ADR IDs/links, and promotes accepted model,
-view, and record revisions deliberately. Keep one editable maintained source and
-preserve ADR rationale. A changed requirement uses a reviewed delta; non-spec documents
-need explicit reconciliation, not a blind full-file overwrite. Native requirement sync
-does not merge model/view/ADR/index/catalog content. Register new catalog owners only
-after their main specs exist. Resolve the handoff and required acceptance/checks before
-archive; an accepted ADR or all_done does not prove publication or implementation.
+Snapshot the entire protected tree, other protected files, and mapped outside-tree targets at Apply
+start, including prior dirty work. Compare additions/deletions/renames/content at the end: protected
+paths remain unchanged and mapped outside-tree targets receive their planned updates. Check actual
+permitted destinations and change-local proposals against the implementation. Optional drafts alone
+do not complete outside-tree delivery; local-view preparation does not complete maintained publication.
+Record results and limits without inferring acceptance from edits/tests. A prompt is not an enforced
+write boundary: use runner/permission checks where available.
 
-{{hook:project-guidance}}
+When tracked work is finished, report implementation, outside-tree delivery and proposal evidence,
+and remaining integration, then stop. Separately authorized sync/archive integration re-reads the
+baseline, reconciles local-view/model/spec/ADR changes, explicitly publishes mapped protected
+companions, checks IDs and dependent links, and preserves actual acceptance/status and rationale.
+Authorization for native requirement sync alone does not authorize companion publication.
+Native sync does not merge local architecture or other non-spec content. Register catalog
+owners only after main specs exist. Resolve the handoff and required acceptance/checks before archive;
+all_done is neither acceptance nor permission to publish/deploy.
+
+{{hook:project.agent-instructions}}

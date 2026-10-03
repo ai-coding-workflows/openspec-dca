@@ -1,10 +1,26 @@
-User documentation tasks: add relevant drafting, examples, navigation, and verification
-work to the existing Apply checklist. Each task names its reader goal, the design mapping,
-change-local target, and a meaningful completion check. Keep one checklist and preserve
-completed history. Do not add an empty docs task to a change with a reasoned no-impact result.
+User documentation tasks: add relevant maintained-page edits, examples, navigation, assets,
+approved reference-source updates, and verification work to the existing Apply checklist.
+Each task names its reader goal, the design mapping, mapped maintained target, and concrete
+completion checks. Optional drafts may help planning.
+A draft alone does not complete a documentation task. Keep one checklist and preserve completed history. Do not add an empty docs task to a change with a reasoned no-impact result.
 
-Prepare and check the proposed user pages without writing maintained pages or site indexes.
-Use the existing non-checkbox Integration Handoff to reference user mappings, required
-product availability/version, latest-baseline reconciliation, separate authorization,
-and actual publication evidence. Do not turn root handbook writes, generated reference
-promotion, publishing commands, or a release into Apply checkboxes.
+Apply reads current destinations, reconciles concurrent edits, preserves dirty/unrelated
+content, and updates only mapped maintained targets in the development checkout. Include
+checks of additions, deletions, renames, and actual results against required scope. Use
+existing approved generator/source/output mappings only and inspect incidental outputs.
+The entire openspec/specs/** tree stays read-only through planning and Apply: no direct or
+generated create/edit/remove/rename, including references/incidental outputs. Prepare/check
+protected proposals and mappings inside the change in this same checklist; publication and
+dependent links remain non-checkbox handoff work at separately authorized sync/archive-stage
+integration.
+Keep syntax/link checks separate from real procedure evidence; name the supported product
+version and safe check context. Task completion is not acceptance, release, or deployment.
+
+The non-checkbox Integration Handoff covers protected-tree publication/dependent links and
+remaining separate contract/model/ADR/catalog/release work, not ordinary completed
+documentation edits outside the tree. Main spec.md sync,
+maintained model companions, ADR records/status and supersession, and openspec/catalog.json
+remain protected/separate. Defer references requiring absent protected targets to handoff;
+create neither placeholders nor maintained links to transient drafts. Do not invent Pending
+publication if none remains, but do not claim none when it is pending or label staged local
+views delivered/maintained-current. Do not add shared canonical store writes/deployment to Apply.

@@ -1,10 +1,27 @@
 ## User Documentation Work
 
-<!-- Include required user-page drafting and checks in the existing Apply checklist above,
-using the design's User Documentation Plan. No separate checklist or publication checkbox.
+<!-- Include required mapped maintained-page, navigation, asset, approved reference-source
+updates and checks in the existing Apply checklist above, using the User Documentation Plan.
+Each task names its reader goal, mapped maintained target, and concrete completion checks.
+A draft alone does not complete a documentation task. Drafts are optional planning aids,
+not a mandatory second editable copy. Keep one checklist; no deployment checkbox.
 When unaffected, rely on impact's explanation rather than create artificial work.
 
-The existing Integration Handoff references those mappings and the required product version,
-current-baseline reconciliation, separate authorization, and actual publication result.
-Do not copy the inventory here. User pages, images, and indexes at the project root remain
-read-only during Apply; prepare their proposed replacements in this change. -->
+Apply reads current destinations, reconciles concurrent edits, preserves pre-existing dirty
+and unrelated content, and updates mapped targets only in the development checkout. Check
+additions/deletions/renames and actual results against required scope. Keep syntax/link checks
+separate from executed procedure evidence. Use only existing approved generator/source/output
+mappings and inspect incidental outputs. All openspec/specs/** content remains read-only:
+no direct or generated create/edit/remove/rename, including reference/incidental outputs.
+Preparation/checks of protected proposals and mappings inside the change use this same
+checklist; actual publication and dependent links stay in the non-checkbox handoff for
+separately authorized sync/archive-stage integration. Task completion is not acceptance, release, or deployment.
+
+The non-checkbox Integration Handoff covers protected-tree publication/dependent links and
+remaining separate contract/model/ADR/catalog/release work, not ordinary completed doc edits
+outside the tree. Main spec.md sync, maintained model companions,
+ADR records/status/supersession and openspec/catalog.json remain protected/separate. Defer
+references requiring absent protected targets; no placeholders or maintained links to transient
+drafts. Do not invent Pending publication when none remains, or claim none while it remains;
+staged local views are not delivered or maintained-current. Shared canonical store writes
+and deployment remain outside Apply permission. Do not copy the inventory here. -->

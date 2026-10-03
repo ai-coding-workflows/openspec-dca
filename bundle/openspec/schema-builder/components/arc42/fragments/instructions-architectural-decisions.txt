@@ -1,4 +1,0 @@
-arc42 decisions: assess any update needed to the maintained
-openspec/system-architecture/architectural-decisions.md index. Link the scoped records
-and their actual status; keep index changes distinct from ADR rationale and this
-change's architectural-decisions.md assessment. Include destinations in the mappings.

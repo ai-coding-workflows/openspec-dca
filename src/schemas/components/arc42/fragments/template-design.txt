@@ -1,5 +1,20 @@
 ## arc42 Handbook View Mappings
 
-<!-- Include handbook drafts and destinations in View Integration Targets above.
-Use openspec/system-architecture/ for shared handbook pages, with owned details under
-openspec/specs/. Reference ADR/index mappings in the decision assessment. -->
+<!-- Use the single View Integration Targets table above for affected handbook pages under
+openspec/system-architecture/, editable diagrams/assets, README.md/navigation, and descriptive
+ADR-index changes. Each mapping identifies the inspected source/basis, create/update/remove/
+rename/reuse action, exact maintained destination, and semantic/source/link/render checks.
+Reference impact's inventory and record why reviewed-but-unchanged pages need no edit.
+
+Planning stays change-local and leaves maintained destinations unchanged. During Apply,
+write the mapped handbook updates to the actual maintained targets, reconcile concurrent
+content, preserve prior dirty/unrelated work, and check the result against implementation.
+Separate handbook drafts are optional planning aids, not delivery or a reason to wait for sync.
+Resolve navigation to existing durable sources; index prose reflects actual ADR status without
+accepting, publishing, or superseding a record.
+
+Stage owned-detail proposals inside the change and map intended targets under openspec/specs/**,
+which remains entirely read-only through planning and Apply. Preparation/checks use the one
+Apply checklist; protected publication and dependent links belong in the non-checkbox handoff
+for separately authorized sync/archive-stage integration. Reference ADR mappings rather than
+copy them; defer links to unpublished records/local views. Do not duplicate a target inventory. -->

@@ -1,4 +1,0 @@
-arc42 impact: identify affected openspec/system-architecture/ sections and owned
-views, with create/update/reuse dispositions and reasons. Check context and structural
-coverage for a declared initial baseline; reuse adequate views, permit a table for a
-simple context, and record gaps without rebuilding unrelated handbook sections.

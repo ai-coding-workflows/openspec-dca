@@ -1,5 +1,0 @@
-## arc42 Handbook Work
-
-<!-- Include change-local handbook preparation/checks in the Apply sections above.
-Reference handbook and ADR index mappings in the Integration Handoff. Do not turn
-maintained publication into an Apply checkbox or duplicate the target inventory. -->

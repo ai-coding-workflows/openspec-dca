@@ -1,5 +1,27 @@
 ## arc42 Handbook Work
 
-<!-- Include change-local handbook preparation/checks in the Apply sections above.
-Reference handbook and ADR index mappings in the Integration Handoff. Do not turn
-maintained publication into an Apply checkbox or duplicate the target inventory. -->
+<!-- Update the affected maintained system architecture under openspec/system-architecture/** during Apply.
+Do not defer ordinary handbook updates to sync/archive.
+Add concrete work and completion checks to the existing Apply sections above, using design's
+single mapping and exact maintained targets. Replace generic documentation examples where
+these scoped tasks cover the same work. Do not add a second checklist or copy a target inventory.
+
+Example Apply work: Update the mapped openspec/system-architecture/<page>.md pages, editable
+diagram sources, assets, README.md/navigation, and affected descriptive decision-index links
+against the implemented design; read current targets first and preserve unrelated/dirty content.
+Example Apply check: Verify actual maintained handbook targets against implementation, execute
+required source/link/render checks, inspect additions/deletions/renames, and record results and
+checked revisions in verification.md. Preserve existing durable ADR status and rationale.
+
+Use actual project paths, task numbers, and checks, not these placeholders. Include only affected
+work; when impact records justified reuse/no-change, record the review rather than artificial edits.
+A draft alone does not complete a handbook task. Successful rendering alone is not conformance.
+Native spec sync does not perform handbook delivery; archive checks completed delivery rather
+than serving as the first opportunity to update ordinary handbook pages.
+
+Prepare/check local-view proposals inside the change using this same checklist. All openspec/specs/**
+targets remain read-only, including views/assets/indexes; their publication and dependent links stay
+in the non-checkbox Integration handoff for separately authorized sync/archive-stage integration.
+Staged protected views are not maintained-current. Keep remaining model/ADR/contract/catalog
+publication and dependent index entries in that handoff, not ordinary delivered handbook updates.
+Editing an index does not accept or publish an ADR; defer links to unpublished protected targets. -->

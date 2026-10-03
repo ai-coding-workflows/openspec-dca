@@ -37,7 +37,12 @@ consequences. Include necessary domain/port changes with reasons. Detailed consu
 and documentation review belongs in impact.md, not a duplicate inventory here.
 The domain-model and architectural-decisions artifacts assess meaning and decision
 records explicitly. They remain required when specs are skipped; no new model or ADR
-is forced. Keep planning and Apply changes change-local; publication of main specs,
-models, shared views, ADRs, indexes, and catalog is a separately authorized operation. -->
+is forced. Keep planning proposals change-local. The entire openspec/specs/** tree remains
+read-only during planning and Apply, including descriptive local architecture and assets/indexes.
+Prepare/check local-view proposals inside the change for publication in separately authorized
+sync/archive integration; native requirement sync does not publish those companions automatically.
+Apply delivers mapped descriptive documentation outside that tree alongside implementation.
+Maintained models/ADR records, catalog registration, shared-store writes, and deployment remain
+separately protected wherever located. -->
 
 {{hook:template.proposal}}

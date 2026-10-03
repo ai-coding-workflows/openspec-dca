@@ -25,29 +25,42 @@ context: |
   The template library is openspec/schemas/openspec-ddd/templates/, not a system baseline.
   Individual architectural-decisions/ records are distinct from the change's assessment
   and any maintained shared decision index.
-  During native planning and Apply, maintained openspec/specs/**, the maintained architecture documentation,
-  openspec/catalog.json, and mapped maintained document targets are read-only. This
-  includes new main specs, model companions, ADRs, shared views, and indexes.
-  Stage changes inside the selected change. Do not create baseline files to fix a
-  catalog check or merely to complete a task. Sync/archive and other baseline writes
-  require a separate explicit publication operation after review and reconciliation
-  with the current integration baseline; they are never implicit Apply substeps.
-  tasks.md contains tracked Apply work and a non-checkbox Integration handoff. Pending
-  publication remains visible even when Apply is done; it is not falsely marked complete.
+  Planning leaves maintained destinations unchanged; proposed content stays change-local.
+  Apply updates mapped descriptive documentation outside openspec/specs/** in the development checkout.
+  This includes component-authorized handbook/user pages, navigation, and assets outside
+  that tree. Reconcile current targets, preserve unrelated edits, and check actual updates;
+  optional drafts alone do not complete this delivery.
+  The entire openspec/specs/** tree remains read-only during planning and Apply.
+  This includes creation, edits, deletion, renaming, and indirect/generated writes,
+  regardless of file type, including local architecture, diagrams, assets, and indexes.
+  During Apply, maintained model companions, ADR records, and openspec/catalog.json also
+  remain protected wherever located, including status/supersession. Outside-tree mixed-content
+  descriptive files retain protected meaning/status unchanged. Prepare and check local-view
+  proposals inside the change; local architecture publication under openspec/specs/** belongs
+  to separately authorized sync/archive integration, not Apply. Native requirement sync does
+  not publish local views or other non-spec documents; companion publication is explicit work.
+  Never create a main spec for catalog checks or links. Sync/archive, protected publication,
+  shared-store writes, and deployment need separate authorization. tasks.md tracks code,
+  outside-tree delivery, and change-local proposal preparation/checks in one checklist, with
+  a non-checkbox Integration handoff for remaining separate publication and dependent links.
+  Pending protected views stay visible; completed outside-tree docs need no invented promotion.
+  Task completion does not imply acceptance, release, or deployment.
   The optional DDD helper is read-only and baseline-only. Catalog entries require actual
   main specs. Keep depends_on and decisions field semantics unchanged.
 
-  {{hook:project-guidance}}
+  {{hook:project.context}}
 operations:
   apply:
     guidance:
-      - Implement and verify the selected change; keep maintained specs, models, ADRs, architecture documentation views/indexes, and catalog unchanged.
-      - Never invoke sync/archive or baseline promotion inside Apply, even for new capabilities or a conflicting task.
+      - Implement and verify the selected change, including mapped maintained descriptive documentation outside openspec/specs/** and change-local local-architecture proposals; preserve unrelated work and all protected paths.
+      - Never invoke sync/archive, protected-artifact promotion, shared-store writes, or documentation deployment inside Apply.
       - Work from both assessments and baseline plus deltas; reconcile semantic or decision discoveries before dependent implementation.
-      - Prepare staged documentation and the Integration handoff; compare protected paths with their pre-Apply snapshot without discarding prior user work.
-      - Record actual evidence and pending publication; all tracked tasks done is not acceptance, integration, or archive authorization.
+      - Verify mapped outside-tree targets received planned updates and the entire openspec/specs/** tree plus protected model/ADR/catalog files remain unchanged; check change-local proposals and prepare their publication handoff without discarding prior user edits.
+      - Record actual evidence and any remaining publication; all tracked tasks done is not acceptance, integration, or archive authorization.
+      {{hook:operation.apply}}
   archive:
     guidance:
       - Require separate authorization, actual acceptance, and the applicable checks before closing the change; Apply completion alone is insufficient.
-      - Reconcile deltas and staged model/view/ADR content against the current integration baseline before publishing; do not overwrite concurrent accepted changes.
-      - Resolve tasks.md's Integration handoff explicitly, including non-spec promotion, links, indexes, and catalog entries only after main specs exist; requirement sync alone does not do this.
+      - At separately authorized sync/archive integration, reconcile deltas and change-local local-view/model/ADR content against the current baseline, explicitly publish mapped protected companions, and confirm maintained documentation is current without overwriting concurrent accepted changes.
+      - Resolve remaining handoff work and dependent links/indexes; register catalog entries only after main specs exist. Native requirement sync merges requirement deltas only, not local architecture or other non-spec documents; authorization for sync alone does not authorize companion publication.
+      {{hook:operation.archive}}

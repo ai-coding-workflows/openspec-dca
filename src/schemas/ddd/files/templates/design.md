@@ -60,21 +60,30 @@ assumptions. Distinguish calls, code dependencies, consumed contracts, and deplo
 define in/out relative to the considered core and explain cross-context translations.
 
 Put proposed view content here OR in architecture/<scope>/<view>.md inside this change,
-not in both. Keep reviewed change-local implemented views distinguishable from their
-still-maintained baseline counterparts. An implemented draft is not yet published. -->
+not in both. A separate draft is optional. Planning leaves maintained destinations unchanged.
+The entire openspec/specs/** tree remains read-only during planning and Apply; prepare and check
+local-view proposals change-locally and map their publication to separately authorized sync/archive
+integration. Apply updates mapped descriptive views outside that tree in the development checkout.
+Keep implemented/observed versus proposed status explicit; a checked proposal is not publication,
+and drafts alone do not complete outside-tree maintained delivery. -->
 
 ## View Integration Targets
 
-| Existing view / inspected basis | Change-local content or draft | Intended maintained destination | Review / publication prerequisite |
+| Existing view / inspected basis | Action / optional planning draft | Maintained destination | Required check / remaining prerequisite |
 | --- | --- | --- | --- |
 
 <!-- Sources/destinations are project-relative; drafts are change-relative.
 Use the project's maintained architecture locations; owned details stay under
 contexts/, technical-capabilities/, or system/ in openspec/specs.
 Reference model and ADR mappings in their assessments instead of duplicating them.
-Prepare the Integration handoff in tasks.md; do not publish these views during Apply.
-Native sync does not merge non-spec documentation. Reconcile against the current
-baseline and resolve change-local links before separately authorized publication. -->
+Track actual outside-tree updates and change-local proposal preparation/checks in tasks.md's
+Apply checklist. Put local architecture publication under openspec/specs/** and dependent links
+in its non-checkbox handoff for separately authorized sync/archive integration. Reconcile current
+baselines and preserve unrelated content before publishing; do not leave the sole current view
+in an archived change. Maintain links only to existing durable sources, deferring references to
+unpublished protected targets. Native requirement sync does not merge local views or other non-spec
+content; explicitly publish those mapped companions. Model/ADR publication, catalog registration,
+and deployment remain separate wherever located. -->
 
 ## Compatibility, Migration, and Risks
 

@@ -1,3 +1,0 @@
-arc42 tasks: include preparation and verification of affected change-local handbook
-and index drafts. Reference design/ADR mappings in the non-checkbox Integration
-handoff; maintained handbook writes are publication work, outside Apply checkboxes.

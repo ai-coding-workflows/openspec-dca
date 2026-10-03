@@ -1,0 +1,13 @@
+For user-doc delivery, use the selected project-root documentation location and
+update explicitly mapped descriptive pages, navigation, assets, and approved reference
+sources in the development checkout. Read current targets, preserve dirty/unrelated
+work, and check actual additions, deletions, renames, links, safe examples, supported
+settings, and reader procedures against planned scope. Use only existing approved
+generator/source/output mappings, inspect incidental outputs, and introduce no tools
+or services to pass checks. All openspec/specs/** content remains read-only through planning
+and Apply: no direct or generated create/edit/remove/rename, including reference generators
+and incidental outputs. Keep protected proposals/mappings inside the change and publication
+with dependent links in the non-checkbox handoff for separately authorized sync/archive-stage
+integration; report pending publication honestly. Drafts alone are not delivery; defer references needing
+absent protected targets to the base Integration handoff. Distinguish syntax/link
+checks from executed procedures and keep acceptance and deployment separate.

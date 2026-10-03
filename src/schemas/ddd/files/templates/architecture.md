@@ -6,9 +6,13 @@ Question: {the architecture question this view answers}
 Basis: {implemented/observed revision or proposed change reference}
 
 <!-- Optional technical-view support template, not another native artifact. During
-native planning/Apply, instantiate inside this change's architecture/ and map its
-maintained destination in design.md. The eventual destination is the responsible
-scope under openspec/specs or a focused architecture documentation view. Do not write it during Apply.
+planning, describe the view in design.md or an optional change-local architecture/ draft.
+Map its maintained destination and checks in design.md. The entire openspec/specs/** tree
+remains read-only during planning and Apply, including descriptive views, diagrams, and assets.
+Prepare and check proposals for those targets change-locally; publish maintained content only
+in separately authorized sync/archive integration. Native requirement sync does not publish views.
+Apply updates mapped descriptive sources outside that tree in the development checkout, preserving
+protected model/spec/ADR/catalog content wherever located.
 Remove irrelevant prompts.
 Current means implemented/observed at the stated basis, not merely accepted as a target.
 Distinguish source evidence, documented intent, inference, and unknowns in reconstruction. -->
@@ -34,10 +38,13 @@ Domain/state meaning stays with the model, not database/class diagrams presented
 business truth. Published images/includes are derived. Use installed project formats;
 a successful render does not prove truth or complete link correctness.
 
-Impact identifies scope, design maps technical draft sources to maintained targets,
-and tasks.md links them in a non-checkbox Integration handoff. Publish only in the
-separately authorized integration, after comparing with the current baseline. Before archive, ensure the integrated
-view has a maintained source; do not archive the only current published view. -->
+Impact identifies scope; design maps actions, sources, optional drafts, maintained targets,
+and checks. tasks.md tracks outside-tree descriptive delivery during Apply, plus change-local
+preparation/checks for views under openspec/specs/**. Its handoff covers their actual publication
+and dependent links at separately authorized sync/archive integration. Reconcile current targets
+and preserve concurrent/unrelated content before authorized publication. Before archive, confirm
+required current views have actual maintained sources; a checked proposal is not published content,
+and a draft inside the archived change is not the sole editable destination. -->
 
 ## Important Behavior and Failure Paths
 

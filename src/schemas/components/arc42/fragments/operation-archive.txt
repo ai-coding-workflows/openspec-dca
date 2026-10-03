@@ -1,0 +1,11 @@
+Before archiving an arc42 change, confirm mapped maintained handbook targets,
+navigation, diagram sources, and durable ADR links match the delivered design and
+actual record status. Record executed checks and remaining gaps accurately, with
+explicit deferrals and status for pending protected targets in the base Integration
+handoff rather than links to transient drafts or nonexistent local views. Publication
+of change-local proposals into openspec/specs/** is explicit work only at separately
+authorized sync/archive-stage integration; confirm actual targets before enabling
+dependent handbook links and do not label pending views maintained-current. Native
+spec sync merges only requirement deltas, never local architecture, handbook pages,
+ADR indexes, or other non-spec documents automatically; documentation checks do not establish acceptance or
+authorize deployment.

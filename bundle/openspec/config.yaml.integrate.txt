@@ -1,8 +1,0 @@
-operations:
-  apply:
-    guidance:
-      # Mit bereits vorhandenen Eintraegen zusammenfuehren.
-      - Keep openspec/specs/**/spec.md unchanged throughout Apply, including new capabilities.
-      - Keep requirement changes in the selected change's delta specs.
-      - Do not run sync or archive during Apply; baseline publication is a separately authorized operation.
-      - Report deferred integration work instead of updating main specs to complete a task.

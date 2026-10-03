@@ -1,5 +1,19 @@
 ## arc42 Handbook Evidence
 
-<!-- Record actual checks of relevant staged/reused views and ADR index links against
-the reviewed implementation. Include checked revisions, rendering/link results, gaps,
-and the maintained-path comparison. A rendered page does not prove conformance. -->
+<!-- Record results for the actual maintained handbook targets under openspec/system-architecture/,
+including affected pages, editable diagrams/assets, README.md/navigation, and durable ADR-index
+links. Use the main evidence table and design mappings, not a duplicate inventory or acceptance status.
+Identify the implementation and checked documentation revisions, semantic review findings, actual
+source/link/render commands and results, reused pages with reasons, and failed/not-run/partial checks.
+
+Compare mapped destinations with the pre-Apply snapshot: required updates delivered, prior dirty
+and unrelated content preserved, additions/deletions/renames inspected, and protected model/ADR/
+catalog files plus the entire openspec/specs/** tree unchanged. A handbook task is complete only
+when its maintained targets and required checks are complete; drafts or rendering alone are not
+maintained delivery or conformance. Do not postpone an incomplete handbook task to native sync.
+
+Distinguish actual handbook delivery from checks of change-local protected local-view proposals:
+those proposals are not maintained-current. Record their pending publication and dependent links
+in the existing non-checkbox handoff for separately authorized sync/archive-stage integration.
+Only genuinely protected publication, dependent links, or separate deployment remains there;
+do not label ordinary completed handbook edits Pending publication or infer ADR acceptance. -->

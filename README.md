@@ -1,11 +1,16 @@
 # OpenSpec DDD
 
-A practical guide and reusable OpenSpec schema for domain-centered living
-specifications, change delivery, and modular arc42 documentation. OpenSpec already
-maintains living specifications; this project adds explicit contract ownership, useful
-domain-model companions, test-first delivery guidance, and evidence-aware consumer
-review across domains, ports, features, adapters, and technical capabilities.
+A (work in progress / experimental guide) practical guide and reusable OpenSpec schema for 
+- domain-centered living specifications, 
+- change delivery, and 
+- modular arc42 documentation. 
+ 
+OpenSpec already maintains living specifications; this project adds explicit contract ownership, useful domain-model companions, test-first delivery guidance, and evidence-aware consumer review across domains, ports, features, adapters, and technical capabilities.
 
+**Remark:**
+Due the experimental stage, many texts are AI generated and not properly reviewed. Once the concept has proven useful and stable, text quality will improve.
+
+## Where to start
 Start with [the introduction](docs/README.md) or [the workflow guide](docs/05-change-workflow.md).
 For more setup options and Pi commands, see [using the bundle](docs/09-tooling.md).
 

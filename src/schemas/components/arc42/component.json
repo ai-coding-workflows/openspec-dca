@@ -2,7 +2,11 @@
   "description": "Optional arc42 handbook templates and lifecycle guidance.",
   "requires": [],
   "contributions": {
-    "project-guidance": "fragments/project-guidance.txt",
+    "project.context": "fragments/project-context.txt",
+    "project.agent-instructions": "fragments/project-agent-instructions.txt",
+    "project.readme": "fragments/project-readme.txt",
+    "operation.apply": "fragments/operation-apply.txt",
+    "operation.archive": "fragments/operation-archive.txt",
     "instructions.proposal": "fragments/instructions-proposal.txt",
     "instructions.impact": "fragments/instructions-impact.txt",
     "instructions.design": "fragments/instructions-design.txt",

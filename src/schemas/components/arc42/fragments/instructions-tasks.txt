@@ -1,3 +1,18 @@
-arc42 tasks: include preparation and verification of affected change-local handbook
-and index drafts. Reference design/ADR mappings in the non-checkbox Integration
-handoff; maintained handbook writes are publication work, outside Apply checkboxes.
+arc42 tasks: put affected openspec/system-architecture/ page, diagram/asset, README.md/navigation,
+and descriptive ADR-index updates in the one Apply checklist. Generate concrete tasks to write
+actual maintained targets and verify them against implementation, not merely prepare drafts or
+request future publication. Reference design mappings, exact destinations, prerequisites, and
+observable semantic/source/link/render checks. Use the template's work/check examples as prompts,
+not duplicate tasks or another backlog. Review reused views with a reason; do not rebuild all
+chapters or add empty pages. A draft alone does not complete a handbook task. Native spec sync
+cannot substitute for these handbook delivery tasks.
+
+Prepare and check proposed local views and source-to-maintained-target mappings inside
+the change in this same Apply checklist. All openspec/specs/** content remains read-only;
+keep its actual publication, including local architecture/assets/indexes, in the non-checkbox
+Integration handoff for separately authorized sync/archive-stage integration. Defer links
+requiring those targets until publication; staged views are not maintained-current delivery.
+The handoff also covers remaining protected model/ADR/contract, catalog, dependent index
+entries, or deployment work. Actual maintained handbook updates outside the protected tree
+are Apply delivery, not deferred promotion. ADR-index work must preserve actual record
+status and only link existing durable sources; acceptance and record publication remain separate.

@@ -1,0 +1,23 @@
+For arc42 handbook work, keep handbook and local architecture ownership distinct.
+Maintain only useful pages; record gaps rather than inventing coverage or rebuilding
+unrelated sections. For a declared initial baseline, provide a context overview and
+structural diagram; a simple
+context may use a table, and adequate existing views count. Plan handbook proposals
+inside the change, optionally as drafts. Map affected maintained pages, navigation,
+and diagram sources before Apply.
+Update the affected maintained system architecture under openspec/system-architecture/** during Apply.
+Do not defer ordinary handbook updates to sync/archive.
+Put concrete page/diagram/asset/navigation and descriptive ADR-index updates/checks in the
+one Apply checklist; reconcile current targets in the development checkout and preserve
+unrelated content and prior dirty work. Record justified no-change/reuse when appropriate.
+Check actual maintained handbook results, not just drafts. The entire openspec/specs/** tree is
+read-only during planning and Apply, including local views, diagrams/assets, models,
+and indexes; no create/edit/remove/rename or indirect/generated writes are allowed.
+Prepare and check local-view proposals and source-to-maintained-target mappings inside
+the change in the one Apply checklist; keep publication in the non-checkbox Integration
+handoff for separately authorized sync/archive-stage integration. Do not call staged
+views delivered or maintained-current, or hide pending publication. Index links and prose
+must reflect existing durable ADRs and actual status, never inferred acceptance. Keep links requiring
+protected publication in the base Integration handoff; do not link maintained
+navigation to transient drafts or nonexistent targets. Follow the base lifecycle
+and protected-publication boundaries; handbook edits do not authorize deployment.

@@ -1,0 +1,12 @@
+Before archiving a user-doc change, confirm the mapped maintained pages, navigation,
+assets, and durable links at the selected documentation root match actual delivered
+behavior. Record executed source, link, rendering, and safe procedure checks with
+honest version, limitation, and not-run status. Keep explicit deferrals for references
+needing absent protected targets in the base Integration handoff, without placeholders
+or links to transient drafts. Publish companions or other protected openspec/specs/**
+content only as explicit separately authorized sync/archive-stage integration work; confirm
+actual targets before enabling dependent links. Invent no pending publication for completed
+docs, but do not claim none when protected publication or dependent links remain.
+Native spec sync merges only requirement deltas, never local architecture or other non-spec
+documents automatically, and does not publish user documentation; completed documentation and checks
+neither establish acceptance nor authorize release or deployment.

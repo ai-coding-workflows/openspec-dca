@@ -4,17 +4,27 @@ a concept, or resolving a problem. Group by reader goals and audience, not DDD i
 or arc42 chapter numbers. Use the selected templates only for pages that need them.
 
 Map each affected page, section, image, navigation entry, or generated reference to its
-existing source and inspected basis, action, change-local draft, and maintained destination.
+existing source and inspected basis, create/update/remove/rename/reuse action, maintained
+target, and concrete checks. Include optional change-local draft references only when useful.
 Put user mappings in the User Documentation Plan, not in the architecture-view inventory.
 The default target is project-root user-documentation/; drafts are relative to this change.
-Record removals and renames without deleting baseline files. This is the single publication
-map for user documentation; Integration Handoff and verification reference it.
+Planning does not write maintained destinations, including removals and renames. This is
+the single maintained-target map for user documentation; Apply and verification reference it.
+Change-local drafts are optional, not a mandatory second editable copy. The existing root
+explicitly selected in project instructions/design wins; do not migrate it automatically.
+Defer references requiring absent protected spec/model/ADR/catalog targets to the separate
+Integration Handoff; plan no placeholders or maintained links to transient drafts.
 
 Plan splitting when distinct reader goals or audiences are mixed. Retain warnings,
 conditions, incoming links, and a useful overview; length is a review signal, not a reason
 to truncate a complete procedure. Use diagrams/screenshots only for a reader question;
 keep exact steps and essential warnings in text, and never invent a screenshot or label.
-Plan a staged preview with unchanged pages and proposed changes, plus appropriate checks
+Plan a preview of mapped maintained updates with reused pages, plus appropriate checks
 of navigation, examples, and the actual procedure. Name the target product version and
-reader permissions. Reuse approved tools; installing publishers, linters, or CI and choosing
-a new documentation root need explicit scope, not an incidental docs task.
+reader permissions. Use existing approved tools and generator/source/output mappings, including
+inspection of incidental outputs. All openspec/specs/** content stays read-only through
+planning and Apply; no generator or incidental output may create/edit/remove/rename there.
+Stage protected proposals/mappings inside the change; preparation/checks use the one Apply
+checklist, while actual publication and dependent links require separately authorized
+sync/archive-stage integration in the non-checkbox handoff. Do not introduce tools, CI, services, deployment, or a new documentation
+root merely to pass checks. Task completion does not imply acceptance or release.

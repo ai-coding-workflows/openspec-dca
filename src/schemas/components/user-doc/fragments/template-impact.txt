@@ -2,12 +2,12 @@
 
 <!-- When no reader-facing information changes, give a short reason and omit the table.
 Otherwise keep entries concise; exact paths/sources may be listed below under short labels.
-Capture coverage here; do not copy full page text or design's publication mapping. -->
+Capture coverage here; do not copy full page text or design's maintained-target mapping. -->
 
 | Reader task or visible change | Existing page / gap | Action and reason |
 | --- | --- | --- |
 
-<!-- Actions: add, update, remove, split, or checked reuse. Include settings, permissions,
+<!-- Actions: create, update, remove, rename, split, or checked reuse. Include settings, permissions,
 entry points, results, and relevant error recovery where affected. Reference the governing
 contract or real interface without inventing a spec owner. Identify unknown labels/defaults
 and the writing/checks they block. Maintain only necessary pages; no page-per-requirement rule. -->

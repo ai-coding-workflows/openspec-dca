@@ -1,20 +1,43 @@
-User documentation Apply: read the reader/page assessment and design mappings. Snapshot
-and preserve project-root user-documentation/** (or the explicitly selected existing root)
-and all mapped maintained navigation, image, reference, and publication files. Check additions,
-deletions, renames, regeneration, and pre-existing dirty work, not only tracked edits.
-Being outside openspec/ does not make these mapped destinations ordinary writable files.
+User documentation Apply updates mapped maintained pages in the development checkout.
+Read the reader/page assessment and design mappings. Use project-root user-documentation/
+unless project instructions/design explicitly select an existing root; preserve that choice.
+Before writing, read current destinations, reconcile concurrent edits, and preserve pre-existing
+dirty and unrelated content. Update only explicitly mapped descriptive pages, navigation,
+assets, and approved reference sources in this repository-local checkout alongside code.
+Check additions, deletions, renames, regeneration, and the actual result against required scope,
+not only tracked edits. Change-local drafts are optional; no second editable copy is required.
 
-Write and verify only the selected change's user-documentation drafts. Confirm real entry
-points, roles, configuration names/defaults, and outcomes from authorized sources; surface
-spec/implementation mismatches before documenting an unsupported promise. Preserve exact
+The entire openspec/specs/** tree is read-only during planning and Apply, including specs,
+local architecture, diagrams/assets, models, and indexes: no create/edit/remove/rename,
+including indirect or generated writes. Reference generators and incidental outputs must
+not write there. Prepare/check any protected proposals and source-to-maintained-target
+mappings inside the change in the one Apply checklist; actual publication and dependent
+links stay in the non-checkbox Integration Handoff for separately authorized sync/archive-stage
+integration. Native sync merges only requirement deltas, never local architecture or other
+non-spec documents automatically. Maintained model companions, ADR records/status and
+supersession, and openspec/catalog.json remain protected even outside that tree. In mixed-content
+pages, preserve protected model meaning and decision status; stage necessary revisions in the handoff.
+Defer references requiring absent protected targets to the non-checkbox Integration Handoff;
+do not create placeholders or maintained links to transient change-local drafts. Direct
+writes to shared canonical stores and site deployment are outside this permission.
+
+Write and verify the mapped maintained user documentation. Confirm real entry
+points, roles, exact supported settings/labels and defaults, and outcomes from authorized sources.
+Surface spec/implementation mismatches before documenting an unsupported promise. Preserve exact
 conditions and place safety warnings before consequential actions. Test only approved,
 safe examples with appropriate fixtures, not real credentials or unapproved live writes.
 
-Check proposed pages together with reused baseline pages in a disposable preview where
-possible; account for removals, renames, links, and relative images without editing the
-baseline. Only actual approved checks may run; do not install tools, change CI, start a
-service, or deploy a site merely to make docs checks pass. Record what was read versus run,
-the product/docs snapshot, permissions/environment, results, and remaining limitations in
-verification.md. Missing required checks block the affected work; optional unavailable
+Check updated pages together with reused pages in a disposable preview where possible;
+account for removals, renames, links, and relative images. Generated references may use only
+existing approved generator/source/output mappings; update their approved sources and
+inspect incidental outputs rather than hand-editing derived files or expanding scope.
+Only actual approved checks may run; do not introduce tools, change CI, start a service,
+or deploy a site merely to make docs checks pass. Record what was read versus run,
+the supported product version and product/docs snapshot, permissions/environment, results,
+and remaining limitations in verification.md. Missing required checks block the affected work; optional unavailable
 checks remain visible as not run. A build or test link is not a verified user procedure.
-Leave publication pending in the existing Integration Handoff until separately authorized.
+Task completion is not acceptance, release, or site deployment. The non-checkbox Integration
+Handoff covers remaining protected-tree publication and dependent links as well as separate
+contract/model/ADR/catalog/release work, not ordinary completed documentation edits outside
+the tree. If no separate publication work remains, do not invent Pending; if it remains,
+do not claim none or describe staged local views as delivered or maintained-current.

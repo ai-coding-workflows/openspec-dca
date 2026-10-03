@@ -5,7 +5,7 @@ to `scripts/schema-builder/build.py`; both entry points remain available.
 Run from the repository root:
 
 ```sh
-# All eight component combinations plus the separate legacy schema.
+# All four compositions plus the separate unchanged legacy schema.
 python3 build.py schemas
 
 # One DDD schema without optional components, in a new directory.
@@ -18,12 +18,16 @@ python3 build.py schemas --component arc42 --component user-doc --output build/s
 Each output is a complete native OpenSpec schema directory with `schema.yaml` and
 `templates/` directly in the variant directory. Install one chosen build under
 the name `openspec-ddd` in a project's
-`openspec/schemas/openspec-ddd/`, then merge its configuration and agent guidance
-starters. Support files are templates, not automatically published documentation.
+`openspec/schemas/openspec-ddd/`, then review and merge its generated configuration,
+agent-instruction (for example, AGENTS.md), and README starters into project-owned
+files, preserving customizations. Support files are templates, not automatically
+published documentation.
 
 The default build writes `build/schemas/<variant>/`, plus `index.json`
 and a readable `README.md`. For example, `ddd+arc42+user-doc` contains DDD with
-both documentation components. The native schema name stays `openspec-ddd`.
+both documentation components. The four compositions are `ddd`, `ddd+arc42`,
+`ddd+user-doc`, and `ddd+arc42+user-doc`, plus unchanged `legacy`.
+The native schema name stays `openspec-ddd`.
 Components are discovered from `component.json`; all dependency-valid subsets are
 built once in a deterministic dependency order. Unknown dependencies, cycles, and
 composition conflicts fail the build. Component order does not resolve prose conflicts.
@@ -44,17 +48,16 @@ Canonical sources live in
 [`src/schemas/`](../../src/schemas/):
 
 - `ddd/files/` owns seven native artifacts, DDD ownership/model rules, local
-  architecture, ADR assessments and records, verification, and publication boundaries.
+  descriptive architecture preparation/publication mappings, ADR assessments and records, verification,
+  and protected contract/model/ADR/catalog publication boundaries.
 - `components/arc42/` adds handbook templates, locations, navigation, baseline-view
   guidance, and ADR index conventions.
 - `components/user-doc/` adds guide, tutorial, and troubleshooting templates plus
-  audience, impact, drafting, publication-mapping, and verification guidance.
-- `components/architecture-reconstruction/` adds guidance for a separately provided
-  architecture-only host workflow. It supplies neither that runtime nor a handbook.
-  Select it explicitly when adopting that workflow; arc42 does not require it.
+  audience, impact, optional planning drafts, maintained-page delivery mappings, and
+  verification guidance.
 
-For example, add `--component architecture-reconstruction` to the combined command
-when that separate workflow is available. Every component can also be selected alone.
+Architecture reconstruction remains a separate host workflow, not a schema component
+or a builder selection. Each documentation component can be selected independently.
 DDD remains the foundation; components do not introduce native artifacts or change
 the dependency graph. Artifact readiness, completed tasks, verification, acceptance,
 and publication remain separate.
@@ -74,14 +77,27 @@ artifact's YAML instruction block:
       {{hook:instructions.impact}}
 ```
 
-Components contribute complete blocks to shared hooks. Contributions append in CLI
-selection order; they do not replace base instructions or each other. Unused hooks
-render as empty text. The builder separates blocks with blank lines, removes common
-fragment indentation, and indents every nonblank line to the marker's indentation.
-Relative indentation within a block is preserved. Authors supply ordinary Markdown
-or prose, without YAML embedding indentation or a special framing newline.
+Components contribute complete blocks to shared hooks through the existing manifest
+`contributions` field. Contributions append in CLI selection order; matrix builds use
+stable dependency order. They do not replace base instructions or each other. Ordinary
+prose rendering separates blocks with blank lines, removes common fragment indentation,
+and indents nonblank lines to the marker's indentation, preserving relative indentation.
+Unused hooks disappear. Authors supply ordinary Markdown or prose, without embedding
+indentation or a special framing newline.
 
-There are four hook families, with 18 named hooks across 20 insertion points:
+Operation hooks use a separate safe item renderer: each fragment is one nonempty plain
+prose guidance item (possibly multiline). The builder uses `json.dumps()` to quote the
+entire item as a YAML-compatible string, supplies indentation and the list marker, and
+preserves Unicode through escapes. YAML-looking text remains literal string content,
+not list items, mappings, tags, or new OpenSpec fields. Do not author YAML structure or
+nested hook markers. Ordinary project and artifact prose keeps its ordinary renderer.
+Operation markers are allowed only once each in `templates/config.yaml`, under the
+matching `operations.apply.guidance` or `operations.archive.guidance` at six-space
+indentation. Invalid placement and unknown operation hooks fail before output is written.
+
+There are five hook families, with 22 named hooks across 22 insertion points:
+8 native instructions (seven artifacts plus Apply), 8 templates (seven native plus
+verification), 3 project destinations, 2 operation destinations, and 1 support index.
 
 | Hook | Destination |
 | --- | --- |
@@ -89,12 +105,17 @@ There are four hook families, with 18 named hooks across 20 insertion points:
 | `instructions.apply` | Native Apply instruction body |
 | `template.<artifact>` | Additional sections in each native artifact template |
 | `template.verification` | Additional sections in the verification support template |
-| `project-guidance` | Project README, agent instructions, and configuration context |
+| `project.context` | Configuration context: concise component facts, locations, conventions |
+| `project.agent-instructions` | Agent-instruction starter: component execution and ownership obligations |
+| `project.readme` | OpenSpec README starter: reader-friendly role and lifecycle |
+| `operation.apply` | Configuration Apply guidance: one safely rendered prose item |
+| `operation.archive` | Configuration archive guidance: one safely rendered prose item |
 | `support-index` | Support descriptions and relative links in the template-library README |
 
 Artifact names are `proposal`, `impact`, `domain-model`, `specs`, `design`,
-`architectural-decisions`, and `tasks`. `project-guidance` is deliberately rendered
-in three places, so use self-contained prose and project-relative paths there.
+`architectural-decisions`, and `tasks`. Keep the three project destinations distinct;
+do not repeat full policy in all three. Generic lifecycle and protected-publication
+contracts belong to the DDD base; components add scope-specific reminders and targets.
 `support-index` is the place for Markdown links relative to the generated `templates/`
 directory. Components need only supply hooks relevant to their concern.
 
@@ -107,14 +128,19 @@ Create `components/<name>/component.json` with exactly these fields:
   "contributions": {
     "instructions.impact": "fragments/impact.txt",
     "template.impact": "fragments/impact-section.txt",
-    "project-guidance": "fragments/guidance.txt"
+    "project.context": "fragments/project-context.txt",
+    "project.agent-instructions": "fragments/project-agent-instructions.txt",
+    "project.readme": "fragments/project-readme.txt",
+    "operation.apply": "fragments/operation-apply.txt",
+    "operation.archive": "fragments/operation-archive.txt"
   }
 }
 ```
 
 Put extra output files under `files/`, using output-relative paths, and contribution
-text under `fragments/`. Multiple hooks may reference one fragment when the same
-complete block makes sense at each destination. Adding an ordinary documentation
+text under `fragments/`. Use destination-specific project fragments instead of copying
+the same full policy into context, agent instructions, and README. Operation fragments are plain prose
+items, not preformatted YAML. Adding an ordinary documentation
 component requires no base edits; `user-doc` demonstrates composition with arc42.
 
 Dependencies in `requires` must be selected earlier using repeated `--component`
@@ -127,19 +153,52 @@ without nested hooks or legacy slots.
 Hooks extend prose and templates, not YAML structure. Do not use them to insert
 artifacts or dependencies. A future need for extra native artifacts requires an
 explicit composition design and validation against OpenSpec. Contributions must
-preserve native requirement-delta syntax, task tracking, and the base publication
-boundary. Structural validation does not detect contradictory prose; review combined
-instructions and do not assume component order resolves policy disagreements.
+preserve native requirement-delta syntax and task tracking. Planning stays change-local;
+Apply updates mapped descriptive sources outside `openspec/specs/**`, such as the arc42
+handbook at `openspec/system-architecture/`, project-root user docs, and approved navigation/
+assets, and checks actual maintained targets. The entire `openspec/specs/**` tree remains
+read-only during planning and Apply, including specs, local architecture, diagrams/assets,
+models, and indexes: no create/edit/remove/rename or indirect/generated writes. Prepare and
+check protected local-view proposals and source-to-maintained-target mappings inside the
+change in the one Apply checklist. Their actual publication and dependent links remain in
+the non-checkbox Integration handoff for separately authorized sync/archive-stage integration.
+Companion publication is explicit work, not automatic native sync; native sync merges only
+requirement deltas, never local architecture or other non-spec documents. Do not label staged
+views delivered/maintained-current or claim no pending publication while it remains.
+Maintained model companions, ADR records/status, catalog, shared-store, acceptance, and
+deployment protections continue even outside that tree. Components add descriptive targets,
+not exceptions to these protections or links to drafts/nonexistent protected targets. Structural
+validation does not detect contradictory prose; review combined instructions and do not
+assume component order resolves policy disagreements.
 
 ## Migrating from replacement slots
 
 The old `slots` manifest field and inline `{{slot:...}}` markers are unsupported.
 Keep the base's general DDD text and move component-specific guidance into complete
 blocks at the relevant hooks. Replace word substitutions with explicit component
-locations/conventions under `project-guidance`; describe support files under
-`support-index`. For the former reconstruction guidance bundled with arc42, select
-`architecture-reconstruction` explicitly. Compare generated instructions and merge
-installation changes with project customizations; do not overwrite an installation.
+locations/conventions under `project.context`; describe support files under
+`support-index`. Architecture reconstruction remains a separate host workflow, not
+a selectable package. Compare generated instructions and review/merge installation
+changes with project customizations; do not overwrite an installation.
+
+### Migrating custom project guidance
+
+Repository-owned manifests and base destinations migrate atomically. The old
+`project-guidance` hook has no compatibility alias: unknown-hook failures direct
+custom component authors to `project.context`, `project.agent-instructions`, and
+`project.readme`. Split its substance into concise project facts, execution/ownership
+obligations, and a reader-friendly role/lifecycle explanation respectively. Move
+scoped Apply/check reminders into `operation.apply`; use `operation.archive` for
+maintained-target/link/check confirmation and explicit remaining deferrals/status.
+Keep existing native instruction, template, and support-index contributions.
+
+Use the manifest example above and put one nonempty plain prose item in each operation
+fragment. Do not supply YAML structure, nested hooks, or new native fields; the builder
+owns list markers and string quoting.
+The Python standard-library builder needs no new dependency. Generated config guidance
+is an installation starter: review and merge it, AGENTS/agent instructions, and README
+into existing project-owned files. A rebuild does not rewrite installed customizations
+or authorize documentation publication or deployment.
 
 ## Checks
 
@@ -149,8 +208,9 @@ OPENSPEC_BIN=/path/to/openspec-1.13.1 python3 -m unittest discover -s tests -v
 python3 scripts/md-book/check.py --rendered
 ```
 
-Builder tests cover additive ordering, DDD independence, reconstruction separation,
-indentation, dependencies, malformed contributions, conflicts, and safe output.
+Builder checks cover additive ordering, DDD independence, destination-specific prose,
+safe operation-item rendering, indentation, dependencies, malformed contributions,
+conflicts, and safe output.
 Native tests install components alone and in combination into temporary projects,
 validate schemas/templates, and check the seven-artifact lifecycle and `skip_specs`.
 They inspect contributed native instructions and templates, not only copied files.

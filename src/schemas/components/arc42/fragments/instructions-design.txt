@@ -1,4 +1,12 @@
-arc42 design: map each proposed handbook view to its change-local draft and
-maintained destination under openspec/system-architecture/. Keep owner-local detail
-with its scope under openspec/specs/. Reuse the impact inventory and avoid a second
-handbook. Plan content/link/render checks and review against the implemented design.
+arc42 design: map each affected handbook view to its existing source and inspected basis,
+create/update/remove/rename/reuse action, maintained destination under openspec/system-architecture/,
+and required checks. Link an optional change-local draft only when useful during planning;
+leave maintained destinations unchanged until Apply. Apply delivers these mapped descriptive
+handbook updates outside openspec/specs/** in the development checkout. Keep owner-local
+detail proposals inside the change and map their intended scope under openspec/specs/**;
+that entire tree remains read-only through planning and Apply. Plan preparation/checks in
+the one Apply checklist, with actual publication and publication-dependent links in the
+non-checkbox Integration handoff for separately authorized sync/archive-stage integration.
+Do not present staged views as delivered or maintained-current. Reuse the impact inventory and avoid a second handbook. Plan semantic/content/link/render checks
+against the implemented design. Record index dependencies on unpublished ADRs in the handoff,
+not as broken links or implied decision acceptance.

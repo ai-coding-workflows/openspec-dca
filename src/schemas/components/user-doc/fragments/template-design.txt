@@ -5,21 +5,31 @@ Omit mapping rows when no edits are needed; identify reused pages and any releva
 State the reader, supported product version, page type, and place in the navigation.
 Use concise descriptions; put long paths and evidence below using local labels if useful. -->
 
-| Page or supporting asset | Action / change-local draft | Intended maintained destination |
-| --- | --- | --- |
+| Page or supporting asset / inspected source and basis | Action | Maintained target | Completion checks / optional draft |
+| --- | --- | --- | --- |
 
-<!-- This table and its source notes are the single user-doc publication map. For each
-change, identify the inspected source/basis, relevant conditions, and publication prerequisite.
+<!-- This table and its source notes are the single user-doc maintained-target map. For each
+change, identify the inspected source/basis, create/update/remove/rename/reuse action, relevant
+conditions, and concrete checks. Planning leaves maintained destinations read-only; Apply
+updates mapped descriptive targets outside openspec/specs/** in the development checkout.
+The entire protected tree stays read-only; prepare/check any proposals and mappings inside
+the change in the one Apply checklist, with actual publication and dependent links in the
+non-checkbox handoff for separately authorized sync/archive-stage integration. Draft references are optional,
+not a mandatory second editable copy.
 Sources and maintained destinations are project-relative; drafts are change-relative.
 Default target: user-documentation/ at the project root, not openspec/user-documentation/.
-Default draft location: user-documentation/ inside the selected change. Existing project
-roots require an explicit recorded choice, not a silent migration. Include affected images,
-navigation, generated references, redirects, removals, and renames where needed.
+Optional draft location: user-documentation/ inside the selected change. An existing root
+explicitly selected in project instructions/design wins; do not silently migrate it. Include
+affected images, navigation, generated references, redirects, removals, and renames where needed.
 
 Split by independently useful reader goals or audiences, not a word quota. Preserve safety
 warnings, qualifiers, and incoming links. Use only evidence-backed entry points/examples.
 In Verification Strategy above, plan source/example checks, user-task walkthroughs, and a
-preview of unchanged baseline plus proposed pages, accounting for deleted/renamed content.
+preview of updated maintained and reused pages, accounting for deleted/renamed content.
 Record product version, safe test context, and mandatory versus optional tooling. This is
-planning, not a claim of checks passed or permission to publish. Tasks/Handoff reference
-this map rather than maintain another copy. -->
+planning, not a claim of checks passed or permission to deploy. Use only existing approved
+generator/source/output mappings and inspect incidental outputs. Do not run generators or
+allow incidental outputs that create/edit/remove/rename anything in openspec/specs/**. Defer references requiring
+absent protected spec/model/ADR/catalog targets to separate handoff; no placeholders or
+maintained links to transient drafts. Tasks/verification reference this map rather than
+maintain another copy; handoff references only remaining separate integration/release work. -->

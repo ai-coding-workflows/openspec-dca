@@ -1,7 +1,8 @@
 # {Complete a specific user task}
 
-<!-- Support starter. Write a change-local draft first; never auto-create the maintained
-root page during Apply. Remove these comments and irrelevant headings in the real page. -->
+<!-- Support starter. A change-local planning draft is optional. Apply writes the explicitly
+mapped maintained page in the development checkout, preserving current/unrelated content.
+Remove these comments and irrelevant headings in the real page. -->
 
 {Explain the goal, intended reader, and when this is the right procedure.}
 
@@ -37,6 +38,6 @@ Do not turn an implementation assumption into a retry or recovery guarantee.}
 
 {Only the settings, explanation, or next task this reader actually needs.}
 
-<!-- Internal evidence and draft-to-target mappings belong in design/verification,
+<!-- Internal evidence and maintained-target mappings belong in design/verification,
 not in the published instructions. Verify this procedure in an appropriate safe
 context; a successful Markdown build alone is not that verification. -->

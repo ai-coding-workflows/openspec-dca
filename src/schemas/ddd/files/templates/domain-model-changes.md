@@ -101,10 +101,13 @@ Later destination: `{project-relative maintained file and section, or Pending: r
 Before publication: {Review/approval, concurrent changes, remaining mapping decision}
 
 <!-- This is the exact source-to-target mapping, not an additional task list. The
-Integration handoff in tasks.md references it. Keep maintained models, main specs,
-architecture documentation, ADRs, and catalog read-only during planning/Apply. Reconcile against the
-then-current target before separately authorized publication. Do not create an
-empty target to make a reference look complete or replace newer content with a
+Integration handoff in tasks.md references it. The entire openspec/specs/** tree stays read-only
+during planning/Apply, including descriptive local architecture. Maintained models, ADR records,
+and catalog remain protected wherever located. Prepare/check local-view proposals change-locally;
+publish those mapped companions explicitly during separately authorized sync/archive integration.
+Outside-tree descriptive updates remain Apply work, not permission to revise model meaning.
+Reconcile model proposals against the then-current target before separately authorized publication.
+Do not create an empty target to make a reference look complete or replace newer content with a
 stale full draft. No native automatic model merge is implied. -->
 
 {{hook:template.domain-model}}

@@ -1,0 +1,6 @@
+User documentation lives at user-documentation/ in the project root, outside openspec/,
+unless project instructions explicitly select an existing project-root documentation
+path. Resolve the selected root from the project, not the schema, change, or template
+directory. Optional change-local drafts normally use user-documentation/ inside the
+change. Reader-oriented pages do not mirror spec folders or create native spec owners.
+This component is independent of arc42 and adds no publisher or reconstruction workflow.

@@ -10,14 +10,20 @@ chosen language and explain necessary technical terms before relying on them.
 | Purpose | Location |
 | --- | --- |
 | Installed template library | `openspec/schemas/openspec-ddd/templates/user-documentation/` |
-| Proposed text and supporting assets | `openspec/changes/<change>/user-documentation/` |
+| Optional planning drafts and supporting assets | `openspec/changes/<change>/user-documentation/` |
 | Maintained user documentation | `user-documentation/` at the project root |
 | Maintained system architecture, when arc42 is selected | `openspec/system-architecture/` |
 
-The draft and maintained folder share a name but not a lifecycle. During planning
-and Apply, change-local drafts may be written; the maintained root and mapped assets
-stay unchanged, including newly proposed pages. Use the separately authorized
-Integration Handoff for promotion. A spec sync does not publish user pages.
+Planning stays change-local and read-only at maintained destinations. Drafts are optional
+when useful, not a mandatory second editable copy. Apply updates explicitly mapped descriptive
+maintained pages, navigation, assets, and approved reference sources in the repository-local
+development checkout alongside code, outside openspec/specs/**. That entire tree stays
+read-only during planning and Apply, including local views/assets/indexes: no direct or
+generated create/edit/remove/rename. Prepare/check protected proposals and mappings inside
+the change in the same Apply checklist; actual publication and dependent links require
+separately authorized sync/archive-stage integration in the non-checkbox handoff. A draft alone does not complete a documentation task.
+A spec sync does not publish user pages; direct shared canonical store writes and site
+deployment remain outside this Apply permission.
 
 An existing project-root documentation directory may be retained when explicitly
 chosen in project instructions and design mappings. Do not move it automatically.
@@ -65,24 +71,35 @@ reader need. No renderer is required merely because a template mentions diagrams
 ## Participate in the existing DDD process
 
 Impact owns the reader/page coverage assessment, including reasoned no-change results.
-Design owns the page structure and exact source/draft/destination mapping. Tasks
-contains the one Apply checklist for writing and checking drafts. Verification
-records actual checks and gaps. The non-checkbox Integration Handoff references
-the design mapping; it is not another inventory or an implicit release command.
+Design owns page structure and maps inspected source/basis, create/update/remove/rename/reuse
+action, maintained target, concrete checks, and optional draft references. Tasks contains the
+one Apply checklist; each task names its reader goal, mapped maintained target, and concrete
+completion checks. Verification records actual maintained results, checks, and gaps. The
+non-checkbox Integration Handoff covers protected-tree publication/dependent links and
+remaining separate contract/model/ADR/catalog/release work, not ordinary completed doc edits
+outside the tree; invent no Pending publication when none remains, but do not claim none
+while it remains or label staged local views delivered/maintained-current.
+Main spec.md sync, maintained model companions, ADR records/status/supersession, and
+openspec/catalog.json remain protected/separate. Defer references requiring absent protected
+targets to handoff; create no placeholders or maintained links to transient drafts.
 Model meanings and normative guarantees remain in their existing owning sources.
 Add documentation requirements only for actual changed obligations, not every edit.
 
 Check syntax, links/navigation, exact examples/settings, and important user tasks at
-appropriate levels. Review the combined proposed book or pages, not only isolated
-drafts, accounting for renamed or removed content and unchanged context. Use safe,
+appropriate levels. Review actual updated maintained pages with reused content, not only
+isolated drafts, accounting for additions, renames, removals, and unchanged context. Generated
+references use only existing approved generator/source/output mappings; inspect incidental
+outputs. Forbid reference generators and incidental outputs that write into openspec/specs/**.
+Do not introduce tools, CI, services, or deployment merely to pass checks. Use safe,
 authorized examples without real secrets or unapproved external writes. Record the
 product/docs snapshot, roles, commands or walkthroughs, actual results, and limits.
 A green build does not prove the procedure works. A source test is not a test run.
 
-Before promotion, re-read the current destination, reconcile concurrent changes,
-check availability in the intended product version, and resolve final links and
-navigation. Rendering for review is not deployment. Ready for acceptance, accepted,
-integrated, and published are distinct states.
+Before Apply writes, read the current destination, reconcile concurrent changes, preserve
+pre-existing dirty/unrelated content, and update mapped targets only. Check actual results
+against required scope, availability in the intended product version, and final links and
+navigation. Rendering for review is not deployment. Task completion is not acceptance,
+release, or site deployment; ready for acceptance and accepted are distinct states.
 
 ## Scope of this component
 

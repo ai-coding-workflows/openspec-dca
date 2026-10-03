@@ -1,4 +1,27 @@
-arc42 Apply boundary: snapshot and preserve openspec/system-architecture/**,
-including prior dirty work and additions/deletions/renames. Prepare and verify handbook
-and index changes only inside the selected change. Record checks and pending
-publication in verification.md and the Integration handoff.
+arc42 Apply updates mapped maintained handbook pages in the development checkout.
+Update the affected maintained system architecture under openspec/system-architecture/** during Apply.
+Do not defer ordinary handbook updates to sync/archive.
+This includes mapped pages, editable diagrams/assets, README.md/navigation, and descriptive
+ADR-index links to existing durable records. If impact establishes no relevant change, record
+reviewed reuse instead of cosmetic edits. Read impact/design mappings and current sources before editing.
+Snapshot mapped targets, reconcile overlaps, and preserve unrelated content and prior dirty
+work. Update only affected pages, diagram sources, and navigation; review reused views without
+cosmetic rewrites. Check additions/deletions/renames, durable links, and the actual maintained
+views against the implemented revision. A draft alone does not complete a handbook task.
+
+Keep local technical detail at its responsible scope rather than duplicate definitions or
+normative guarantees. The entire openspec/specs/** tree remains read-only during planning
+and Apply, including descriptive views, diagrams/assets, models, and indexes. Do not create,
+edit, remove, rename, or write there through generators. Prepare and check proposed local
+content and source-to-maintained-target mappings inside the change using the one Apply
+checklist; actual publication stays in the non-checkbox Integration handoff for separately
+authorized sync/archive-stage integration. Link only existing durable views; defer links
+requiring publication until actual targets exist. Staged views are not delivered or
+maintained-current, and pending publication must remain visible. Native requirement sync
+merges only requirement deltas, never local architecture or other non-spec documents.
+Mapped descriptive ADR-index prose/links outside openspec/specs/** may reflect existing
+durable records and their actual status; editing the index does not
+accept, publish, supersede, or change a record. Defer entries needing unpublished records to
+the Integration handoff. Never leave maintained navigation linked to transient change drafts
+or nonexistent protected targets. Record real semantic/link/render checks and limitations in
+verification.md. Handbook source edits are not shared-store publication or site deployment.

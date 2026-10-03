@@ -36,5 +36,10 @@ Do not treat absence of evidence as a documented limitation or available feature
 
 <!-- Repeat only applicable properties. A generated reference must identify its
 editable source and generator in internal mappings; do not hand-edit derived output.
-Generation and preview must not overwrite maintained reference files during Apply.
-Choosing or installing a generator is outside an ordinary docs task unless approved. -->
+Apply may update approved sources and mapped maintained outputs only through existing
+approved generator/source/output mappings; inspect incidental outputs and preserve unrelated
+content. The entire openspec/specs/** tree is read-only during planning and Apply; forbid
+reference generators and incidental outputs that create/edit/remove/rename anything there.
+Stage protected proposals/mappings inside the change; publication and dependent links go to
+the non-checkbox handoff for separately authorized sync/archive-stage integration.
+Do not introduce tools, CI, services, or deployment merely to pass checks. -->

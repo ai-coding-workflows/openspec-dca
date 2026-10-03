@@ -93,9 +93,9 @@ python3 build.py schemas --base --output build/schema-ddd/openspec-ddd
 python3 build.py schemas --component arc42 --component user-doc --output build/schema-docs/openspec-ddd
 ```
 
-The default command builds every valid component combination into
-`build/schemas/<variant>/`, with a generated index and a separate
-`legacy` variant. Repeated builds replace only verified builder-owned output.
+The default command builds four compositions (`ddd`, `ddd+arc42`, `ddd+user-doc`,
+and `ddd+arc42+user-doc`) into `build/schemas/<variant>/`, with a generated index
+and a separate unchanged `legacy` variant. Repeated builds replace only verified builder-owned output.
 Single selections with `--base` or `--component` require a new output directory.
 DDD alone keeps models, local
 architecture, and ADR guidance. `arc42` adds a system handbook; `user-doc` adds
@@ -104,16 +104,36 @@ either component alone or both together. Components share additive instruction a
 template hooks, so user documentation can extend impact, design, tasks, and evidence
 without changing the DDD base or displacing architecture guidance.
 
-Install the chosen output as the project's `openspec/schemas/openspec-ddd/` and merge
-its support guidance. This does not update an existing installation or change the
-five-artifact handbook workflow described above. User-documentation drafts stay inside
-the selected change; design maps them to the project's maintained destinations and
-the Integration handoff tracks separate publication. Spec sync does not publish them.
+Install the chosen output as the project's `openspec/schemas/openspec-ddd/` and review
+and merge its generated config, AGENTS/agent instructions, and README starters into
+project-owned files, preserving customizations. This does not update an existing installation or change the
+five-artifact handbook workflow described above. In the v3 schema, planning leaves maintained
+sources unchanged and may prepare optional descriptive drafts inside the change. Design maps
+the affected architecture/user pages, navigation, and assets to maintained destinations and
+checks. Apply updates mapped descriptive sources outside `openspec/specs/**` alongside
+code: the arc42 handbook at `openspec/system-architecture/`, project-root user docs, and
+approved navigation/assets. Check actual maintained targets, reconcile current sources,
+and preserve unrelated work; a handbook/user-doc draft alone is not delivery.
 
-The optional `architecture-reconstruction` component supplies guidance for the separate
-host workflow described in adoption. Select it explicitly when that workflow is
-available; arc42 alone does not include it. The component does not implement a runtime
-or create additional native artifacts.
+The entire `openspec/specs/**` tree remains read-only during planning and v3 Apply, whether
+content is a spec, descriptive local architecture, diagram/asset, model, or index. This covers
+create/edit/remove/rename and indirect/generated writes, including reference-generator or
+incidental outputs. Prepare and check local-architecture proposals and source-to-maintained-target
+mappings inside the change using the one Apply checklist. Actual publication and dependent
+links stay in the non-checkbox Integration handoff for separately authorized sync/archive-stage
+integration. Companion publication is explicit work, not automatic native sync; native sync
+merges only requirement deltas, never local architecture or other non-spec documents.
+Authorization for native requirement sync alone does not authorize companion publication.
+Do not describe staged views as delivered/maintained-current, claim no pending publication
+while it remains, or link maintained navigation to drafts/nonexistent protected targets.
+Maintained model-companion, ADR-record/status/supersession, catalog, shared-store, acceptance,
+and deployment protections remain in force even outside the tree. Descriptive source edits
+are not acceptance or site deployment. Installing a rebuilt variant does not automatically revise an existing
+project's configuration, agent instructions, or previously completed change tasks.
+
+Architecture reconstruction remains the separate host workflow described in adoption,
+not a schema component or builder selection. Selecting arc42 supplies handbook guidance,
+not a reconstruction runtime.
 
 The root `build.py` dispatches to the existing tools. With no command it builds
 schemas; `docs` builds the handbook, `check` runs tests and source/rendered link
@@ -123,11 +143,37 @@ after `schemas` or `docs` are forwarded, including `docs --docker`. Relative pat
 are resolved from the repository root.
 
 Composition sources live under `src/schemas/`. The builder uses
-Python 3.10+ without extra packages. Components provide whole blocks through artifact
-instruction hooks, template hooks, shared project guidance, and a support index, plus
-component-owned files and explicit dependencies. Single selections append contributions in selected order; the matrix uses a stable
-dependency order and builds each valid subset once. File collisions remain errors.
-The old inline replacement slots are retired.
+Python 3.10+ and its standard library without extra packages. Components use the existing
+manifest `contributions` field for whole blocks through artifact instruction hooks,
+template hooks, destination-specific project guidance, operation guidance, and a support
+index, plus component-owned files and explicit dependencies. Single selections append
+contributions in selected order; the matrix uses stable dependency order and builds each
+valid subset once. File collisions remain errors. The 22 hooks occupy 22 insertion points:
+seven artifact instructions plus Apply, seven native templates plus verification,
+three project destinations, two operations, and one support index.
+
+`project.context` adds concise component facts, locations, and conventions to config
+context; `project.agent-instructions` adds execution/ownership obligations to the agent
+starter; `project.readme` adds a reader-friendly role/lifecycle explanation. Generic
+lifecycle and protected-publication policy stays in the base, not repeated verbatim
+in each component destination. `operation.apply` supplies scoped delivery/check reminders;
+`operation.archive` confirms maintained targets, durable links, checks, and explicit
+remaining deferrals/status. Native sync does not publish documentation.
+
+Ordinary project/artifact hooks render prose with spacing and indentation. Each operation
+fragment instead contains one nonempty plain prose item, possibly multiline: the safe
+renderer quotes it as a YAML string and supplies indentation and the list marker.
+YAML-looking text remains literal prose, not YAML structure. Do not author YAML structure,
+nested hook markers, or new OpenSpec fields; hooks cannot inject arbitrary YAML,
+introduce native artifacts/dependencies, or edit upstream prompts.
+
+The old inline replacement slots and `project-guidance` hook are retired. Repository-owned
+manifests migrate atomically with no compatibility alias. Unknown-hook failures direct
+custom component authors to `project.context`, `project.agent-instructions`, and
+`project.readme`; split existing guidance by destination and add scoped operation items,
+retaining native instruction/template/support-index contributions. See the builder README
+for a concrete manifest example. Generated starters still require reviewed installation
+merges, not automatic replacement of project-owned customizations.
 See the builder README at `scripts/schema-builder/README.md` for authoring and migration instructions. Required
 checks validate components alone and in combination with real OpenSpec, including
 their contributed instructions and the native lifecycle.
@@ -316,11 +362,18 @@ sets `skip_specs: true` in its `.openspec.yaml`; the specs artifact is skipped w
 impact, design, tasks, and verification still describe the actual work. Never use
 this flag to hide a genuine behavior change or leave delta files beside it.
 
-Main specs receive requirement deltas during native sync/archive. The
-`openspec/system-architecture/` handbook, local architecture, scoped
-`architectural-decisions/` records, their handbook index, catalog changes, and other
-non-spec documents remain explicit tasks. Catalog registration of a newly created
-spec owner must be included in the closure review.
+Main specs receive requirement deltas during native sync/archive. The retained legacy
+workflow tracks other architecture/decision/catalog/documentation updates explicitly.
+In v3, mapped handbook/user pages and approved navigation/assets outside `openspec/specs/**`
+are actual maintained-source Apply tasks. Local architecture and all other content inside
+that protected tree remain read-only through planning and Apply: prepare/check proposals and
+mappings inside the change in the one Apply checklist, then publish explicitly only at
+separately authorized sync/archive-stage integration through the non-checkbox handoff.
+Protected model/ADR/catalog publication and dependent links also remain in that handoff,
+even outside the tree. Native sync merges only requirement deltas; neither workflow's spec
+sync automatically publishes companions, local architecture, or other non-spec documents.
+Catalog registration of a newly created spec owner requires its actual main spec and must
+be included in the closure review.
 
 Documentation checks should distinguish source/link/rendering success from semantic
 review of the actual architecture. Record the checked revision and unavailable or

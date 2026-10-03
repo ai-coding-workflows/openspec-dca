@@ -1,4 +1,0 @@
-### Architecture-only reconstruction
-
-This component adds routing and evidence guidance for a separately provided host
-workflow. It supplies no native artifacts, runtime implementation, or handbook layout.

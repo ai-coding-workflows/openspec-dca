@@ -1,5 +1,0 @@
-## arc42 Handbook Evidence
-
-<!-- Record actual checks of relevant staged/reused views and ADR index links against
-the reviewed implementation. Include checked revisions, rendering/link results, gaps,
-and the maintained-path comparison. A rendered page does not prove conformance. -->

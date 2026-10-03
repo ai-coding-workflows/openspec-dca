@@ -18,6 +18,34 @@ DEFAULT_OUTPUT = ROOT / "build/schemas"
 HOOK = re.compile(r"^([ ]*)\{\{hook:([a-z0-9]+(?:[.-][a-z0-9]+)*)\}\}[ ]*(?:\n|$)", re.MULTILINE)
 MARKER = re.compile(r"\{\{/?(?:hook|slot)")
 IDENTIFIER = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
+OPERATION_HOOKS = {"operation.apply": "apply", "operation.archive": "archive"}
+PROJECT_HOOK_MIGRATION = (
+    "Retired extension hook: project-guidance; split contributions into project.context, "
+    "project.agent-instructions, and project.readme (no compatibility alias)."
+)
+
+
+def validate_operation_hook(path, content, match):
+    """Require reserved item hooks at the canonical config guidance-list boundaries.
+
+    This checks our template layout, not arbitrary YAML. Full generated configuration
+    parsing remains an OpenSpec integration check; fragments themselves are always quoted.
+    """
+    hook = match[2]
+    expected = [(0, "operations"), (2, OPERATION_HOOKS[hook]), (4, "guidance")]
+    ancestors = []
+    for line in content[:match.start()].splitlines():
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        indentation = len(line) - len(line.lstrip(" "))
+        while ancestors and ancestors[-1][0] >= indentation:
+            ancestors.pop()
+        mapping = re.fullmatch(r"([a-zA-Z][a-zA-Z0-9_-]*):[ ]*(?:#.*)?", line.strip())
+        if mapping:
+            ancestors.append((indentation, mapping[1]))
+    if path != "templates/config.yaml" or match[1] != "      " or ancestors != expected:
+        raise ValueError(f"Invalid {hook} placement: expected templates/config.yaml "
+                         f"operations.{OPERATION_HOOKS[hook]}.guidance at six-space indentation")
 
 
 def source_path(root, relative):
@@ -66,10 +94,22 @@ def compose(components=(), sources=SOURCES):
     if "schema.yaml" not in files:
         raise ValueError("DDD base has no schema.yaml")
     hooks = set()
+    operation_hooks_seen = set()
     for path, content in files.items():
         if MARKER.search(HOOK.sub("", content)):
             raise ValueError(f"Malformed or inline extension hook: {path}")
-        hooks.update(match[2] for match in HOOK.finditer(content))
+        for match in HOOK.finditer(content):
+            hook = match[2]
+            if hook == "project-guidance":
+                raise ValueError(PROJECT_HOOK_MIGRATION)
+            if hook.startswith("operation."):
+                if hook not in OPERATION_HOOKS:
+                    raise ValueError(f"Unknown operation hook: {hook}")
+                if hook in operation_hooks_seen:
+                    raise ValueError(f"Duplicate operation hook: {hook}")
+                validate_operation_hook(path, content, match)
+                operation_hooks_seen.add(hook)
+            hooks.add(hook)
 
     contributions = {hook: [] for hook in hooks}
     selected = set()
@@ -89,6 +129,8 @@ def compose(components=(), sources=SOURCES):
             if required not in selected:
                 raise ValueError(f"{name} requires an earlier component: {required}")
         for hook, fragment in manifest["contributions"].items():
+            if hook == "project-guidance":
+                raise ValueError(PROJECT_HOOK_MIGRATION)
             if hook not in hooks:
                 raise ValueError(f"Unknown extension hook: {hook}")
             content = source_path(package, fragment).read_text(encoding="utf-8")
@@ -116,6 +158,11 @@ def compose(components=(), sources=SOURCES):
         blocks = contributions[match[2]]
         if not blocks:
             return ""
+        if match[2] in OPERATION_HOOKS:
+            # JSON double-quoted strings are YAML-compatible scalars. Never let a
+            # fragment supply list markers, mappings, tags, anchors, or documents.
+            return "".join(f"{match[1]}- {json.dumps(block)}\n"
+                           for block in blocks)
         content = "\n\n".join(blocks)
         return "\n" + textwrap.indent(content, match[1]) + "\n\n"
 

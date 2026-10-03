@@ -53,10 +53,13 @@ is introduced. Status based on file presence still needs semantic review.
 | [architecture.md](architecture.md) | One local/shared view; eventually an owned view or architecture documentation detail |
 | [verification.md](verification.md) | Actual change evidence in `verification.md`, not a pre-Apply prerequisite |
 
-During native planning/Apply, new or changed model/view/ADR content is prepared
-inside the selected change. Record project-relative maintained destinations and
-change-relative draft sources in the responsible assessment/design. Existing
-baseline documents stay read-only; don't create placeholders to satisfy links.
+During planning, prepare change-local model/view/ADR proposals and exact maintained-target
+mappings in the responsible assessment/design. The entire openspec/specs/** tree remains
+read-only during planning and Apply, including descriptive local views and their assets/indexes.
+Prepare/check those views inside the change and record maintained publication in the handoff
+for separately authorized sync/archive integration. Apply updates mapped descriptive sources
+outside that tree; model companions, ADR records, and catalog remain protected wherever located.
+Do not create placeholders for links or accept decisions through prose.
 
 The singular [architectural-decision.md](architectural-decision.md) is an individual
 record. This directory's [architectural-decisions.md](architectural-decisions.md)
@@ -66,13 +69,17 @@ is the change assessment. Keep records distinct from assessment/index summaries.
 
 Only Apply work appears as tracked checkboxes in tasks.md. A non-checkbox Integration
 handoff in that same file points to publication mappings and their actual status.
-Apply may prepare and verify the handoff, but may not sync, archive, promote records,
-write maintained model/view/spec files, or update the shared architecture documentation/catalog. All
-checked tasks means Apply work is complete, not that the baseline is published.
+Apply updates and verifies mapped descriptive sources outside openspec/specs/**, including
+component-authorized user pages/handbooks, alongside implementation. Optional outside-tree drafts
+alone are not delivery. Apply prepares/checks change-local local-view/model/ADR proposals and their
+handoff; it does not publish protected targets, sync/archive, register catalog entries, write shared
+canonical stores, or deploy a site. All checked tasks means permitted delivery/preparation finished,
+not that protected local views were published, the change accepted, or a site deployed.
 
-Later publication requires explicit authorization, current-baseline reconciliation,
-link/ID checks, and closure evidence. Requirement sync does not merge non-spec
-content. These are agent/review rules, not an enforced path sandbox or a new command.
+Protected companion publication occurs only in separately authorized sync/archive integration,
+with current-baseline reconciliation, durable link/ID checks, and actual closure evidence.
+Native requirement sync does not merge local architecture or other non-spec content; publish mapped
+companions explicitly. These are agent/review rules, not an enforced path sandbox or a new command.
 
 ## Selected component support
 

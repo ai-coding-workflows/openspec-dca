@@ -1,0 +1,23 @@
+For user documentation work, preserve the selected project documentation root and
+review changes to user tasks, entry points, results, permissions, configuration, and
+relevant errors. Optional packaging never waives accepted documentation obligations. Organize pages for readers;
+use understandable terms, exact supported settings and labels, honest versions and
+limitations, and visible unknowns rather than invented facts. Plan inside the change;
+map inspected source/basis, action, maintained target, and concrete checks in design.
+Optional drafts require no second editable copy. The one Apply checklist names reader
+goals, targets, and completion checks. Read current destinations and reconcile mapped
+pages, navigation, assets, and approved reference sources in the development checkout,
+preserving dirty/unrelated work and checking additions, deletions, and renames. Use only
+existing approved generator/source/output mappings and inspect incidental outputs;
+introduce no tools, CI, services, or deployment to pass checks. The entire openspec/specs/**
+tree remains read-only during planning and Apply, including local architecture/assets/indexes:
+no direct or generated create/edit/remove/rename. Do not run reference generators or allow
+incidental outputs that write there; stage proposals/mappings inside the change and keep
+publication-dependent links in the non-checkbox handoff for separately authorized
+sync/archive-stage integration. Use safe examples and distinguish syntax/link success
+from execution of a real procedure. Follow the base
+protected-publication boundaries: defer links needing absent protected targets to the
+Integration handoff, not placeholders or maintained links to transient drafts. Record
+only genuinely remaining separate work, not invented Pending publication for completed
+docs, but never claim none is pending when protected publication or dependent links remain.
+Documentation task completion is not acceptance, release, or deployment.

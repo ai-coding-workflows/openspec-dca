@@ -1,0 +1,5 @@
+The arc42 handbook lives under openspec/system-architecture/; its README.md owns
+system-wide scope and navigation. Local architecture stays with responsible contexts,
+technical capabilities, or system scopes under openspec/specs/. Architecture-only
+scopes need no dummy spec or catalog entry. The handbook's architectural-decisions.md
+indexes scoped durable ADRs, not copied rationale or change-local assessments.

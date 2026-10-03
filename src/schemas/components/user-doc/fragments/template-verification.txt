@@ -4,12 +4,20 @@
 Record the actual checked product and documentation revision, role/environment, commands
 or walkthrough steps, and results in the evidence table above. Include meaningful checks
 of access, configuration examples, expected outcomes, important failures, navigation, and
-staged/reused content. State whether the combined preview and any diagrams were rendered.
+updated maintained/reused content, including approved generated references and incidental outputs.
+State whether the combined preview and any diagrams were rendered. Confirm the entire
+openspec/specs/** tree stayed unchanged, including reference-generator/incidental outputs.
 
 Distinguish source inspection, a passing syntax/build check, and an executed user procedure.
 Missing/partial checks and acceptance of a limitation remain separate facts. Compare all
-mapped maintained targets with their initial state, including new/deleted/renamed files
-and prior dirty edits. Record unresolved gaps and pending publication in the existing
-closure fields; don't fail only because the protected handbook still describes its baseline.
-After separately authorized publication, verify destination links/version and record actual
-publication evidence in the same handoff. Do not create a second acceptance status here. -->
+mapped maintained targets with required scope and their initial state, including additions,
+deletions, renames, concurrent edits, and preservation of pre-existing dirty/unrelated content.
+Record actual maintained results, destination links/version, unresolved gaps, and limitations
+in the existing closure fields; a draft's existence is not task completion. Keep absent
+protected-target references in the non-checkbox Integration Handoff without placeholders
+or maintained links to transient drafts. Handoff covers protected-tree publication/dependent
+links and remaining separate contract/model/ADR/catalog/release work at separately authorized
+sync/archive-stage integration; do not invent Pending publication for completed ordinary doc
+edits outside the tree, or claim none when publication remains pending. Staged protected
+local views are not delivered or maintained-current. Task completion is not acceptance, release, or site deployment. Direct shared canonical
+store writes and deployment are separate. Do not create a second acceptance status here. -->
