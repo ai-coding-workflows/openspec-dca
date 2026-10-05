@@ -9,7 +9,10 @@ Disposition: {Change required / Reuse existing / Not affected}
 <!-- Always produce this assessment, also with skip_specs. For Reuse existing or
 Not affected, a short explanation and actual references are enough; omit unused
 sections. When several scopes differ, assess each and use Change required overall
-if any changes. This assessment is not approval, a code diff, or a new spec owner. -->
+if any changes. This assessment is not approval, a code diff, or a new spec owner. It explains the
+change and its evidence, not the maintained model's narrative. Keep Before/Proposed
+comparisons, inspected sources, approval questions, and publication mapping here;
+a linked model draft explains concepts and relationships without that process history. -->
 
 ## Change overview
 
@@ -57,7 +60,11 @@ consumer, old-data, or migration effects.}
 Define the proposed meaning once, either here or in models/<scope>/model.md.
 Use domain-model.md for a substantial draft and link it instead of repeating its
 full contents. A small overview may summarize, but the detailed section is the
-source for the proposal. A meaningful identity need not be a storage lookup key. -->
+source for the proposal. A meaningful identity need not be a storage lookup key.
+For changed meanings, explain applicable identities, relationships/ownership, values,
+absence/unknown distinctions, valid/invalid combinations, and lifecycle/historical data.
+Use examples or diagrams where they clarify meaning; do not force nonexistent entities,
+fields, IDs, or states. Keep technical representation separate from conceptual meaning. -->
 
 ## Compatibility and limits
 
@@ -98,7 +105,13 @@ details. Do not invent a citation, commit, existing model, or source path. -->
 Current source: {Source reference and known baseline, or Not yet present}
 Change-local content: {Section of this document or exact change-relative draft path}
 Later destination: `{project-relative maintained file and section, or Pending: reason}`
-Before publication: {Review/approval, concurrent changes, remaining mapping decision}
+Before publication: {Review/approval, concurrent changes, remaining mapping decision, and semantic readability check}
+
+<!-- Model readability check: can a product-informed reader explain the concepts and
+interpret a concrete example without change history or implementation? Check applicable
+identity, relationships, values/unknowns, invariant summaries, lifecycle, and examples
+against owning requirements. Preserve exceptions and one authoritative rule source.
+Record the actual review in existing handoff/evidence; heading presence is not a pass. -->
 
 <!-- This is the exact source-to-target mapping, not an additional task list. The
 Integration handoff in tasks.md references it. The entire openspec/specs/** tree stays read-only
@@ -107,6 +120,9 @@ and catalog remain protected wherever located. Prepare/check local-view proposal
 publish those mapped companions explicitly during separately authorized sync/archive integration.
 Outside-tree descriptive updates remain Apply work, not permission to revise model meaning.
 Reconcile model proposals against the then-current target before separately authorized publication.
+Produce one coherent model from reviewed semantic changes, not a wholesale copy of assessment
+prose. Keep task progress, authorization history, comparisons, and publication status in this
+assessment/handoff/evidence; use only concise source references in the model.
 Do not create an empty target to make a reference look complete or replace newer content with a
 stale full draft. No native automatic model merge is implied. -->
 

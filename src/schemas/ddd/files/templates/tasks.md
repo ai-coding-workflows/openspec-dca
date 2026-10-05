@@ -59,7 +59,14 @@ only when that is genuinely true of the change.
 This is a handoff in the single tasks.md, not a second implementation backlog and
 not a new native integration artifact/command. Before separately authorized writes,
 re-read the integration baseline, reconcile overlapping changes and ADR IDs, and
-resolve staged/durable links. Keep publication pending until actually performed.
+resolve staged/durable links. For model publication, turn reviewed semantic changes into
+one coherent model, not a wholesale assessment copy. Check whether a product-informed reader
+can explain its concepts and interpret a concrete example without change history or implementation.
+Review applicable identities, relationships, values/unknowns, invariant summaries, and lifecycle;
+reconcile examples with owning requirements and preserve conditions/exceptions. Keep process
+metadata in assessment/handoff/evidence and record the actual semantic review there. Native
+readiness or headings alone do not prove clarity; reuse/no-change requires no new model.
+Keep publication pending until actually performed.
 Archive only after real acceptance, required checks, and handoff resolution; native
 requirement sync alone does not complete non-spec updates. All Apply tasks checked
 means implementation, permitted outside-tree delivery, and change-local preparation finished,

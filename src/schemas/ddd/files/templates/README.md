@@ -61,6 +61,13 @@ for separately authorized sync/archive integration. Apply updates mapped descrip
 outside that tree; model companions, ADR records, and catalog remain protected wherever located.
 Do not create placeholders for links or accept decisions through prose.
 
+The [model assessment](domain-model-changes.md) records changes, evidence, comparisons,
+and publication mappings. The optional [model](domain-model.md) explains concepts,
+relationships, values/unknowns, invariants, and applicable lifecycle, using examples or
+diagrams where useful. Publish coherent reviewed meaning, not the assessment wholesale.
+A reader should understand the model without change history or implementation; record
+that semantic review in existing handoff/evidence, not as an additional artifact.
+
 The singular [architectural-decision.md](architectural-decision.md) is an individual
 record. This directory's [architectural-decisions.md](architectural-decisions.md)
 is the change assessment. Keep records distinct from assessment/index summaries.

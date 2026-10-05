@@ -5,6 +5,7 @@ services:
     init: true
     working_dir: ${DOCS_BOOK_ROOT:-/book}
     environment:
+      MDBOOK_BUILD__BUILD_DIR: ${MDBOOK_BUILD__BUILD_DIR:?docs.py must set MDBOOK_BUILD__BUILD_DIR}
       PATH: "${DOCS_SVGBOB_BIN:-/usr/local/bin}:/usr/local/bin:/usr/bin:/bin"
     user: "${GUIDE_UID:-1000}:${GUIDE_GID:-1000}"
     volumes:

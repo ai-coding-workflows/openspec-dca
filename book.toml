@@ -11,7 +11,7 @@ extra-watch-dirs = ["examples", "src"]
 
 [output.html]
 additional-css = ["docs/theme/guide.css"]
-additional-js = ["src/addons/mdbook/theme/mermaid.min.js", "src/addons/mdbook/theme/mermaid-init.js"]
+additional-js = ["docs/theme/mermaid.min.js", "docs/theme/mermaid-init.js"]
 
 [output.html.fold]
 enable = true

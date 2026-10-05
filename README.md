@@ -123,9 +123,12 @@ scripts\docs.cmd --docker build
 scripts\docs.cmd --docker serve
 ```
 
-The root `book.toml` remains the default. To select another book, pass a
-repository-relative directory or its `book.toml` path, or define aliases in an
-optional root `docs-books.toml`:
+By default, builds and previews discover root `book.toml` and every root-level
+`*.book.toml` (for example `user.book.toml`), without searching subdirectories.
+Builds process each book; previews serve all books on separate ports and stop them
+together with Ctrl-C. `--port` sets the first book's port; others use available ports.
+To select just one book, pass a repository-relative directory or configuration path,
+or define aliases in an optional root `docs-books.toml`:
 
 ```toml
 [books]
@@ -133,15 +136,21 @@ ar42 = "architecture"
 user = "user-guide/book.toml"
 ```
 
-Each directory contains its own `book.toml`; mdBook requires that filename.
+A directory selection uses its `book.toml`; an explicit file or alias may also
+select `*.book.toml`. Alternate filenames use a temporary symlinked mdBook root,
+without replacing the original configuration; the host must allow symlink creation
+(on Windows, enable Developer Mode or run with suitable privileges).
 The paths above illustrate adopting-project destinations; create the books before
 using these aliases. Mapping values are relative to the mapping file. Direct paths
 are relative to the repository root, including when invoked from another directory.
-Books must be inside the repository and should use distinct build directories.
+Books must be inside the repository. Batch commands reject overlapping build
+paths: use, for example, `build/book` and `build/user` as their respective
+`[build].build-dir` values.
 
 ```sh
 ./scripts/docs.sh --book ar42 build
 ./scripts/docs.sh --book user serve
+./scripts/docs.sh --book user.book.toml build
 ./scripts/docs.sh --docker --book architecture/book.toml build
 python3 scripts/md-book/check.py --book ar42 --rendered
 ```
@@ -150,7 +159,8 @@ python3 scripts/md-book/check.py --book ar42 --rendered
 `scripts\docs.cmd` and `python3 build.py docs`.
 Use `--map path/to/books.toml` to select a different mapping file. Build, preview,
 svgbob preparation, and the single-file export use the selected book's configuration
-and output paths. The rendered checker accepts the same selection options.
+and output paths. The rendered checker accepts the same selection options, but
+still checks only root `book.toml` by default; use `--book` for each additional book.
 
 When either tool is unavailable on `PATH`, the native mode downloads the latest stable
 mdBook toolchain for the current platform. It supports Linux x86-64/ARM64, macOS Intel

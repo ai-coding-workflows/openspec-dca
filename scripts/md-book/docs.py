@@ -16,7 +16,9 @@ import webbrowser
 from pathlib import Path
 
 from book_paths import read_book_paths
-from book_selection import select_book
+from book_runtime import staged_book
+from book_discovery import discover_books, validate_outputs
+from book_servers import serve_books
 from svgbob import prepare as prepare_svgbob
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -147,26 +149,28 @@ def native_command(action: str, paths, port: int | None, open_browser: bool) -> 
         dict.fromkeys((str(Path(mdbook).parent), str(Path(mermaid).parent)))
     )
     tool_env["PATH"] = tool_dirs + os.pathsep + tool_env.get("PATH", "")
-    svgbob = prepare_svgbob(paths.repository / "book.toml", paths.output_root / "native-tools")
+    tool_env["MDBOOK_BUILD__BUILD_DIR"] = json.dumps(str(paths.build_dir))
+    svgbob = prepare_svgbob(paths.config_file, paths.output_root / "native-tools")
     if svgbob:
         tool_env["PATH"] = str(svgbob.parent) + os.pathsep + tool_env["PATH"]
 
-    if action == "serve":
-        return serve_process(
-            [mdbook, "serve", "--hostname", "127.0.0.1", "--port", str(port)],
-            cwd=paths.repository,
-            env=tool_env,
-            port=port,
-            open_browser=open_browser,
-        )
+    with staged_book(paths) as runtime:
+        if action == "serve":
+            return serve_process(
+                [mdbook, "serve", "--hostname", "127.0.0.1", "--port", str(port)],
+                cwd=runtime,
+                env=tool_env,
+                port=port,
+                open_browser=open_browser,
+            )
 
-    result = run([mdbook, "build"], cwd=paths.repository, env=tool_env)
-    if result:
-        return result
-    return run(
-        [uv, "run", "--no-cache", "--project", str(EXPORTER_DIR), "python", str(EXPORTER_SCRIPT), str(paths.repository / "book.toml")],
-        cwd=REPOSITORY,
-    )
+        result = run([mdbook, "build"], cwd=runtime, env=tool_env)
+        if result:
+            return result
+        return run(
+            [uv, "run", "--no-cache", "--project", str(EXPORTER_DIR), "python", str(EXPORTER_SCRIPT), str(paths.config_file)],
+            cwd=REPOSITORY,
+        )
 
 
 def docker_command(action: str, paths, port: int | None, open_browser: bool) -> int:
@@ -190,11 +194,10 @@ def docker_command(action: str, paths, port: int | None, open_browser: bool) -> 
 
     paths.build_dir.mkdir(parents=True, exist_ok=True)
     environment = os.environ.copy()
-    book_root = paths.repository.relative_to(REPOSITORY)
-    environment["DOCS_BOOK_ROOT"] = (Path("/book") / book_root).as_posix()
+    environment["MDBOOK_BUILD__BUILD_DIR"] = json.dumps((Path("/book") / build_path).as_posix())
     environment["DOCS_BOOK_BUILD_HOST"] = paths.build_dir.as_posix()
     environment["DOCS_BOOK_BUILD_PATH"] = build_path.as_posix()
-    svgbob = prepare_svgbob(paths.repository / "book.toml", paths.output_root / "native-tools", docker_mode=True)
+    svgbob = prepare_svgbob(paths.config_file, paths.output_root / "native-tools", docker_mode=True)
     if svgbob:
         try:
             tool_path = svgbob.parent.relative_to(REPOSITORY)
@@ -208,60 +211,78 @@ def docker_command(action: str, paths, port: int | None, open_browser: bool) -> 
         environment["GUIDE_GID"] = str(os.getgid())
 
     command = [docker, "compose", "-f", str(COMPOSE_FILE)]
-    result = run([*command, "build", "handbook"], cwd=REPOSITORY, env=environment)
-    if result:
-        return result
-    if action == "serve":
-        return serve_process(
-            [
-                *command,
-                "run",
-                "--rm",
-                "--no-deps",
-                "--service-ports",
-                "handbook",
-                "serve",
-                "--hostname",
-                "0.0.0.0",
-                "--port",
-                "3002",
-            ],
-            cwd=REPOSITORY,
-            env=environment,
-            port=port,
-            open_browser=open_browser,
-        )
+    with staged_book(paths, docker_mode=True) as runtime:
+        book_root = runtime.relative_to(REPOSITORY)
+        environment["DOCS_BOOK_ROOT"] = (Path("/book") / book_root).as_posix()
+        result = run([*command, "build", "handbook"], cwd=REPOSITORY, env=environment)
+        if result:
+            return result
+        if action == "serve":
+            return serve_process(
+                [
+                    *command,
+                    "run",
+                    "--rm",
+                    "--no-deps",
+                    "--service-ports",
+                    "handbook",
+                    "serve",
+                    "--hostname",
+                    "0.0.0.0",
+                    "--port",
+                    "3002",
+                ],
+                cwd=REPOSITORY,
+                env=environment,
+                port=port,
+                open_browser=open_browser,
+            )
 
-    result = run([*command, "run", "--rm", "--no-deps", "handbook", "build"], cwd=REPOSITORY, env=environment)
-    if result:
-        return result
-    return run(
-        [uv, "run", "--no-cache", "--project", str(EXPORTER_DIR), "python", str(EXPORTER_SCRIPT), str(paths.repository / "book.toml")],
-        cwd=REPOSITORY,
-    )
+        result = run([*command, "run", "--rm", "--no-deps", "handbook", "build"], cwd=REPOSITORY, env=environment)
+        if result:
+            return result
+        return run(
+            [uv, "run", "--no-cache", "--project", str(EXPORTER_DIR), "python", str(EXPORTER_SCRIPT), str(paths.config_file)],
+            cwd=REPOSITORY,
+        )
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("-b", "--book", help="book alias from docs-books.toml, directory, or book.toml path")
+    parser.add_argument("-b", "--book", help="select one book alias, directory, book.toml or *.book.toml path")
     parser.add_argument("--map", type=Path, help="book mapping TOML (default: docs-books.toml)")
     parser.add_argument("--docker", action="store_true", help="use the pinned Docker Compose mdBook image")
-    parser.add_argument("--port", type=int, default=0, help="serve port; 0 picks an available port")
+    parser.add_argument("--port", type=int, default=0, help="first serve port; subsequent books use available ports; 0 picks all ports")
     parser.add_argument("--no-open", action="store_true", help="do not open the served site in a browser")
     parser.add_argument("action", nargs="?", choices=("build", "serve"), default="build")
     args = parser.parse_args()
 
     try:
-        paths = read_book_paths(select_book(REPOSITORY, args.book, args.map))
-        port = free_port(args.port) if args.action == "serve" else None
+        configs = discover_books(REPOSITORY, args.book, args.map)
+        books = [read_book_paths(config) for config in configs]
+        validate_outputs(books)
+        ports = []
+        if args.action == "serve":
+            ports.append(free_port(args.port))
+            while len(ports) < len(books):
+                port = free_port(0)
+                if port not in ports:
+                    ports.append(port)
     except (OSError, ValueError, TypeError, RuntimeError) as exc:
         print(f"docs: {exc}", file=sys.stderr)
         return 2
 
     try:
-        if args.docker:
-            return docker_command(args.action, paths, port, not args.no_open)
-        return native_command(args.action, paths, port, not args.no_open)
+        if args.action == "serve" and len(books) > 1:
+            return serve_books(Path(__file__).resolve(), configs, ports,
+                               docker=args.docker, open_browser=not args.no_open)
+        command = docker_command if args.docker else native_command
+        result = 0
+        for paths in books:
+            print(f"Processing {paths.config_file.relative_to(REPOSITORY)}", flush=True)
+            status = command(args.action, paths, ports[0] if ports else None, not args.no_open)
+            result = result or status
+        return result
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
         print(f"docs: {exc}", file=sys.stderr)
         return 1

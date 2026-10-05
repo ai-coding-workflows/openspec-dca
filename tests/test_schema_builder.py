@@ -179,6 +179,94 @@ class SchemaBuilderTests(unittest.TestCase):
                 self.assertIn("Local architecture publication under openspec/specs/**", evidence)
                 self.assertIn("Pending", evidence)
 
+    def test_canonical_model_clarity_preserves_native_lifecycle_in_every_composition(self):
+        artifact_ids = ["proposal", "impact", "domain-model", "specs", "design",
+                        "architectural-decisions", "tasks"]
+        for components in builder.combinations():
+            with self.subTest(components=components):
+                files = builder.compose(components)
+                normalized = {path: " ".join(text.split()) for path, text in files.items()}
+                schema = files["schema.yaml"]
+                self.assertEqual([line.removeprefix("  - id: ") for line in schema.splitlines()
+                                  if line.startswith("  - id: ")], artifact_ids)
+                apply = schema.split("\napply:\n", 1)[1]
+                dependencies = apply.split("requires: [", 1)[1].split("]", 1)[0]
+                self.assertEqual(dependencies.split(", "), artifact_ids)
+                self.assertIn("tracks: tasks.md", apply)
+                model_instruction = " ".join(schema.split("  - id: domain-model\n", 1)[1]
+                                             .split("  - id: specs\n", 1)[0].split())
+                self.assertIn("generates: domain-model-changes.md", model_instruction)
+                self.assertIn("template: domain-model-changes.md", model_instruction)
+                task_instruction = " ".join(schema.split("  - id: tasks\n", 1)[1]
+                                            .split("\napply:\n", 1)[0].split())
+                apply_instruction = " ".join(apply.split())
+                model = normalized["templates/domain-model.md"]
+                assessment = normalized["templates/domain-model-changes.md"]
+                for required in (
+                    "Optional model support template", "NOT the template for the required domain-model artifact",
+                    "No additional native artifact is introduced", "a small model may remain in an identified spec section",
+                    "This model explains what the concepts mean and how they relate",
+                    "rather than inventing an ID", "Distinguish absence, unknown, an explicit clear, and a default",
+                    "Normative obligations and scenarios remain in the owning specs",
+                    "not a second editable rule set", "Do not force a state machine on a static value model",
+                    "Examples demonstrate the definitions and their boundaries",
+                    "they are not new requirements or executed tests", "Reuse/no-change assessments need no new model",
+                    "do not promote assessment prose wholesale", "Native spec sync does not merge models",
+                ):
+                    self.assertIn(required, model)
+                for required in (
+                    "Always produce this assessment, also with skip_specs",
+                    "a short explanation and actual references are enough", "omit unused sections",
+                    "not the maintained model's narrative", "Define the proposed meaning once",
+                    "link it instead of repeating its full contents", "do not force nonexistent entities",
+                    "Changed obligations still need delta specs and removal of skip_specs",
+                    "not a wholesale copy of assessment prose", "stale full draft",
+                ):
+                    self.assertIn(required, assessment)
+                for required in (
+                    "Use the domain-model.md support template only when a substantial draft helps",
+                    "Never maintain two editable copies", "allowed values, absence versus unknown",
+                    "valid/invalid combinations", "Explain non-applicable identity or lifecycle briefly",
+                    "Model drafts must be readable without the change history or implementation",
+                    "Keep normative obligations and scenarios in the owning delta specs",
+                    "not a wholesale copy of assessment prose", "not a new CLI gate, artifact, or approval process",
+                ):
+                    self.assertIn(required, model_instruction)
+                for text in (model, assessment, model_instruction, task_instruction,
+                             apply_instruction, normalized["templates/tasks.md"],
+                             normalized["templates/agent-instructions.md"]):
+                    self.assertIn("product-informed reader", text)
+                    self.assertIn("concrete example", text)
+                    self.assertIn("owning requirements", text)
+                    self.assertIn("handoff/evidence", text)
+                for text, copy_warning in (
+                    (task_instruction, "not assessment prose with publication metadata"),
+                    (apply_instruction, "not a wholesale assessment copy"),
+                    (normalized["templates/tasks.md"], "not a wholesale assessment copy"),
+                ):
+                    self.assertIn("invariant summaries", text)
+                    self.assertIn("lifecycle", text)
+                    self.assertIn("coherent", text)
+                    self.assertIn(copy_warning, text)
+                archive_guidance = " ".join(files["templates/config.yaml"].split("\n  archive:\n", 1)[1].split())
+                for required in ("product-informed reader", "concrete example", "owning requirements",
+                                 "coherent model", "not a wholesale assessment copy",
+                                 "process metadata in assessment/handoff/evidence", "Record actual review",
+                                 "not merely heading presence", "separately authorized sync/archive integration"):
+                    self.assertIn(required, archive_guidance)
+                agent = normalized["templates/agent-instructions.md"]
+                self.assertIn("Assessments carry Before/Proposed comparisons", agent)
+                self.assertIn("Model narratives explain concepts, applicable identities/relationships, values/unknowns", agent)
+                self.assertIn("Do not force a new model, entity, field, state, or extra artifact for reuse/no-change", agent)
+                for path in ("schema.yaml", "templates/config.yaml", "templates/tasks.md",
+                             "templates/agent-instructions.md"):
+                    self.assertIn("The entire openspec/specs/** tree remains read-only during planning and Apply.",
+                                  normalized[path], path)
+                    self.assertIn("maintained model companions, adr records, and openspec/catalog.json",
+                                  normalized[path].lower(), path)
+                self.assertIn("Authorization for native requirement sync alone does not authorize companion publication.",
+                              apply_instruction)
+
     def test_arc42_system_architecture_is_explicit_apply_work(self):
         directive = "Update the affected maintained system architecture under openspec/system-architecture/** during Apply."
         for components in builder.combinations() + [["user-doc", "arc42"]]:
@@ -500,6 +588,14 @@ class BuiltSchemaOpenSpecTests(unittest.TestCase):
                     self.assertNotIn("{{hook:", instructions["instruction"])
                     self.assertIn("The entire openspec/specs/** tree remains read-only during planning and Apply.",
                                   " ".join(instructions["instruction"].split()))
+                    if artifact["id"] == "domain-model":
+                        model_instruction = " ".join(instructions["instruction"].split())
+                        for required in ("a model explains concepts and how they relate",
+                                         "allowed values, absence versus unknown",
+                                         "Model drafts must be readable without the change history or implementation",
+                                         "product-informed reader", "concrete example", "owning requirements",
+                                         "Record the actual semantic review in the existing handoff/evidence"):
+                            self.assertIn(required, model_instruction)
                     if artifact["id"] == "impact":
                         for component, marker in (("arc42", "arc42"), ("user-doc", "User documentation")):
                             if component in components:
@@ -524,6 +620,10 @@ class BuiltSchemaOpenSpecTests(unittest.TestCase):
                 self.assertIn("Authorization for native requirement sync alone does not authorize companion publication.",
                               instruction)
                 self.assertIn("Do not run sync/archive", instruction)
+                for required in ("authorized publication include semantic review", "product-informed reader",
+                                 "concrete example", "owning requirements", "assessment/process metadata",
+                                 "not a wholesale assessment copy", "Record actual review in existing handoff/evidence"):
+                    self.assertIn(required, instruction)
                 if "arc42" in components:
                     self.assertIn("arc42 Apply updates mapped maintained handbook pages", instruction)
                     self.assertIn("Update the affected maintained system architecture under openspec/system-architecture/** during Apply.",
@@ -534,6 +634,12 @@ class BuiltSchemaOpenSpecTests(unittest.TestCase):
                 self.assertEqual(ready["state"], "ready")
                 self.assertEqual(ready["progress"], {"total": 1, "complete": 0, "remaining": 1})
                 archive = cli("instructions", "archive", "--change", "docs-only", "--json", as_json=True)
+                archive_guidance = " ".join(" ".join(item.split()) for item in archive["operationGuidance"])
+                for required in ("Before model publication", "product-informed reader", "concrete example",
+                                 "coherent model", "not a wholesale assessment copy",
+                                 "process metadata in assessment/handoff/evidence", "owning requirements",
+                                 "Record actual review", "not merely heading presence"):
+                    self.assertIn(required, archive_guidance)
                 results = {"apply": ready, "archive": archive}
                 if not components:
                     base_guidance = {operation: result["operationGuidance"]

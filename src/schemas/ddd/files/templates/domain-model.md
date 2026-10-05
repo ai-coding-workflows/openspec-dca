@@ -1,58 +1,96 @@
 # {Context or responsible scope}: domain model
 
-Status: {Current or Proposed; choose explicitly}
-Scope: {bounded context or actual semantic responsibility}
-Behavioral contract: {existing owning spec path, when present; otherwise omit}
-Basis: {accepted contract baseline or proposed change; observed sources for reconstruction}
+{Explain the model's purpose and scope in two or three sentences, before any implementation or change history.}
 
-<!-- Optional full-model support template, NOT the template for the domain-model
-artifact. That required assessment uses domain-model-changes.md. Instantiate this
-only when a substantial single model draft helps, referenced from the assessment;
-otherwise describe the focused semantic change there. During native planning/Apply,
-write a draft inside the change, not to the maintained model. A small existing model
-may remain in a clearly identified spec section. No automatic template/spec/model sync
-is implied. In reconstruction without contracts, cite observations and existing sources;
-do not fabricate specs, needs, business goals, acceptance, or new normative rules. -->
+<!-- Optional model support template, NOT the template for the required domain-model
+artifact. That assessment uses domain-model-changes.md. Use this template only when
+one substantial model draft or maintained companion is useful; a small model may
+remain in an identified spec section. No additional native artifact is introduced.
+During planning/Apply, write a draft inside the change and reference it from the
+assessment; keep maintained targets unchanged. Remove irrelevant headings and all
+authoring comments. Label proposed versus observed/current meaning honestly in drafts.
+Do not force entities, fields, states, or diagrams that do not apply.
 
-<!-- Present one named concept at a time. A small field or relationship table can
-show meaning, identifiers, allowed values, and optional data more clearly than a
-single paragraph. Keep technical mappings separate from domain definitions. In a
-draft describing a change, link the before/after assessment rather than recreate it.
-Unknown old behavior is not absence; newly documented meaning is not necessarily
-new software. Preserve source-based conditions and show unresolved details. -->
+The assessment explains what changes and why, sources, Before/Proposed comparisons,
+compatibility, approval questions, and publication mappings. This model explains what
+the concepts mean and how they relate. Do not copy the assessment or publication log
+into the model. Keep inspected revisions and evidence in short references; task progress,
+authorization history, and publication status belong in the assessment/handoff/evidence.
+Implementation rationale belongs in design/views/ADRs, not conceptual definitions. -->
 
-## Purpose and Vocabulary
+## Concepts and Vocabulary
 
-<!-- Meaning, important terms, value semantics, and scope. Keep each definition in one
-authoritative source and link it. Do not duplicate value lists across model, feature,
-and adapter. A referenced definition can affect obligations, so changes need impact
-review. State contextual differences instead of imposing one global meaning. -->
+{Define each affected concept in ordinary language. Explain the distinctions a reader needs to interpret the model.}
 
-## Identity and Relationships (optional)
+<!-- Define each meaning once. A compact concept table can help, but use focused prose
+for conditions and exceptions rather than wide cells. Use the domain's vocabulary,
+not an inventory of implementation classes, database tables, or mandatory DDD patterns.
+A technical responsibility may have a conceptual model without business entities. -->
 
-<!-- Relevant identities, relationships, and boundaries. Include a model diagram when
-needed, with explicit scope, semantics, and one editable source. Do not require an
-inventory of DDD patterns or mirror implementation classes and database tables. -->
+## Identity and Relationships
 
-## States and Historical Data (optional)
+{Describe applicable identities, relationships, ownership boundaries, and distinctions between similar concepts.}
 
-<!-- Explain meanings and valid historical representations. What may already be stored
-is not necessarily what a new operation is allowed to produce. Do not invent missing
-historical values. Reference normative transition/invariant rules instead of independently
-redefining them in a state diagram. Label any derived table or diagram as a summary. -->
+<!-- Answer how concepts relate and what identifies them. Include relevant cardinality,
+lifetime, or ownership distinctions when established. If identity is not applicable,
+explain that briefly rather than inventing an ID. Use a small diagram only where it
+makes relationships clearer; label its scope and relationship semantics and keep one
+editable source. A diagram or list of type names alone is not a model definition. -->
 
-## Behavioral Rule References
+## Values and Meaning (when relevant)
 
-<!-- Link actual owning requirements and stable IDs if already used. Use exact paths/
-names otherwise. For architecture-only documentation without specs, describe observed
-behavior with evidence and uncertainty, not a new contractual guarantee. -->
+{Explain significant attributes or value concepts, allowed values, and the meaning of optional or unknown information.}
 
-## Open Questions (optional)
+<!-- Use a small field/value table when it clarifies meaning. Distinguish absence,
+unknown, an explicit clear, and a default where the model does; do not equate them
+merely because an implementation uses null. Preserve exact identifiers and supported
+values without inventing fields. Technical serialization/mapping details belong in a
+separate short representation section only when useful, not in place of semantics. -->
 
-<!-- Material semantic questions, assumptions, affected decisions, and blocked work.
-Native changes identify impact first, then specify proposed meaning and affected
-requirements in domain-model-changes.md or this single referenced draft. Changed
-obligations need deltas. tasks.md tracks preparation and a non-checkbox Integration
-handoff. Keep maintained models unchanged during planning/Apply. Publish only with
-separate authorization after current-baseline reconciliation; a stale full model
-must not overwrite another accepted change. Implementation choices belong in design/views/ADRs, not model definitions. -->
+## Invariants and Rule References
+
+{Explain valid and invalid combinations or relationships, with references to their owning requirements or observed sources.}
+
+<!-- Explain enough meaning to interpret a concrete instance. Normative obligations
+and scenarios remain in the owning specs; cite exact paths/names or existing stable IDs,
+not a second editable rule set. Describe derived summaries as such. For architecture-only
+reconstruction without contracts, cite observed behavior and uncertainty instead of
+inventing obligations, goals, acceptance, or missing historical values. -->
+
+## Lifecycle and Historical Data (when relevant)
+
+{Explain meaningful state changes, what survives them, and how existing data differs from what new operations may produce.}
+
+<!-- Explain relevant creation, modification, removal, or read/resume behavior. Do not
+force a state machine on a static value model. A state table or diagram is a summary of
+owning transition/invariant rules, not an independent normative source. Unknown old
+behavior remains unknown; valid stored representations do not automatically authorize
+an equivalent new transition. -->
+
+## Examples (when useful)
+
+{Show a representative instance or composition and explain the resulting identities, relationships, values, or state. Include a contrasting invalid or unknown case when it clarifies a significant distinction.}
+
+<!-- Examples demonstrate the definitions and their boundaries; they are not new
+requirements or executed tests. Prefer concrete, small examples over process narration.
+Check each example against the definitions and owning requirements. -->
+
+## References
+
+{Link the owning contract, relevant ADR/view, and useful source representations. Put inspected revisions or reconstruction evidence here only when needed.}
+
+<!-- In a change-local draft, link the before/after assessment instead of recreating it.
+Keep representation mappings separate from conceptual definitions. Preserve exact paths
+and uncertainty; code existence alone does not establish model completeness or approval.
+Material unresolved semantic questions belong in the assessment with the work they block;
+a model may retain a short linked question where needed to prevent a false definition. -->
+
+<!-- Semantic review before publication: can a product-informed reader explain the
+concepts and interpret a concrete example without reading change history or implementation?
+Check applicable identities, relationships, values/unknowns, invariants, and lifecycle;
+preserve conditions/exceptions and reconcile examples with owning requirements. Heading
+presence or native artifact readiness is not evidence of this review. Reuse/no-change
+assessments need no new model or invented sections. During separately authorized integration,
+merge reviewed meanings into a coherent model against the current baseline; do not promote
+assessment prose wholesale or overwrite newer content with a stale full draft. Native spec
+sync does not merge models, and no automatic template/spec/model sync is implied. -->

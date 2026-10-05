@@ -148,6 +148,19 @@ artifacts:
       change-local draft such as models/<scope>/model.md. Use the domain-model.md support
       template only when a substantial draft helps. Never maintain two editable copies of the
       same proposed definition. Do not mirror every implementation class or DDD pattern.
+      Keep the assessment and the readable model distinct: the assessment explains changes,
+      sources, comparisons, compatibility, approval questions, and publication mappings;
+      a model explains concepts and how they relate. For affected meanings, answer applicable
+      reader questions about identity, relationships/ownership, allowed values, absence versus
+      unknown, valid/invalid combinations, and lifecycle or historical data. Preserve exact
+      conditions and exceptions. Explain non-applicable identity or lifecycle briefly rather
+      than inventing entities, IDs, fields, or states. Use a concrete example or a small
+      relationship diagram when it clarifies a significant distinction; neither is a quota.
+      Keep technical representation separate from conceptual meaning. A type inventory,
+      diagram alone, or process narrative is not a complete model. Model drafts must be readable
+      without the change history or implementation. Keep task progress, authorization history,
+      Before/Proposed comparisons, and publication status in the assessment/handoff/evidence;
+      concise source and revision references may remain at the end of a model.
       Record existing source paths and their inspected revision/content basis, proposed draft
       locations, intended maintained destinations, affected requirements, and consumers. For a
       new source, explicitly record that it does not exist yet; do not create a placeholder.
@@ -164,7 +177,14 @@ artifacts:
       Maintained model files also remain protected wherever located. Prepare change-local
       publication inputs, not publication. Before separately authorized sync/archive integration, compare
       against the then-current baseline and reconcile overlaps; never overwrite a newer model
-      with a stale full draft. No generic optional/conditional schema field is assumed here.
+      with a stale full draft. At authorized publication, produce a coherent model from the
+      reviewed semantic changes, not a wholesale copy of assessment prose. Check that a
+      product-informed reader can explain the concepts and interpret a concrete example
+      without reading change history or implementation; reconcile examples and explanatory
+      invariant summaries with owning requirements without creating a competing rule set.
+      Record the actual semantic review in the existing handoff/evidence. Heading presence
+      or native artifact readiness does not prove model clarity; this is prompt-level review,
+      not a new CLI gate, artifact, or approval process. No generic optional/conditional schema field is assumed here.
       With skip_specs, this assessment is still produced, but no behavior delta is invented.
       {{hook:instructions.domain-model}}
     requires: [impact]
@@ -418,6 +438,13 @@ artifacts:
       companions, register catalog owners only after main specs exist, resolve dependent links, and
       confirm maintained documentation is current before closure. Native requirement sync does not
       publish local architecture or other non-spec documentation.
+      Include model semantic review in preparation and publication checks: a product-informed
+      reader must be able to explain the concepts and interpret a concrete example without
+      change history or implementation. Check applicable identities, relationships, values,
+      unknowns, invariant summaries, and lifecycle against owning requirements. Produce a
+      coherent maintained model, not assessment prose with publication metadata. Record actual
+      review evidence in the existing handoff/evidence; headings alone do not prove clarity.
+      Reuse/no-change outcomes need no new model or extra native artifact.
       There is no new native integration command or automatic publication mechanism in this schema.
       {{hook:instructions.tasks}}
     requires: [design, specs, domain-model, architectural-decisions, impact]
@@ -502,4 +529,11 @@ apply:
     requirement sync alone does not authorize companion publication. Native sync does not merge
     local architecture or other non-spec documents; outside-tree Apply delivery and protected
     companion publication remain explicit, distinct responsibilities.
+    Model preparation and authorized publication include semantic review: can a product-informed
+    reader explain the concepts and interpret a concrete example without change history or
+    implementation? Check applicable identities, relationships, values/unknowns, invariant
+    summaries, and lifecycle; reconcile examples with owning requirements and preserve exceptions.
+    Keep assessment/process metadata out of the model narrative. Produce a coherent maintained
+    model from reviewed changes, not a wholesale assessment copy. Record actual review in existing
+    handoff/evidence; native readiness and heading checks alone do not prove clarity or add a CLI gate.
     {{hook:instructions.apply}}

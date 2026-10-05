@@ -193,9 +193,12 @@ platform limits, and cache details.
 
 ## Select a documentation book
 
-The shared `scripts/docs.sh` and `scripts\docs.cmd` runners use the root
-`book.toml` by default. Pass `--book` with a repository-relative book directory or
-its `book.toml` (`-b` is the short alias), or define a root `docs-books.toml` mapping:
+The shared `scripts/docs.sh` and `scripts\docs.cmd` runners discover root
+`book.toml` plus root-level `*.book.toml` by default, without recursing. Builds
+process every discovered book; previews serve all books on separate ports and stop
+them together with Ctrl-C. `--port` sets the first port; others use available ports.
+Pass `--book` to select just one repository-relative book directory or configuration
+file (`-b` is the short alias), or define a root `docs-books.toml` mapping:
 
 ```toml
 [books]
@@ -203,8 +206,12 @@ ar42 = "architecture"
 user = "user-guide/book.toml"
 ```
 
-These are illustrative destinations for an adopting project. Each selected book
-needs its own configuration named `book.toml` and a distinct output directory.
+These are illustrative destinations for an adopting project. Directory selections
+use `book.toml`; explicit files and aliases can also select `*.book.toml`.
+Alternate configurations use temporary symlinked mdBook roots without replacing
+original files; the host must allow symlink creation (Windows may require Developer
+Mode or elevated privileges). Batch commands require non-overlapping build paths,
+such as `build/book` and `build/user`.
 Alias paths resolve relative to the mapping file; direct paths resolve relative to
 the repository root. Use `--map` to choose another mapping file. Selected books must
 remain inside the repository.
@@ -218,6 +225,8 @@ python3 scripts/md-book/check.py --book ar42 --rendered
 
 Both native and Docker builds, previews, optional svgbob preparation, and exports
 use the selected configuration. These options also pass through `build.py docs`.
+The rendered checker remains single-book: it defaults to root `book.toml`; select
+each additional book explicitly with `--book`.
 
 ## Optional catalog and helper
 

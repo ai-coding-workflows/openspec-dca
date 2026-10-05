@@ -19,6 +19,7 @@ class BookPaths:
     repository: Path
     build_dir: Path
     output_root: Path
+    config_file: Path
 
 
 def read_book_paths(book_toml: Path) -> BookPaths:
@@ -57,4 +58,4 @@ def read_book_paths(book_toml: Path) -> BookPaths:
         output_root = build_dir
     else:
         output_root = build_dir.parent
-    return BookPaths(repository, build_dir, output_root)
+    return BookPaths(repository, build_dir, output_root, book_toml)

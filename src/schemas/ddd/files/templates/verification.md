@@ -32,6 +32,14 @@ behavioral check. Code coverage is supplementary evidence, not a universal thres
 - Impact/deltas agree with ownership and real consumers, including callers outside the catalog.
 - domain-model-changes.md and referenced model drafts agree with the deltas; historical
   semantics and new actions are distinct. Assessment findings are resolved for dependent work.
+- Model clarity: a product-informed reader can explain the concepts and interpret a concrete
+  example without change history or implementation. Review applicable identities, relationships,
+  values/unknowns, invariant summaries, and lifecycle; reconcile examples with owning requirements
+  while preserving conditions/exceptions. Record actual findings and checked model revision,
+  not just headings or files read. Reuse/no-change outcomes need no new model.
+- Published models explain coherent meaning, not copied assessment/process metadata. Keep
+  publication authorization/history in handoff/evidence and concise references in the model;
+  publication remains separately authorized and is not performed by this review.
 - Actual outside-tree documentation and reused views explain the implementation at the checked
   revision, with clear scope/semantics and one maintained source. Optional drafts alone do not
   complete outside-tree delivery. Check change-local local-view/model/ADR proposals against that

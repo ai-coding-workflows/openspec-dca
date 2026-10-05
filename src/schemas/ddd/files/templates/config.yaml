@@ -62,5 +62,6 @@ operations:
     guidance:
       - Require separate authorization, actual acceptance, and the applicable checks before closing the change; Apply completion alone is insufficient.
       - At separately authorized sync/archive integration, reconcile deltas and change-local local-view/model/ADR content against the current baseline, explicitly publish mapped protected companions, and confirm maintained documentation is current without overwriting concurrent accepted changes.
+      - Before model publication, review whether a product-informed reader can explain the concepts and interpret a concrete example without change history or implementation. Produce a coherent model from reviewed semantics, not a wholesale assessment copy; keep process metadata in assessment/handoff/evidence and check examples against owning requirements. Record actual review, not merely heading presence.
       - Resolve remaining handoff work and dependent links/indexes; register catalog entries only after main specs exist. Native requirement sync merges requirement deltas only, not local architecture or other non-spec documents; authorization for sync alone does not authorize companion publication.
       {{hook:operation.archive}}

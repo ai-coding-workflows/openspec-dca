@@ -40,8 +40,9 @@ def select_book(repository: Path, selection: str | None = None,
         target /= "book.toml"
     if not target.is_file():
         raise ValueError(f"Unknown book or missing configuration: {selection!r} ({target})")
-    if target.name != "book.toml":
-        raise ValueError("mdBook requires a config named book.toml; use a separate directory for each book")
+    if target.name != "book.toml" and not target.name.endswith(".book.toml"):
+        raise ValueError("Book configuration must be named book.toml or *.book.toml; "
+                         "rename alternate.toml to alternate.book.toml for runtime staging")
     if not target.is_relative_to(repository):
         raise ValueError("Book configurations must be inside the repository")
     return target

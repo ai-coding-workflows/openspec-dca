@@ -38,6 +38,13 @@ a changed domain meaning. Distinguish domain definitions, external mappings, and
 execution rules while keeping links between them. Show retained meaning and removals
 explicitly; do not invent a model element just to complete a table.
 
+Distinguish the change assessment from a readable model. Assessments carry Before/Proposed
+comparisons, sources, compatibility, approval questions, and publication mappings. Model
+narratives explain concepts, applicable identities/relationships, values/unknowns, invariant
+summaries, and lifecycle, with examples or diagrams where useful. Keep technical representation
+separate and process metadata out of model definitions; concise references may remain. Do not
+force a new model, entity, field, state, or extra artifact for reuse/no-change.
+
 For an unresolved decision, separate the question, observed facts, practical risk,
 options, recommendation, and actual decision status. Describe each option's delivered
 scope, deferred work, costs/risks, and tests under comparable headings. A recommendation
@@ -176,5 +183,12 @@ Authorization for native requirement sync alone does not authorize companion pub
 Native sync does not merge local architecture or other non-spec content. Register catalog
 owners only after main specs exist. Resolve the handoff and required acceptance/checks before archive;
 all_done is neither acceptance nor permission to publish/deploy.
+
+Before model publication, check whether a product-informed reader can explain its concepts
+and interpret a concrete example without reading change history or implementation. Reconcile
+examples and explanatory invariant summaries with owning requirements, preserving conditions
+and exceptions rather than maintaining a competing rule set. Publish a coherent model from
+reviewed changes, not assessment prose wholesale. Record actual semantic review in the existing
+handoff/evidence; native artifact readiness and heading presence do not prove model clarity.
 
 {{hook:project.agent-instructions}}
