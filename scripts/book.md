@@ -216,7 +216,8 @@ explicitly preflight the records with `check.validate_decisions(root, records)`,
 then render their exact original `record.text`. Parsing alone does not validate
 metadata or supersession targets. Grouping, navigation, and stricter project rules
 remain project-owned; the generic builder gains no ADR generation. A general
-optional renderer is distributed as `helpers/adr-preprocessor.py`: explicitly
+optional renderer is distributed by the arc42 schema component as
+`helpers/adr-preprocessor.py`: explicitly
 configure `[preprocessor.adr]` in the selected native book and put `{{#adr-index}}`
 once in a dedicated book chapter. It generates a virtual directory-grouped ADR
 view with stable anchors for HTML and `book-export`, without writing source pages

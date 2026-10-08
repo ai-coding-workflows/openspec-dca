@@ -18,8 +18,9 @@ class HelperDistributionTests(unittest.TestCase):
         for components in ([], ['arc42'], ['user-doc'], ['arc42', 'user-doc']):
             with self.subTest(components=components):
                 files = builder.compose(components)
-                for name in ('ddd.py', 'check.py', 'model.py', 'adr-preprocessor.py', 'project_root.py', 'README.md'):
+                for name in ('ddd.py', 'check.py', 'model.py', 'project_root.py', 'README.md'):
                     self.assertIn('helpers/' + name, files)
+                self.assertEqual('helpers/adr-preprocessor.py' in files, 'arc42' in components)
                 self.assertEqual('helpers/docs-check.py' in files, bool(components))
                 if components:
                     self.assertEqual(files['helpers/README.md'].count('Helper pack: docs'), 1)
@@ -29,7 +30,7 @@ class HelperDistributionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory, tempfile.TemporaryDirectory() as outside:
             root = Path(directory)
             installed = root / 'openspec/schemas/custom-name'
-            builder.build(installed)
+            builder.build(installed, ['arc42'])
             command = [sys.executable, str(installed / 'helpers/adr-preprocessor.py')]
             for renderer, expected in (('html', 0), ('book-export', 0), ('latex', 1)):
                 result = subprocess.run([*command, 'supports', renderer], cwd=outside,

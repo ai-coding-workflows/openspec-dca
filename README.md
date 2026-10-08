@@ -368,12 +368,13 @@ read once with `model.decisions(root)` and explicitly preflight the records with
 Catalog/graph logic stays in `ddd.py`, and `docs-check.py` continues using the
 existing `check_project` API. Stricter project checks and renderer navigation remain
 project-owned. Helpers do not migrate source formats or introduce another lifecycle.
-For a general directory-grouped book view, explicitly enable the distributed
+Compositions selecting arc42 also include an optional renderer. For a general
+directory-grouped book view, explicitly enable the distributed
 `helpers/adr-preprocessor.py` in `[preprocessor.adr]` and place `{{#adr-index}}`
 once in a dedicated book chapter. It generates a virtual index, grouped pages,
 navigation, and stable ID-derived anchors for HTML and native-preprocessed exports.
 It never writes ADRs or replaces the maintained architecture index. Activation and
-resource limitations are documented in the [helper README](src/schemas/ddd/helpers/README.md#optional-mdbook-adr-view).
+resource limitations are documented in the [helper README](src/schemas/components/arc42/helpers/README.md#optional-mdbook-adr-view).
 No arc42-conformance checker, ADR generation, or DDD validation is installed inside
 the generic book builder.
 See the [helper guide](src/schemas/ddd/helpers/README.md) and

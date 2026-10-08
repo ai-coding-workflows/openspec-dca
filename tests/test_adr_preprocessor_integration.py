@@ -4,6 +4,7 @@ Only temporary adopting projects are modified; no generated chapters are written
 into their maintained Markdown tree. No native tooling is downloaded here.
 """
 from html.parser import HTMLParser
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -18,7 +19,10 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILDER = ROOT / 'scripts/md-book-builder'
-HELPERS = ROOT / 'src/schemas/ddd/helpers'
+HELPERS = ROOT / 'src/schemas/components/arc42/helpers'
+spec = importlib.util.spec_from_file_location('adr_integration_builder', ROOT / 'scripts/schema-builder/build.py')
+builder = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(builder)
 CACHED_MDBOOK = (BUILDER / '.cache/native-tools/mdbook/'
                  'x86_64-unknown-linux-musl/v0.5.4/mdbook')
 TEAM = Path('openspec/specs/team/architectural-decisions')
@@ -84,9 +88,7 @@ class AdrPreprocessorIntegrationTests(unittest.TestCase):
 
     def fixture(self, name):
         root = Path(self.temp.name) / name
-        helpers = root / 'openspec/schemas/custom-name/helpers'
-        shutil.copytree(HELPERS, helpers,
-                        ignore=shutil.ignore_patterns('__pycache__', '*.pyc', '*.pyo'))
+        builder.build(root / 'openspec/schemas/custom-name', ['arc42'])
         docs = root / 'docs'
         (docs / 'nested').mkdir(parents=True)
         (docs / 'img').mkdir()

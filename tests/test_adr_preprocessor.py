@@ -9,7 +9,14 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-HELPERS = Path(__file__).resolve().parents[1] / 'src/schemas/ddd/helpers'
+ROOT = Path(__file__).resolve().parents[1]
+_spec = importlib.util.spec_from_file_location('adr_test_builder', ROOT / 'scripts/schema-builder/build.py')
+_builder = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_builder)
+# Exercise the composed layout: arc42 supplies the renderer, DDD its reader/checker.
+_schema = tempfile.TemporaryDirectory()
+_builder.build(Path(_schema.name) / 'schema', ['arc42'])
+HELPERS = Path(_schema.name) / 'schema/helpers'
 SCRIPT = HELPERS / 'adr-preprocessor.py'
 
 

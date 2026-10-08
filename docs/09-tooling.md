@@ -479,7 +479,9 @@ requires explicit project-owned migration, not automatic helper rewriting.
 
 ### Optional generated ADR book view
 
-For a general directory-grouped view, enable the distributed helper explicitly in
+Compositions selecting arc42 include the renderer from
+`src/schemas/components/arc42/helpers/`; DDD-only and user-doc-only compositions do
+not. For a general directory-grouped view, enable the distributed helper explicitly in
 one native book configuration (use the actual installed schema name):
 
 ```toml
@@ -502,7 +504,7 @@ Original ADRs remain the only maintained records; the view writes no source page
 and is not a substitute for the durable architecture index. Local links between
 selected ADRs are rebased to generated pages; other local Markdown links/images must
 refer to existing book-source files. Unsupported outside-book resources fail rather
-than being silently copied. See `src/schemas/ddd/helpers/README.md` for limitations.
+than being silently copied. See `src/schemas/components/arc42/helpers/README.md` for limitations.
 The helper supports HTML and native-preprocessed `book-export` output. It stays in
 the schema helpers; the generic builder contains no ADR generator.
 

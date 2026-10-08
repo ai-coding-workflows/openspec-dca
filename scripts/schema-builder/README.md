@@ -52,13 +52,14 @@ Canonical sources live in
   descriptive architecture preparation/publication mappings, ADR assessments and records, verification,
   and protected contract/model/ADR/catalog publication boundaries.
 - `ddd/helpers/` owns `ddd.py`, `check.py`, the shared canonical ADR reader
-  `model.py`, optional mdBook `adr-preprocessor.py`, and standard-library
+  `model.py` and standard-library
   `project_root.py`. The whole helper directory,
   including `model.py`, is included automatically in every composed v3 output
   under `helpers/`.
 - `helper-packs/docs/` owns the single canonical thin `docs-check.py` orchestrator.
 - `components/arc42/` adds handbook templates, locations, navigation, baseline-view
-  guidance, and ADR index conventions.
+  guidance, and ADR index conventions. Its `helpers/` owns the optional mdBook
+  `adr-preprocessor.py`, distributed only when arc42 is selected.
 - `components/user-doc/` adds guide, tutorial, and troubleshooting templates plus
   audience, impact, optional planning drafts, maintained-page delivery mappings, and
   verification guidance.
@@ -177,11 +178,11 @@ source without validation or rewriting; `check.validate_decisions` is an explici
 preflight for project-owned renderers. Catalog/graph logic remains in `ddd.py`,
 not a second catalog model. See the [helper API](../../src/schemas/ddd/helpers/README.md#shared-adr-reading-api).
 Rebuilding or installing helpers does not migrate an adopted ADR source format.
-The optional `adr-preprocessor.py` generates a directory-grouped book view only
+The arc42 component's optional `adr-preprocessor.py` generates a directory-grouped book view only
 when explicitly configured in `[preprocessor.adr]` and given one `{{#adr-index}}`
 marker. It shares the model and generic validation, supports HTML and `book-export`,
 and leaves maintained records/indexes unchanged. Installation does not activate it.
-See the [ADR view setup](../../src/schemas/ddd/helpers/README.md#optional-mdbook-adr-view).
+See the [ADR view setup](../../src/schemas/components/arc42/helpers/README.md#optional-mdbook-adr-view).
 
 From the adopting project's root:
 
