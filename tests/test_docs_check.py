@@ -189,8 +189,8 @@ class DocsCheckTests(unittest.TestCase):
             self.assertEqual(self.tool.main(['--root', str(self.root), '--openspec']), 9)
         self.assertEqual(run.call_args.args[0], ['/tools/openspec', 'validate', '--all', '--strict', '--no-interactive'])
 
-    def test_legacy_entry_help_has_no_model_import(self):
-        result = subprocess.run([sys.executable, str(ROOT / 'scripts/docs.py'), '--help'], capture_output=True, text=True)
+    def test_canonical_entry_help_has_no_model_import(self):
+        result = subprocess.run([sys.executable, str(SCRIPT), '--help'], capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('--source-only', result.stdout)
 

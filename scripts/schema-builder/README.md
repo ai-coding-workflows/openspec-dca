@@ -169,8 +169,9 @@ and requires a separately installed generic builder via `--builder` or
 `BOOK_BUILDER`. Only conventional `<root>/scripts/md-book-builder/book.py` discovery
 is provided as a convenience; arbitrary builder locations are supported. Generic
 source/include/HTML validation and builds remain in `scripts/md-book-builder/`,
-which contains no DDD validation or ADR generation. `scripts/docs-check.py` forwards
-to the canonical helper-pack orchestrator. Its metadata stage continues to use
+which contains no DDD validation or ADR generation. The canonical orchestrator is
+`src/schemas/helper-packs/docs/docs-check.py`, installed as
+`openspec/schemas/openspec-ddd/helpers/docs-check.py`. Its metadata stage continues to use
 `check.check_project`; it adds no parallel manifest. `model.py` reads canonical ADR
 source without validation or rewriting; `check.validate_decisions` is an explicit
 preflight for project-owned renderers. Catalog/graph logic remains in `ddd.py`,
@@ -268,8 +269,9 @@ Documentation commands use `scripts/md-book-builder/book.py` (also through
 `build.py docs`); see the [book builder guide](../book.md). Root `book-builder.toml`
 selects books and their export/serve settings when present; absent it, the runner
 discovers root `book.toml` and `book.*.toml`. The checker stays single-book with
-root `book.toml` as its default and supports `--config`/`--book`. The old docs
-wrappers and `scripts/md-book/docs.py`/`check.py` remain compatibility forwarders.
+root `book.toml` as its default and supports `--config`/`--book`. It checks sources
+and existing HTML without building or validating DDD metadata; use the docs
+orchestrator for optional metadata checks plus source/build/rendered checks.
 
 Builder checks cover additive ordering, DDD independence, destination-specific prose,
 safe operation-item rendering, indentation, dependencies, malformed contributions,

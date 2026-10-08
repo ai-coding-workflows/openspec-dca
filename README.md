@@ -173,7 +173,7 @@ own ancestors. Resources and caches resolve beside the actual `book.py`:
 ```sh
 python3 /project/tools/documentation/md-book-builder/book.py --root /project build
 BOOK_BUILDER=/project/tools/documentation/md-book-builder/book.py ./scripts/book.sh build
-python3 scripts/docs-check.py --builder tools/documentation/md-book-builder/book.py
+python3 openspec/schemas/openspec-ddd/helpers/docs-check.py --builder tools/documentation/md-book-builder/book.py
 ```
 
 Starters accept `BOOK_BUILDER` as the actual `book.py` path; no fixed `scripts/`
@@ -292,8 +292,7 @@ exports need the native/downloaded toolchain or Docker; only Markdown/Typst
 rendering is standard-library-only.
 
 The same options work through `scripts\book.cmd` and `python3 build.py docs`.
-The canonical CLI is `scripts/md-book-builder/book.py`; `scripts/docs.sh`,
-`scripts/docs.cmd`, and `scripts/md-book/docs.py` remain compatibility forwarders.
+The canonical CLI is `scripts/md-book-builder/book.py`.
 The canonical standalone exporter reads the title, source directory, and output
 path from the supplied configuration:
 
@@ -309,8 +308,7 @@ consumes a captured JSON RenderContext instead. Common CLI captures are normally
 temporary and cleaned up. A relative
 `--template` path resolves against the selected configuration's directory, not the shell's
 working directory. Markdown and Typst source export use only the Python 3.11+
-standard library (Python 3.10 is supported with `tomli`). The old standalone script
-entry point remains compatible; new integrations should use `scripts/md-book-builder/exporter/`.
+standard library (Python 3.10 is supported with `tomli`).
 For PDF, the common CLI automatically installs pinned dependencies on demand:
 
 ```sh
@@ -318,7 +316,7 @@ For PDF, the common CLI automatically installs pinned dependencies on demand:
 ./scripts/book.sh export --format pdf --no-install
 ```
 
-This also applies to `book.py`, `scripts\book.cmd`, and compatible old docs wrappers.
+This also applies to `book.py` and `scripts\book.cmd`.
 PDF exclusively uses a builder-managed environment beneath
 `<builder>/.venv/` beside the actual `book.py`, partitioned by Python interpreter, runtime, and
 requirements. Standard-library `venv` and pip install `typst==0.15.0`, plus
@@ -345,13 +343,14 @@ for templates and supported Markdown details.
 
 ```sh
 python3 scripts/md-book-builder/check.py --rendered  # Existing HTML; no build
-python3 scripts/docs-check.py                       # Optional DDD + sources + build + HTML
-python3 scripts/docs-check.py --source-only --source openspec/specs
+python3 src/schemas/helper-packs/docs/docs-check.py  # Optional DDD + sources + build + HTML
+python3 src/schemas/helper-packs/docs/docs-check.py --source-only --source openspec/specs
 python3 -m unittest discover -s tests -v
 ```
 
-The old `scripts/md-book/check.py` remains a legacy forwarder. The separate
-`scripts/docs.py` forwards to the project-level `docs-check.py`, not the book runner.
+The low-level checker checks sources and existing HTML without building or validating
+DDD metadata. The docs orchestrator checks optional DDD metadata, sources, builds,
+and rendered links; ordinary book operations remain DDD-independent.
 DDD metadata checks live beside `ddd.py` in `src/schemas/ddd/helpers/check.py` and
 work without arc42, a book, or a mandatory catalog. From an adopting project's root,
 run `python3 openspec/schemas/openspec-ddd/helpers/ddd.py check` or
@@ -360,7 +359,8 @@ Both documentation components include the same generic `docs-check.py` from
 `src/schemas/helper-packs/docs/`, copied once when both are selected. It requires
 an independently installed generic book builder, selected through `--builder` or
 `BOOK_BUILDER`; `scripts/md-book-builder/book.py` is only a convenience discovery path.
-`scripts/docs-check.py` is a compatibility forwarder, not a second implementation.
+The canonical source is `src/schemas/helper-packs/docs/docs-check.py`; installed
+projects use `openspec/schemas/openspec-ddd/helpers/docs-check.py`.
 Every composed schema also includes `model.py`, a shared canonical ADR reader
 preserving exact original Markdown in frozen records. Project-owned renderers can
 read once with `model.decisions(root)` and explicitly preflight the records with

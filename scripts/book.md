@@ -33,8 +33,7 @@ python3 build.py docs
 ```
 
 On Windows, use `scripts\book.cmd` with the same options. `build.py docs` forwards
-arguments to the canonical builder. `scripts/docs.sh`, `scripts/docs.cmd`, and
-`scripts/md-book/docs.py` remain compatibility forwarders.
+arguments to the canonical builder.
 
 No fixed `scripts/` layout is required when reusing the bundle. All resources,
 caches, and the PDF environment resolve relative to the actual `book.py` directory.
@@ -154,7 +153,7 @@ python3 scripts/md-book-builder/check.py --config book-builder.toml --book handb
 
 The checker remains single-book and defaults to root `book.toml`; explicitly select
 additional books after building them. It supports `--config` and the compatibility
-`--map` alias. `scripts/md-book/check.py` remains a legacy forwarder. It checks
+`--map` alias. It checks
 configured book sources, local includes (selectors and cycles), and local references.
 `--rendered` checks already built HTML; it does not start a build. Neither mode
 checks external URLs, DDD metadata, or content/code conformance.
@@ -162,11 +161,11 @@ checks external URLs, DDD metadata, or content/code conformance.
 ### Project documentation check
 
 The single thin `docs-check.py` orchestrator lives in
-`src/schemas/helper-packs/docs/`. Both arc42 and user-doc include this generic
+`src/schemas/helper-packs/docs/docs-check.py`. Both arc42 and user-doc include this generic
 helper pack once in their composed schema, not an arc42-conformance checker.
 Installing the chosen schema includes helpers automatically. The historical
 five-artifact legacy schema adds none; its optional DDD helpers may be copied
-separately. `scripts/docs-check.py` is a compatibility forwarder.
+separately.
 
 From an adopting project's root, with the generic builder installed separately:
 
@@ -175,12 +174,12 @@ python3 openspec/schemas/openspec-ddd/helpers/docs-check.py --builder tools/docu
 python3 openspec/schemas/openspec-ddd/helpers/docs-check.py --source-only --source openspec/specs --builder tools/documentation/md-book-builder/book.py
 ```
 
-In this repository, the compatibility entry point also supports:
+In this repository, invoke the canonical source directly:
 
 ```sh
-python3 scripts/docs-check.py
-python3 scripts/docs-check.py --docker --book handbook
-python3 scripts/docs-check.py --openspec
+python3 src/schemas/helper-packs/docs/docs-check.py
+python3 src/schemas/helper-packs/docs/docs-check.py --docker --book handbook
+python3 src/schemas/helper-packs/docs/docs-check.py --openspec
 ```
 
 It checks optional DDD metadata first, then source references, builds selected books
@@ -232,9 +231,8 @@ migration is explicit project work, never an automatic renderer rewrite.
 model is introduced. No check establishes approval, architecture correctness, code
 conformance, delivery acceptance, or external URL availability.
 
-`scripts/docs.py` forwards to this project checker; it is not the same as the legacy
-`scripts/md-book/docs.py` build/serve/export starter. Use `book.sh`/`book.cmd` for
-ordinary book operations.
+Use `scripts/book.sh`, `scripts\book.cmd`, or
+`scripts/md-book-builder/book.py` for ordinary DDD-independent book operations.
 
 `export` runs only exports for all selected books using their configured formats,
 without building or replacing HTML. Both `build` and `export` accept repeated
@@ -296,7 +294,7 @@ without creating a virtual environment.
 
 ### Automatic PDF dependencies
 
-Use the common CLI, shell/Windows starters, or compatible old docs wrappers:
+Use the common CLI or shell/Windows starters:
 
 ```sh
 ./scripts/book.sh export --format pdf
@@ -332,8 +330,6 @@ setup, see the [exporter guide](md-book-builder/exporter/README.md#standalone-pd
 - `md-book-builder/`: canonical CLI, selection, toolchain, checker, and Docker setup.
 - `md-book-builder/exporter/`: standalone exporter, templates, and optional PDF
   requirements; see the [exporter guide](md-book-builder/exporter/README.md).
-- `book-exporter/`: compatibility Python entry points for older standalone invocations.
-- `md-book/`: legacy CLI/checker forwarders.
 
 Optional fenced `bob` diagrams are enabled by `[preprocessor.svgbob]` or the
 per-book `svgbob = true` setting; see

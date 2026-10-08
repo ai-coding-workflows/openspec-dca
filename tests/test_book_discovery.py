@@ -60,12 +60,12 @@ class DiscoveryTests(unittest.TestCase):
         user = self.config('book.user.toml', 'build/user/site')
         with patch.object(runner, 'REPOSITORY', self.root), \
                 patch.object(runner, 'native_command', side_effect=[1, 0]) as command, \
-                patch.object(sys, 'argv', ['docs.py', 'build']):
+                patch.object(sys, 'argv', ['book.py', 'build']):
             self.assertEqual(runner.main(), 1)
             self.assertEqual([c.args[1].config_file for c in command.call_args_list], [primary, user])
         with patch.object(runner, 'REPOSITORY', self.root), \
                 patch.object(runner, 'native_command', return_value=0) as command, \
-                patch.object(sys, 'argv', ['docs.py', '--book', 'book.user.toml', 'build']):
+                patch.object(sys, 'argv', ['book.py', '--book', 'book.user.toml', 'build']):
             self.assertEqual(runner.main(), 0)
             command.assert_called_once()
             self.assertEqual(command.call_args.args[1].config_file, user)
@@ -76,7 +76,7 @@ class DiscoveryTests(unittest.TestCase):
         with patch.object(runner, 'REPOSITORY', self.root), \
                 patch.object(runner, 'free_port', side_effect=[3002, 3002, 4000]), \
                 patch.object(runner, 'serve_books', return_value=130) as serve, \
-                patch.object(sys, 'argv', ['docs.py', '--docker', '--port', '3002', '--no-open', 'serve']):
+                patch.object(sys, 'argv', ['book.py', '--docker', '--port', '3002', '--no-open', 'serve']):
             self.assertEqual(runner.main(), 130)
             self.assertEqual(serve.call_args.args[1:], ([primary, user], [3002, 4000]))
             self.assertEqual(serve.call_args.kwargs, {'docker': True, 'open_browser': False,
@@ -93,7 +93,7 @@ class DiscoveryTests(unittest.TestCase):
                 patch.object(book_servers.urllib.request, 'urlopen', return_value=response), \
                 patch.object(book_servers.time, 'sleep', side_effect=KeyboardInterrupt), \
                 patch.object(book_servers, 'stop_servers') as stop:
-            result = book_servers.serve_books(Path('docs.py'), [Path('book.toml'), Path('book.user.toml')],
+            result = book_servers.serve_books(Path('book.py'), [Path('book.toml'), Path('book.user.toml')],
                                               [3002, 4000], docker=True, open_browser=False)
             self.assertEqual(result, 130)
             self.assertEqual(launch.call_count, 2)
@@ -120,6 +120,6 @@ class DiscoveryTests(unittest.TestCase):
         child.returncode = 7
         with patch.object(book_servers.subprocess, 'Popen', return_value=child), \
                 patch.object(book_servers, 'stop_servers') as stop:
-            self.assertEqual(book_servers.serve_books(Path('docs.py'), [Path('book.toml')],
+            self.assertEqual(book_servers.serve_books(Path('book.py'), [Path('book.toml')],
                                                        [3002], docker=False, open_browser=False), 7)
             stop.assert_called_once_with([child])

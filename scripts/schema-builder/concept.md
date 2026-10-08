@@ -83,8 +83,9 @@ which conflicting policy wins; combined guidance still needs review.
 
 Both documentation components distribute generic `docs-check.py`, not an
 arc42-conformance checker. This single thin orchestrator lives in
-`src/schemas/helper-packs/docs/`; `scripts/docs-check.py` is a compatibility
-forwarder. It uses adjacent `check.py` for optional DDD metadata; `--ddd-helper`
+`src/schemas/helper-packs/docs/docs-check.py`, installed as
+`openspec/schemas/openspec-ddd/helpers/docs-check.py`.
+It uses adjacent `check.py` for optional DDD metadata; `--ddd-helper`
 selects an alternate checker if multiple installed schemas are ambiguous. Generic
 source/include/HTML validation and book building remain in the separately installed
 `md-book-builder`, selected via `--builder` or `BOOK_BUILDER`; conventional

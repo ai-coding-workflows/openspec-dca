@@ -85,8 +85,7 @@ Common exports require mdBook, downloaded/cached when missing in native mode.
 then host exporters render the formats, with PDF in the host managed environment.
 Only the Markdown/Typst rendering stage is standard-library-only.
 
-`scripts/book.sh` and `scripts/book.cmd` forward these options. Old docs wrappers
-and `scripts/md-book/docs.py`/`check.py` remain compatibility forwarders. See the
+`scripts/book.sh` and `scripts/book.cmd` forward these options. See the
 [book builder guide](../../book.md) for selection and serve settings. Direct
 single-book invocation remains available. Unlike integrated `book.py`, standalone
 `export_book.py` accepts only one `--format` (`markdown`, `typst`, or `pdf`) per
@@ -106,8 +105,8 @@ SUMMARY/source/includes path.
 
 Outputs are `<build-dir>/<title>.md`, `.typ`, or `.pdf`. PDF export also writes
 the Typst source beside the PDF. Selecting both Typst and PDF in the integrated
-runner still runs both exports. The old `scripts/book-exporter` Python modules
-remain compatibility aliases; implementation and templates live only here.
+runner still runs both exports. Implementation and templates live in
+`scripts/md-book-builder/exporter/`.
 
 ## Automatic PDF dependencies in the common runner
 
@@ -118,8 +117,8 @@ Recommended commands:
 ./scripts/book.sh export --format pdf --no-install
 ```
 
-The common `book.py` CLI, `book.sh`/`book.cmd`, and compatible old docs wrappers
-exclusively use a builder-managed PDF environment beneath
+The common `book.py` CLI and `book.sh`/`book.cmd` exclusively use a
+builder-managed PDF environment beneath
 `<builder>/.venv/` beside the actual `book.py`, partitioned by Python interpreter, runtime, and
 requirements. Standard-library `venv` and pip install pinned `typst==0.15.0`, plus
 `tomli==2.2.1` on Python <3.11, only on demand. A validated, complete environment
@@ -163,7 +162,7 @@ Typst's package cache is reused later.
 The default template is `scripts/md-book-builder/exporter/templates/default.typ`.
 `templates/modern-guide.typ` adds a designed cover, styled contents page,
 chapter hierarchy, running headers, and page numbers. Both support Mermaid
-and checklists. Templates have moved; none remain under `scripts/book-exporter`.
+and checklists.
 
 Select a custom template using `--template PATH`:
 

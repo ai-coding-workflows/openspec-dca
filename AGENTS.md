@@ -32,5 +32,10 @@ is authoritative when present; otherwise the runner discovers root `book.toml`
 and `book.*.toml`. The checker remains single-book, defaulting to root `book.toml`,
 and supports `--config` and `--book`. Output paths come from each native book
 configuration. Do not edit or commit generated output under those directories.
-The old docs wrappers and `scripts/md-book/docs.py`/`check.py` remain forwarders. Native OpenSpec schema interfaces can change; validate upgrades
+The low-level checker is `scripts/md-book-builder/check.py`; it does not build or
+validate DDD metadata. The docs orchestrator is
+`src/schemas/helper-packs/docs/docs-check.py`, installed as
+`openspec/schemas/openspec-ddd/helpers/docs-check.py`; it coordinates optional DDD
+metadata checks, source checks, builds, and rendered checks.
+Native OpenSpec schema interfaces can change; validate upgrades
 against the real CLI and refresh docs.

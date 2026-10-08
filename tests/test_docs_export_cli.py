@@ -40,7 +40,7 @@ class DocsExportTests(unittest.TestCase):
 
     def invoke(self, *args):
         with patch.object(runner, 'REPOSITORY', self.root), \
-                patch.object(sys, 'argv', ['docs.py', *args]):
+                patch.object(sys, 'argv', ['book.py', *args]):
             return runner.main()
 
     def test_export_selects_alias_and_forwards_format_and_template(self):
@@ -88,23 +88,20 @@ class DocsExportTests(unittest.TestCase):
         scripts = self.root / 'scripts'
         shutil.copytree(ROOT / 'scripts/md-book-builder', scripts / 'md-book-builder',
                         ignore=shutil.ignore_patterns('__pycache__', '.venv', '.cache'))
-        shutil.copytree(ROOT / 'scripts/md-book', scripts / 'md-book',
-                        ignore=shutil.ignore_patterns('__pycache__'))
         shutil.copy2(ROOT / 'scripts/book.sh', scripts / 'book.sh')
-        shutil.copy2(ROOT / 'scripts/docs.sh', scripts / 'docs.sh')
         source = self.root / 'docs'
         source.mkdir()
         (source / 'SUMMARY.md').write_text('- [Intro](intro.md)\n')
         (source / 'intro.md').write_text('# Intro\n\nExported content.\n')
         commands = [[sys.executable, str(scripts / 'md-book-builder/book.py'),
                      '--root', str(self.root), 'export'],
-                    [sys.executable, str(scripts / 'md-book/docs.py'),
+                    [sys.executable, str(scripts / 'md-book-builder/book.py'),
                      '--root', str(self.root), '--book', 'user', 'export']]
         if os.name == 'posix':
             commands.extend([
                 ['/bin/sh', str(scripts / 'book.sh'), '--root', str(self.root),
                  '--book', 'user', 'export', '--format', 'typst'],
-                ['/bin/sh', str(scripts / 'docs.sh'), '--root', str(self.root),
+                ['/bin/sh', str(scripts / 'book.sh'), '--root', str(self.root),
                  '--book', 'user', 'export'],
             ])
         for command in commands:

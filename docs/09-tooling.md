@@ -234,7 +234,7 @@ it, discovery searches the nearest CWD ancestor containing `book-builder.toml` o
 ```sh
 python3 /project/tools/documentation/md-book-builder/book.py --root /project build
 BOOK_BUILDER=/project/tools/documentation/md-book-builder/book.py ./scripts/book.sh build
-python3 scripts/docs-check.py --builder tools/documentation/md-book-builder/book.py
+python3 openspec/schemas/openspec-ddd/helpers/docs-check.py --builder tools/documentation/md-book-builder/book.py
 ```
 
 Starters use `BOOK_BUILDER` as the actual `book.py` path; `docs-check.py --builder`
@@ -296,9 +296,7 @@ python3 scripts/md-book-builder/check.py --config book-builder.toml --book handb
 
 These options pass through `build.py docs`. The checker remains single-book,
 defaulting to root `book.toml`; select additional books explicitly with `--book`.
-It accepts `--config` and the compatibility `--map` alias. The old `scripts/docs.sh`,
-`scripts/docs.cmd`, `scripts/md-book/docs.py`, and `scripts/md-book/check.py` remain
-compatibility forwarders.
+It accepts `--config` and the compatibility `--map` alias.
 
 `build` captures preprocessing separately, builds HTML once per selected book,
 and runs its configured formats in order; `export` captures preprocessing and runs
@@ -341,7 +339,7 @@ For PDF, use automatic dependency setup through the common CLI:
 ./scripts/book.sh export --format pdf --no-install
 ```
 
-`book.py`, `book.sh`/`book.cmd`, and compatible old docs wrappers exclusively use a
+`book.py` and `book.sh`/`book.cmd` exclusively use a
 builder-managed PDF environment beneath `<builder>/.venv/` beside the actual `book.py`,
 partitioned by Python interpreter, runtime, and requirements. On demand,
 standard-library `venv` and pip install pinned `typst==0.15.0`, plus `tomli==2.2.1`
@@ -374,8 +372,7 @@ python3 scripts/md-book-builder/exporter/export_book.py book.toml --format typst
 ```
 
 See the exporter guide at `scripts/md-book-builder/exporter/README.md` for manual
-standalone PDF setup, templates, and details. The old standalone Python exporter
-shims remain supported.
+standalone PDF setup, templates, and details.
 
 ## Optional catalog and helper
 
@@ -510,8 +507,8 @@ The helper supports HTML and native-preprocessed `book-export` output. It stays 
 the schema helpers; the generic builder contains no ADR generator.
 
 Both arc42 and user-doc install generic `helpers/docs-check.py` from the single
-canonical thin orchestrator at `src/schemas/helper-packs/docs/`, not an
-arc42-conformance checker. `scripts/docs-check.py` is a compatibility forwarder.
+canonical thin orchestrator at `src/schemas/helper-packs/docs/docs-check.py`, not an
+arc42-conformance checker.
 The installed orchestrator uses adjacent `check.py` through the existing
 `check_project` API for DDD metadata and delegates
 generic source/include/HTML validation and builds to a separately installed
@@ -533,8 +530,7 @@ folders, rather than fixed arc42/user-doc paths. `--source-only` skips rendering
 metadata and DDD projects without books are supported, with absent stages reported
 as skipped. Install the optional helper when metadata is present, or explicitly
 choose `--skip-ddd`. Ordinary `book.sh`/`book.cmd` operations remain DDD-independent.
-`scripts/docs.py` forwards to this checker, unlike the legacy build starter
-`scripts/md-book/docs.py`. The low-level builder `check.py --rendered` only checks
+The low-level `scripts/md-book-builder/check.py --rendered` only checks
 already built HTML; it does not build or validate DDD metadata. See the
 book builder guide at `scripts/book.md` for commands.
 These checks do not evaluate external URLs, code conformance, architecture

@@ -22,8 +22,8 @@ services:
         target: /book-builder
         read_only: true
       - type: bind
-        source: ${DOCS_BOOK_BUILD_HOST:?docs.py must set DOCS_BOOK_BUILD_HOST}
-        target: /book/${DOCS_BOOK_BUILD_PATH:?docs.py must set DOCS_BOOK_BUILD_PATH}
+        source: ${DOCS_BOOK_BUILD_HOST:?book.py must set DOCS_BOOK_BUILD_HOST}
+        target: /book/${DOCS_BOOK_BUILD_PATH:?book.py must set DOCS_BOOK_BUILD_PATH}
       - type: bind
         source: ${DOCS_EXPORT_HOST:-${DOCS_BOOK_BUILD_HOST:?book.py must set DOCS_BOOK_BUILD_HOST}}
         target: /book-export

@@ -157,7 +157,7 @@ class DocsRunnerTests(unittest.TestCase):
         with patch.object(runner, 'REPOSITORY', self.root), \
                 patch.object(runner, 'native_command', return_value=0) as native:
             for options, expected in (([], self.root), (['--book', 'ar42'], self.book), (['-b', 'ar42'], self.book)):
-                with patch.object(sys, 'argv', ['docs.py', *options, 'build']):
+                with patch.object(sys, 'argv', ['book.py', *options, 'build']):
                     self.assertEqual(runner.main(), 0)
                 self.assertEqual(native.call_args.args[1].repository, expected)
 
