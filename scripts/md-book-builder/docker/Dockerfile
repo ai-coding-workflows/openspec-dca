@@ -1,0 +1,11 @@
+FROM python:3.12-slim-bookworm@sha256:782412e85d0f0984994c290652577d4018aff08145c85b262bb63dc0c7522254
+ARG TARGETARCH
+ARG DOCS_WITH_MERMAID=false
+COPY toolchain.json install-mdbook.py /opt/docs-toolchain/
+RUN python3 /opt/docs-toolchain/install-mdbook.py "$TARGETARCH" \
+    && mdbook --version \
+    && if [ "$DOCS_WITH_MERMAID" = true ]; then mdbook-mermaid --version; fi
+ENV PYTHONDONTWRITEBYTECODE=1
+WORKDIR /book
+ENTRYPOINT ["mdbook"]
+CMD ["build"]

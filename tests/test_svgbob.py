@@ -8,7 +8,7 @@ from pathlib import Path
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'scripts/md-book'))
+sys.path.insert(0, str(ROOT / 'scripts/md-book-builder'))
 
 
 class SvgbobTests(unittest.TestCase):
@@ -115,7 +115,7 @@ class SvgbobTests(unittest.TestCase):
 
     def test_real_preprocessor_renders_bob_fence_when_available(self):
         mdbook = shutil.which('mdbook')
-        cache = ROOT / 'build/native-tools'
+        cache = ROOT / 'scripts/md-book-builder/.cache/native-tools'
         try:
             binary = self.tool.destination(cache, self.tool.host_target()[0])
         except RuntimeError:

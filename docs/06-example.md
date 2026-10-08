@@ -30,14 +30,19 @@ cp -R examples/equipment-lending /tmp/lending-ddd-demo
 python3 build.py
 mkdir -p /tmp/lending-ddd-demo/openspec/schemas
 cp -R build/schemas/legacy /tmp/lending-ddd-demo/openspec/schemas/openspec-ddd
-cp -R src/helpers/ddd /tmp/lending-ddd-demo/openspec/
+# Legacy does not add helpers; this optional copy enables the catalog commands.
+cp -R src/schemas/ddd/helpers /tmp/lending-ddd-demo/openspec/schemas/openspec-ddd/helpers
 cd /tmp/lending-ddd-demo
 openspec schema validate openspec-ddd
 openspec validate --all --strict --no-interactive
 openspec status --change record-return-condition
 openspec instructions apply --change record-return-condition --json
-python3 openspec/ddd/ddd.py impact lending.domain
+python3 openspec/schemas/openspec-ddd/helpers/ddd.py impact lending.domain
 ```
+
+The example retains the historical five-artifact schema; composed v3 installations
+include their helpers automatically and need no separate copy. The optional copy
+above does not change the legacy artifacts or migrate the example.
 
 Expect planning artifacts to be present and **seven tasks remaining**. The integration
 tests additionally demonstrate archive merging on another temporary copy. They test

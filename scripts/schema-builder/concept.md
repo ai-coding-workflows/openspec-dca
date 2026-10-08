@@ -11,16 +11,23 @@ points so each new concern can participate in the existing workflow.
   and the boundaries between planning, implementation, verification, and publication.
 - `components/<name>/component.json` declares a component's description, required
   components, and contributions. `fragments/` holds guidance blocks; `files/` holds
-  additional output files such as support templates.
-- The builder combines these sources into a new directory containing `schema.yaml`
-  and `templates/`. Generated output is an installation artifact; edits belong in
+  additional output files such as support templates. Optional `helpers/` holds
+  component helpers; optional `helper-packs: ["docs"]` selects the shared provider
+  at `src/schemas/helper-packs/docs/`.
+- `ddd/helpers/` owns canonical `ddd.py`, `check.py`, and shared standard-library
+  `project_root.py`; every composed v3 schema includes them automatically.
+- The builder combines these sources into a new directory containing `schema.yaml`,
+  `templates/`, and `helpers/`. Installing the chosen schema needs no second helper
+  copy. Generated output is an installation artifact; edits belong in
   the sources. Updating a customized installation still requires a reviewed merge of
   generated config, AGENTS/agent instructions, and README into project-owned files,
   preserving customizations. Python 3.10+ and its standard library are sufficient.
 
 The matrix contains four compositions: `ddd`, `ddd+arc42`, `ddd+user-doc`, and
 `ddd+arc42+user-doc`, plus unchanged `legacy`. Architecture reconstruction remains
-a separate host workflow, not a schema component or builder selection.
+a separate host workflow, not a schema component or builder selection. Legacy is
+historical five-artifact output with no automatically added helpers; optionally
+copy the canonical DDD helper directory separately for a legacy installation.
 
 ## Shared, additive hooks
 
@@ -67,8 +74,27 @@ new architecture slots or changes to the base artifact graph.
 
 Dependencies must be explicitly selected before their consumers. Shared hooks are
 allowed; overlapping output files, unknown hooks, and invalid source paths are
-errors. Selection order determines presentation, not which conflicting policy wins;
-combined guidance still needs review.
+errors, even when distinct providers supply identical file bytes. A shared helper
+pack is copied once per provider, including when arc42 and user-doc both select
+`docs`. The sole collision exception is `helpers/README.md`: the base README stays
+first, followed by deterministic `Helper pack: docs` and selected `Component: arc42`
+and `Component: user-doc` sections. Selection order determines presentation, not
+which conflicting policy wins; combined guidance still needs review.
+
+Both documentation components distribute generic `docs-check.py`, not an
+arc42-conformance checker. This single thin orchestrator lives in
+`src/schemas/helper-packs/docs/`; `scripts/docs-check.py` is a compatibility
+forwarder. It uses adjacent `check.py` for optional DDD metadata; `--ddd-helper`
+selects an alternate checker if multiple installed schemas are ambiguous. Generic
+source/include/HTML validation and book building remain in the separately installed
+`md-book-builder`, selected via `--builder` or `BOOK_BUILDER`; conventional
+`<root>/scripts/md-book-builder/book.py` is only convenience discovery. The builder
+may live in arbitrary folders and contains no DDD validation.
+
+Installed DDD helpers resolve the project through the nearest `openspec` ancestor
+and its parent using shared `project_root.py`, rather than fixed directory depth.
+Commands and explicit `--root` remain unchanged; the primary installed path is
+`openspec/schemas/openspec-ddd/helpers/`, with `openspec/ddd/` supported as fallback.
 
 Hooks extend prose and templates. They do not add native artifacts, alter their
 dependencies, or replace OpenSpec's generated agent integrations. New artifact

@@ -1,6 +1,7 @@
 {
   "description": "Optional user-documentation guidance and templates for project-root user pages; independent of arc42.",
   "requires": [],
+  "helper-packs": ["docs"],
   "contributions": {
     "project.context": "fragments/project-context.txt",
     "project.agent-instructions": "fragments/project-agent-instructions.txt",

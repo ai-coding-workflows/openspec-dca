@@ -4,10 +4,10 @@ import unittest
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT / "scripts" / "book-exporter"))
+sys.path.insert(0, str(PROJECT_ROOT / "scripts" / "md-book-builder"))
 
-from export_book import ExportError, export_book, export_typst  # noqa: E402
-from markdown_to_typst import MarkdownToTypst  # noqa: E402
+from exporter.export_book import ExportError, export_book, export_typst  # noqa: E402
+from exporter.markdown_to_typst import MarkdownToTypst  # noqa: E402
 
 
 class BookExporterTests(unittest.TestCase):
@@ -138,6 +138,29 @@ class BookExporterTests(unittest.TestCase):
         self.assertIn("#image(", content)
         self.assertEqual(len(assets), 1)
         self.assertEqual(assets[0].read_bytes(), b"image bytes")
+
+    def test_relative_template_is_resolved_from_config_not_nested_source(self):
+        self.book_toml.write_text(
+            '[book]\ntitle="Nested Guide"\nsrc="docs/nested"\n'
+            '[build]\nbuild-dir="generated/book"\n', encoding='utf-8')
+        self.write('docs/nested/SUMMARY.md', '[Intro](intro.md)\n')
+        self.write('docs/nested/intro.md', '# Intro\n\nNested content.\n')
+        self.write('templates/custom.typ', '#let title = {{title}}\n{{content}}\n')
+        output = export_typst(self.book_toml, Path('templates/custom.typ'))
+        self.assertIn('Nested content.', output.read_text(encoding='utf-8'))
+
+    def test_generic_explicit_anchors_in_table_and_list_are_labels(self):
+        markdown = ('# Same\n\n<a id="same"></a> [target](#same)\n\n'
+                    '| Key |\n| --- |\n| <a id=\'cell\'></a>Cell |\n\n'
+                    '- <a id="item"></a>Item\n\n'
+                    '`<a id="literal"></a>`\n\n```html\n<a id="code"></a>\n```\n')
+        result = MarkdownToTypst("test").convert(markdown)
+        self.assertIn('= Same <chapter-test--same>', result)
+        self.assertIn('#link(<chapter-test--same-1>)[target]', result)
+        self.assertIn('[#box(width: 0pt, height: 0pt)[] <chapter-test--cell>Cell]', result)
+        self.assertIn('<chapter-test--item>', result)
+        self.assertNotIn('<chapter-test--literal>', result)
+        self.assertNotIn('<chapter-test--code>', result)
 
     def test_remote_typst_images_are_rejected(self):
         self.write("content/SUMMARY.md", "[Intro](README.md)\n")

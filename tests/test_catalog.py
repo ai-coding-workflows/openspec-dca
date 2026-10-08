@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-MODULE = ROOT / "src/helpers/ddd/ddd.py"
+MODULE = ROOT / "src/schemas/ddd/helpers/ddd.py"
 spec = importlib.util.spec_from_file_location("ddd", MODULE)
 ddd = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ddd)

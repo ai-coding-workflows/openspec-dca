@@ -1,6 +1,7 @@
 {
   "description": "Optional arc42 handbook templates and lifecycle guidance.",
   "requires": [],
+  "helper-packs": ["docs"],
   "contributions": {
     "project.context": "fragments/project-context.txt",
     "project.agent-instructions": "fragments/project-agent-instructions.txt",

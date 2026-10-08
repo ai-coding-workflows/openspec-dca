@@ -1,7 +1,8 @@
 # OpenSpec DDD bundle
 
 Editable sources live here: `schemas/ddd/`, `schemas/components/`,
-`schemas/legacy/`, `helpers/ddd/`, and `addons/mdbook/`.
+`schemas/legacy/`, `schemas/ddd/helpers/`, `schemas/helper-packs/docs/`, and
+`addons/mdbook/`.
 Build and install a selected schema from the repository root:
 
 ```sh
@@ -15,27 +16,44 @@ project's configuration and merge the selected output's `templates/config.yaml`
 and `templates/agent-instructions.md`, preserving existing settings.
 The five-artifact worked example uses `build/schemas/legacy/`.
 
-Copy the optional helper separately:
+Every composed v3 schema includes its `helpers/` directory automatically; do not
+copy helpers a second time. The historical five-artifact `legacy` output adds no
+helpers. If desired, copy the optional canonical helpers separately for legacy:
 
 ```sh
-cp -R src/helpers/ddd /path/to/project/openspec/
+cp -R src/schemas/ddd/helpers /path/to/project/openspec/schemas/openspec-ddd/helpers
 ```
 
-It is only used with an `openspec/catalog.json` catalog. For optional architecture
-publishing, install the separate [mdBook addon](addons/mdbook/README.md).
+The catalog commands use `openspec/catalog.json`; the separate metadata checker
+also works without a catalog. For optional architecture publishing, install the
+separate [mdBook addon](addons/mdbook/README.md).
 
 OpenSpec installs its own agent commands with `openspec init --tools pi` (or another
 supported integration). This bundle does not copy or fork generated commands.
 
-The optional `openspec/ddd/ddd.py` helper reads an `openspec/catalog.json` catalog:
+From the adopting project's root, the installed helper reads an
+`openspec/catalog.json` catalog:
 
 ```sh
-python3 openspec/ddd/ddd.py check
-python3 openspec/ddd/ddd.py context lending.return
-python3 openspec/ddd/ddd.py impact lending.domain
+python3 openspec/schemas/openspec-ddd/helpers/ddd.py check
+python3 openspec/schemas/openspec-ddd/helpers/ddd.py context lending.return
+python3 openspec/schemas/openspec-ddd/helpers/ddd.py impact lending.domain
+python3 openspec/schemas/openspec-ddd/helpers/check.py --root .
 ```
 
-Commands produce JSON and never write files. `context` accepts catalog IDs, spec
+The shared standard-library `project_root.py` resolves the default root from the
+installed helpers' nearest `openspec` ancestor to its project parent, not a fixed
+path depth. Explicit `--root` is supported (`ddd.py --root PATH check`). The older
+`openspec/ddd/` installation remains a supported fallback, not the primary layout.
+
+Both arc42 and user-doc select the shared generic documentation helper pack. Its
+`docs-check.py` uses adjacent `check.py` for DDD metadata and a separately installed
+`md-book-builder/book.py` for generic source/include/HTML checks and builds. Select
+that builder with `--builder` or `BOOK_BUILDER`; it may live in arbitrary folders.
+Use `--ddd-helper` for an alternate metadata checker or ambiguous multi-schema
+installations. No arc42-specific conformance checker is distributed.
+
+`ddd.py` commands produce JSON and never write files. `context` accepts catalog IDs, spec
 files, or spec directories and returns prerequisite owners before consumers.
 `impact` reports transitive consumers to review; it does not add them to change scope.
 Main spec paths must live under `openspec/specs/`. Detailed contract, architecture,

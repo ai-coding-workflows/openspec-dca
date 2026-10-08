@@ -4,6 +4,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 from urllib.parse import unquote, urlsplit
@@ -29,14 +30,17 @@ class Scripts(HTMLParser):
 @unittest.skipUnless(shutil.which("mdbook") and shutil.which("mdbook-mermaid"),
                      "Install mdbook and mdbook-mermaid for addon integration tests")
 class MdBookAddonTests(unittest.TestCase):
-    def test_distributed_template_builds_mermaid_with_local_assets(self):
+    def test_distributed_template_builds_mermaid_with_builder_cached_assets(self):
         with tempfile.TemporaryDirectory() as temporary:
             project = Path(temporary) / "project"
             shutil.copytree(ADDON, project)
             page = project / "openspec/system-architecture/README.md"
             page.write_text(page.read_text() + "\n```mermaid\nflowchart LR\n    Client --> Service\n```\n")
-            result = subprocess.run([shutil.which("mdbook"), "build"], cwd=project,
-                                    text=True, capture_output=True, timeout=30)
+            builder = project / "tools/documentation/md-book-builder"
+            shutil.copytree(ROOT / "scripts/md-book-builder", builder,
+                            ignore=shutil.ignore_patterns(".cache", ".venv", "__pycache__"))
+            result = subprocess.run([sys.executable, str(builder / "book.py"), "--root", str(project), "build"],
+                                    cwd=project, text=True, capture_output=True, timeout=60)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             output = project / "build/book"
             html = (output / "index.html").read_text()
@@ -46,8 +50,10 @@ class MdBookAddonTests(unittest.TestCase):
             self.assertIn("Client", html)
             mermaid_sources = [source for source in parsed.sources if "mermaid" in source]
             self.assertEqual(len(mermaid_sources), 2)
-            expected = [(ADDON / "theme" / name).read_bytes()
+            expected = [next((builder / ".cache/scripts/mermaid").glob("*/" + name)).read_bytes()
                         for name in ("mermaid.min.js", "mermaid-init.js")]
+            self.assertFalse((project / "theme").exists())
+            self.assertIn(".cache/scripts/mermaid/", (project / "book.toml").read_text())
             actual = []
             for source in mermaid_sources:
                 parsed_url = urlsplit(source)
@@ -55,4 +61,4 @@ class MdBookAddonTests(unittest.TestCase):
                 asset = (output / unquote(parsed_url.path)).resolve()
                 self.assertTrue(asset.is_relative_to(output.resolve()), source)
                 actual.append(asset.read_bytes())
-            self.assertEqual(actual, expected, "Browser assets must be packaged intact and in load order")
+            self.assertEqual(actual, expected, "Browser assets must match the selected binary's cache and load order")

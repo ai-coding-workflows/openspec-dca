@@ -1,5 +1,6 @@
 """Book selection and dispatch for both docs starters."""
 
+from contextlib import nullcontext
 import importlib.util
 import json
 import os
@@ -10,11 +11,11 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'scripts/md-book'))
+sys.path.insert(0, str(ROOT / 'scripts/md-book-builder'))
 from book_paths import read_book_paths
 from book_selection import select_book
 
-spec = importlib.util.spec_from_file_location('docs_runner', ROOT / 'scripts/md-book/docs.py')
+spec = importlib.util.spec_from_file_location('docs_runner', ROOT / 'scripts/md-book-builder/book.py')
 runner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(runner)
 
@@ -24,6 +25,9 @@ class DocsRunnerTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name)
+        capture = patch.object(runner, 'capture_book', return_value=nullcontext(self.root / 'capture.json'))
+        capture.start()
+        self.addCleanup(capture.stop)
         self.book = self.root / 'architecture book'
         self.book.mkdir()
         (self.book / 'book.toml').write_text('[book]\nsrc="docs"\n[build]\nbuild-dir="build/site"\n')
@@ -56,7 +60,7 @@ class DocsRunnerTests(unittest.TestCase):
             select_book(self.root, str(alternate))
 
     def alternate_paths(self):
-        config = self.book / 'user.book.toml'
+        config = self.book / 'book.user.toml'
         config.write_text('[book]\nsrc="docs"\n[build]\nbuild-dir="build/user"\n')
         (self.book / 'docs').mkdir(exist_ok=True)
         (self.book / 'docs/chapter.md').write_text('Original chapter')
@@ -65,10 +69,10 @@ class DocsRunnerTests(unittest.TestCase):
     def test_alternate_selection_and_config_identity(self):
         paths = self.alternate_paths()
         mapping = self.root / 'docs-books.toml'
-        mapping.write_text('[books]\nuser="architecture book/user.book.toml"\n')
-        for selection in ('user', 'architecture book/user.book.toml'):
+        mapping.write_text('[books]\nuser="architecture book/book.user.toml"\n')
+        for selection in ('user', 'architecture book/book.user.toml'):
             self.assertEqual(select_book(self.root, selection), paths.config_file)
-        self.assertEqual(paths.config_file, self.book / 'user.book.toml')
+        self.assertEqual(paths.config_file, self.book / 'book.user.toml')
 
     def test_staging_relative_links_and_cleanup(self):
         from book_runtime import staged_book
@@ -79,7 +83,7 @@ class DocsRunnerTests(unittest.TestCase):
                 self.assertEqual(runtime.parent, paths.output_root)
                 self.assertNotEqual(runtime, self.book)
                 self.assertFalse((runtime / 'build').exists())
-                for name in ('book.toml', 'user.book.toml', 'docs'):
+                for name in ('book.toml', 'book.user.toml', 'docs'):
                     link = runtime / name
                     self.assertTrue(link.is_symlink())
                     self.assertFalse(Path(os.readlink(link)).is_absolute())
@@ -166,7 +170,7 @@ class DocsRunnerTests(unittest.TestCase):
             self.assertEqual(runner.native_command('build', paths, None, False), 0)
             self.assertEqual(run.call_args_list[0].kwargs['cwd'], self.book)
             self.assertEqual(run.call_args_list[1].args[0][-1], str(self.book / 'book.toml'))
-            prepare.assert_called_with(self.book / 'book.toml', paths.output_root / 'native-tools')
+            prepare.assert_called_with(self.book / 'book.toml', runner.NATIVE_TOOLS_CACHE)
             self.assertEqual(runner.native_command('serve', paths, 3000, False), 0)
             self.assertEqual(serve.call_args.kwargs['cwd'], self.book)
 

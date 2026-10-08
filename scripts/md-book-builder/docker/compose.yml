@@ -1,0 +1,34 @@
+services:
+  handbook:
+    build:
+      context: .
+      args:
+        DOCS_WITH_MERMAID: ${DOCS_WITH_MERMAID:-false}
+    image: openspec-ddd:mdbook-0.5.4-mermaid-0.17.1
+    init: true
+    working_dir: ${DOCS_BOOK_ROOT:-/book}
+    environment:
+      MDBOOK_BUILD__BUILD_DIR: ${MDBOOK_BUILD__BUILD_DIR:?book.py must set MDBOOK_BUILD__BUILD_DIR}
+      MDBOOK_OUTPUT:
+      PATH: "${DOCS_SVGBOB_BIN:-/usr/local/bin}:/usr/local/bin:/usr/bin:/bin"
+    user: "${GUIDE_UID:-1000}:${GUIDE_GID:-1000}"
+    volumes:
+      - type: bind
+        source: ${DOCS_PROJECT_HOST:?book.py must set DOCS_PROJECT_HOST}
+        target: /book
+        read_only: true
+      - type: bind
+        source: ${DOCS_BUILDER_HOST:?book.py must set DOCS_BUILDER_HOST}
+        target: /book-builder
+        read_only: true
+      - type: bind
+        source: ${DOCS_BOOK_BUILD_HOST:?docs.py must set DOCS_BOOK_BUILD_HOST}
+        target: /book/${DOCS_BOOK_BUILD_PATH:?docs.py must set DOCS_BOOK_BUILD_PATH}
+      - type: bind
+        source: ${DOCS_EXPORT_HOST:-${DOCS_BOOK_BUILD_HOST:?book.py must set DOCS_BOOK_BUILD_HOST}}
+        target: /book-export
+      - type: bind
+        source: ${DOCS_ASSET_HOST:-${DOCS_BOOK_BUILD_HOST:?book.py must set DOCS_BOOK_BUILD_HOST}}
+        target: /book-assets
+    ports:
+      - "127.0.0.1:${DOCS_HOST_PORT:-3002}:3002"

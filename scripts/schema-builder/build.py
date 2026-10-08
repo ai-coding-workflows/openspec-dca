@@ -53,7 +53,13 @@ def source_path(root, relative):
     path = Path(relative)
     if path.is_absolute() or ".." in path.parts:
         raise ValueError(f"Unsafe source path: {relative}")
-    result = (root / path).resolve()
+    unresolved = root / path
+    for candidate in (unresolved, *unresolved.parents):
+        if candidate.is_symlink():
+            raise ValueError(f"Symlink not supported: {candidate}")
+        if candidate == root:
+            break
+    result = unresolved.resolve()
     if not result.is_relative_to(root.resolve()):
         raise ValueError(f"Source escapes package: {relative}")
     if not result.is_file():
@@ -61,18 +67,60 @@ def source_path(root, relative):
     return result
 
 
-def read_files(directory):
+def read_files(directory, *, helper_payload=False, helper_subtrees=False):
+    """Read optional source trees, rejecting symlinks and excluding helper bytecode."""
+    directory = Path(directory)
+    if directory.is_symlink():
+        raise ValueError(f"Symlink not supported: {directory}")
+    if not directory.exists():
+        return {}
+    if not directory.is_dir():
+        raise ValueError(f"Source directory required: {directory}")
     result = {}
-    for path in sorted(directory.rglob("*")):
-        if path.is_symlink():
-            raise ValueError(f"Symlink not supported: {path}")
-        if path.is_file():
-            result[path.relative_to(directory).as_posix()] = path.read_text(encoding="utf-8")
+
+    def visit(parent):
+        for path in sorted(parent.iterdir()):
+            if path.is_symlink():
+                raise ValueError(f"Symlink not supported: {path}")
+            relative = path.relative_to(directory)
+            is_helper = helper_payload or (helper_subtrees and relative.parts[0] == "helpers")
+            if is_helper and (path.name == "__pycache__" or path.suffix in {".pyc", ".pyo"}):
+                continue
+            if path.is_dir():
+                visit(path)
+            elif path.is_file():
+                result[relative.as_posix()] = path.read_text(encoding="utf-8")
+
+    visit(directory)
     return result
 
 
+class HelperMerge:
+    """Only helper providers may append the reserved helper README."""
+
+    def __init__(self, files):
+        self.files = files
+        self.paths = set()
+
+    def add(self, directory, label=None):
+        for relative, content in read_files(directory, helper_payload=True).items():
+            path = "helpers/" + relative
+            if path in self.files and not (relative == "README.md" and path in self.paths):
+                raise ValueError(f"Components conflict on output file: {path}")
+            if relative == "README.md" and label is not None:
+                section = f"## {label}\n\n{content}"
+                if path in self.files:
+                    section = self.files[path].rstrip("\n") + "\n\n" + section
+                self.files[path] = section
+            else:
+                self.files[path] = content
+            self.paths.add(path)
+
+
 def validate_manifest(manifest, name):
-    if not isinstance(manifest, dict) or set(manifest) != {"description", "requires", "contributions"}:
+    required = {"description", "requires", "contributions"}
+    if (not isinstance(manifest, dict) or not required.issubset(manifest)
+            or set(manifest) - required - {"helper-packs"}):
         raise ValueError(f"Invalid manifest fields: {name}")
     if not isinstance(manifest["description"], str) or not manifest["description"].strip():
         raise ValueError(f"Invalid description: {name}")
@@ -81,6 +129,11 @@ def validate_manifest(manifest, name):
             or any(not isinstance(item, str) or not IDENTIFIER.fullmatch(item) for item in requires)
             or len(requires) != len(set(requires))):
         raise ValueError(f"Invalid requires: {name}")
+    packs = manifest.get("helper-packs", [])
+    if (not isinstance(packs, list)
+            or any(not isinstance(item, str) or not IDENTIFIER.fullmatch(item) for item in packs)
+            or len(packs) != len(set(packs))):
+        raise ValueError(f"Invalid helper-packs: {name}")
     contributions = manifest["contributions"]
     if not isinstance(contributions, dict) or any(
             not isinstance(key, str) or not isinstance(value, str) or not value
@@ -90,12 +143,14 @@ def validate_manifest(manifest, name):
 
 def compose(components=(), sources=SOURCES):
     """Append component blocks in explicit order; preserve base text and native graph."""
-    files = read_files(sources / "ddd/files")
+    files = read_files(sources / "ddd/files", helper_subtrees=True)
     if "schema.yaml" not in files:
         raise ValueError("DDD base has no schema.yaml")
     hooks = set()
     operation_hooks_seen = set()
     for path, content in files.items():
+        if path.startswith("helpers/"):
+            continue  # Executable helper data is never an instruction template.
         if MARKER.search(HOOK.sub("", content)):
             raise ValueError(f"Malformed or inline extension hook: {path}")
         for match in HOOK.finditer(content):
@@ -112,6 +167,9 @@ def compose(components=(), sources=SOURCES):
             hooks.add(hook)
 
     contributions = {hook: [] for hook in hooks}
+    helpers = HelperMerge(files)
+    helpers.add(sources / "ddd/helpers")
+    selected_packs = set()
     selected = set()
     for name in components:
         if not isinstance(name, str) or not IDENTIFIER.fullmatch(name):
@@ -128,6 +186,17 @@ def compose(components=(), sources=SOURCES):
         for required in manifest["requires"]:
             if required not in selected:
                 raise ValueError(f"{name} requires an earlier component: {required}")
+        for pack in manifest.get("helper-packs", []):
+            if pack in selected_packs:
+                continue  # Deduplicate explicit provider identities, never matching file contents.
+            provider = sources / "helper-packs" / pack
+            if provider.is_symlink() or provider.parent.is_symlink():
+                raise ValueError(f"Symlink not supported: {provider}")
+            if not provider.is_dir():
+                raise ValueError(f"Unknown helper pack: {pack} (requested by {name})")
+            helpers.add(provider, f"Helper pack: {pack}")
+            selected_packs.add(pack)
+        helpers.add(package / "helpers", f"Component: {name}")
         for hook, fragment in manifest["contributions"].items():
             if hook == "project-guidance":
                 raise ValueError(PROJECT_HOOK_MIGRATION)
@@ -141,10 +210,10 @@ def compose(components=(), sources=SOURCES):
             if not content.strip():
                 raise ValueError(f"Empty contribution: {name}/{fragment}")
             contributions[hook].append(content)
-        for path, content in read_files(package / "files").items():
+        for path, content in read_files(package / "files", helper_subtrees=True).items():
             if path in files:
                 raise ValueError(f"Components conflict on output file: {path}")
-            if MARKER.search(content):
+            if not path.startswith("helpers/") and MARKER.search(content):
                 raise ValueError(f"Component files must be final text: {path}")
             files[path] = content
         selected.add(name)
@@ -166,7 +235,8 @@ def compose(components=(), sources=SOURCES):
         content = "\n\n".join(blocks)
         return "\n" + textwrap.indent(content, match[1]) + "\n\n"
 
-    return {path: HOOK.sub(render, content) for path, content in sorted(files.items())}
+    return {path: content if path.startswith("helpers/") else HOOK.sub(render, content)
+            for path, content in sorted(files.items())}
 
 
 def build(output, components=(), sources=SOURCES):
@@ -188,7 +258,7 @@ def combinations(sources=SOURCES):
             continue
         if package.is_symlink() or not IDENTIFIER.fullmatch(package.name):
             raise ValueError(f"Invalid component directory: {package}")
-        manifest = json.loads((package / "component.json").read_text())
+        manifest = json.loads(source_path(package, "component.json").read_text(encoding="utf-8"))
         validate_manifest(manifest, package.name)
         manifests[package.name] = manifest
     for name, manifest in manifests.items():

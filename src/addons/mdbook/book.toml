@@ -8,7 +8,6 @@ build-dir = "build/book"
 create-missing = false
 
 [output.html]
-additional-js = ["theme/mermaid.min.js", "theme/mermaid-init.js"]
 
 [preprocessor.mermaid]
 command = "mdbook-mermaid"

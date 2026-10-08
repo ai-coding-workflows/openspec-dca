@@ -25,7 +25,7 @@ class OpenSpecTests(unittest.TestCase):
         shutil.copytree(ROOT / "examples/equipment-lending", self.root,
                         ignore=shutil.ignore_patterns("build"))
         builder.build_legacy(self.root / "openspec/schemas/openspec-ddd")
-        shutil.copytree(ROOT / "src/helpers/ddd", self.root / "openspec/ddd")
+        shutil.copytree(ROOT / "src/schemas/ddd/helpers", self.root / "openspec/ddd")
         self.change = self.root / "openspec/changes" / CHANGE
         self.env = dict(os.environ, OPENSPEC_TELEMETRY="0", DO_NOT_TRACK="1",
                         OPENSPEC_NO_UPDATE_CHECK="1", XDG_CONFIG_HOME=str(Path(self.temp.name) / "config"),

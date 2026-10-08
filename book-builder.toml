@@ -1,0 +1,7 @@
+# Builder settings stay separate from mdBook's native book.toml.
+[books.handbook]
+config = "book.toml"
+mermaid = true
+svgbob = false
+export-formats = ["markdown"]
+serve = true

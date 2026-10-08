@@ -1,0 +1,6 @@
+# Keep generated Python files and PDF environments out of copied bundles.
+__pycache__/
+*.py[cod]
+.venv/
+.cache/
+venv/

@@ -11,7 +11,7 @@ extra-watch-dirs = ["examples", "src"]
 
 [output.html]
 additional-css = ["docs/theme/guide.css"]
-additional-js = ["docs/theme/mermaid.min.js", "docs/theme/mermaid-init.js"]
+additional-js = ["scripts/md-book-builder/.cache/scripts/mermaid/native-mdbook-mermaid-0.17.1-sha256-a6bff9c2d0c2610ca6b5695f-bc19286a2fb799dc00a3a5c69e71bee796e4e76a481581360af357c8e490e609/mermaid.min.js", "scripts/md-book-builder/.cache/scripts/mermaid/native-mdbook-mermaid-0.17.1-sha256-a6bff9c2d0c2610ca6b5695f-bc19286a2fb799dc00a3a5c69e71bee796e4e76a481581360af357c8e490e609/mermaid-init.js"]
 
 [output.html.fold]
 enable = true

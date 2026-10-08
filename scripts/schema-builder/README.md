@@ -15,13 +15,14 @@ python3 build.py schemas --base --output build/schema-ddd/openspec-ddd
 python3 build.py schemas --component arc42 --component user-doc --output build/schema-docs/openspec-ddd
 ```
 
-Each output is a complete native OpenSpec schema directory with `schema.yaml` and
-`templates/` directly in the variant directory. Install one chosen build under
+Each composed v3 output is a complete native OpenSpec schema directory with
+`schema.yaml`, `templates/`, and `helpers/` directly in the variant directory.
+Install one chosen build under
 the name `openspec-ddd` in a project's
 `openspec/schemas/openspec-ddd/`, then review and merge its generated configuration,
 agent-instruction (for example, AGENTS.md), and README starters into project-owned
-files, preserving customizations. Support files are templates, not automatically
-published documentation.
+files, preserving customizations. Copying the chosen schema includes its helpers
+without a second copy. Support templates are not automatically published documentation.
 
 The default build writes `build/schemas/<variant>/`, plus `index.json`
 and a readable `README.md`. For example, `ddd+arc42+user-doc` contains DDD with
@@ -50,6 +51,12 @@ Canonical sources live in
 - `ddd/files/` owns seven native artifacts, DDD ownership/model rules, local
   descriptive architecture preparation/publication mappings, ADR assessments and records, verification,
   and protected contract/model/ADR/catalog publication boundaries.
+- `ddd/helpers/` owns `ddd.py`, `check.py`, the shared canonical ADR reader
+  `model.py`, optional mdBook `adr-preprocessor.py`, and standard-library
+  `project_root.py`. The whole helper directory,
+  including `model.py`, is included automatically in every composed v3 output
+  under `helpers/`.
+- `helper-packs/docs/` owns the single canonical thin `docs-check.py` orchestrator.
 - `components/arc42/` adds handbook templates, locations, navigation, baseline-view
   guidance, and ADR index conventions.
 - `components/user-doc/` adds guide, tutorial, and troubleshooting templates plus
@@ -67,6 +74,9 @@ handbook's existing worked example. The build copies it to
 `build/schemas/legacy/`. It is a separate supported workflow, not a
 snapshot of the composed seven-artifact schema. New compositions use `ddd/files/`;
 this repository layout change does not migrate existing projects or example artifacts.
+Legacy remains historical and unchanged: no helpers are automatically added. A legacy
+adopter may separately copy `src/schemas/ddd/helpers/` into its installed schema's
+`helpers/` directory.
 
 ## Additive extension format
 
@@ -119,12 +129,14 @@ contracts belong to the DDD base; components add scope-specific reminders and ta
 `support-index` is the place for Markdown links relative to the generated `templates/`
 directory. Components need only supply hooks relevant to their concern.
 
-Create `components/<name>/component.json` with exactly these fields:
+Create `components/<name>/component.json` with these fields (the optional
+`helper-packs` field selects shared helper providers):
 
 ```json
 {
   "description": "Optional project documentation",
   "requires": [],
+  "helper-packs": ["docs"],
   "contributions": {
     "instructions.impact": "fragments/impact.txt",
     "template.impact": "fragments/impact-section.txt",
@@ -143,11 +155,55 @@ the same full policy into context, agent instructions, and README. Operation fra
 items, not preformatted YAML. Adding an ordinary documentation
 component requires no base edits; `user-doc` demonstrates composition with arc42.
 
+A component's optional `helpers/` directory is copied into output `helpers/`.
+`helper-packs: ["docs"]` references `src/schemas/helper-packs/docs/`; a selected
+provider is copied once even when both arc42 and user-doc request it. Distinct
+providers claiming the same output file fail, even with identical bytes. The sole
+file-collision exception is `helpers/README.md`: preserve the base README as the
+first section, then append deterministic sections headed `Helper pack: docs`,
+`Component: arc42`, and `Component: user-doc` for the selected providers.
+
+Both documentation components distribute the same generic `docs-check.py`, not an
+arc42-conformance checker. It invokes adjacent `check.py` for optional DDD metadata
+and requires a separately installed generic builder via `--builder` or
+`BOOK_BUILDER`. Only conventional `<root>/scripts/md-book-builder/book.py` discovery
+is provided as a convenience; arbitrary builder locations are supported. Generic
+source/include/HTML validation and builds remain in `scripts/md-book-builder/`,
+which contains no DDD validation or ADR generation. `scripts/docs-check.py` forwards
+to the canonical helper-pack orchestrator. Its metadata stage continues to use
+`check.check_project`; it adds no parallel manifest. `model.py` reads canonical ADR
+source without validation or rewriting; `check.validate_decisions` is an explicit
+preflight for project-owned renderers. Catalog/graph logic remains in `ddd.py`,
+not a second catalog model. See the [helper API](../../src/schemas/ddd/helpers/README.md#shared-adr-reading-api).
+Rebuilding or installing helpers does not migrate an adopted ADR source format.
+The optional `adr-preprocessor.py` generates a directory-grouped book view only
+when explicitly configured in `[preprocessor.adr]` and given one `{{#adr-index}}`
+marker. It shares the model and generic validation, supports HTML and `book-export`,
+and leaves maintained records/indexes unchanged. Installation does not activate it.
+See the [ADR view setup](../../src/schemas/ddd/helpers/README.md#optional-mdbook-adr-view).
+
+From the adopting project's root:
+
+```sh
+python3 openspec/schemas/openspec-ddd/helpers/ddd.py check
+python3 openspec/schemas/openspec-ddd/helpers/ddd.py context OWNER
+python3 openspec/schemas/openspec-ddd/helpers/ddd.py impact OWNER
+python3 openspec/schemas/openspec-ddd/helpers/check.py --root .
+python3 openspec/schemas/openspec-ddd/helpers/docs-check.py --builder tools/documentation/md-book-builder/book.py
+```
+
+DDD helper commands are unchanged. Default root discovery uses the installed
+helpers' nearest `openspec` ancestor and its project parent, not a fixed depth;
+explicit `--root` is supported. `--ddd-helper` selects an alternate metadata
+checker when needed, including ambiguous multi-schema installations. Legacy
+`openspec/ddd/` is still a supported fallback, not the recommended primary layout.
+
 Dependencies in `requires` must be selected earlier using repeated `--component`
 arguments. There is no implicit dependency selection. Unknown hooks/components,
 duplicate selections, invalid manifests, overlapping output files, and escaping
 fragment paths fail before output is written. Shared hooks are allowed; shared
-output-file ownership is not. Component fragments and files must be final text,
+output-file ownership is not, except the composed `helpers/README.md` described
+above. Component fragments and files must be final text,
 without nested hooks or legacy slots.
 
 Hooks extend prose and templates, not YAML structure. Do not use them to insert
@@ -204,9 +260,16 @@ or authorize documentation publication or deployment.
 
 ```sh
 OPENSPEC_BIN=/path/to/openspec-1.13.1 python3 -m unittest discover -s tests -v
-./scripts/docs.sh build
-python3 scripts/md-book/check.py --rendered
+./scripts/book.sh build
+python3 scripts/md-book-builder/check.py --rendered
 ```
+
+Documentation commands use `scripts/md-book-builder/book.py` (also through
+`build.py docs`); see the [book builder guide](../book.md). Root `book-builder.toml`
+selects books and their export/serve settings when present; absent it, the runner
+discovers root `book.toml` and `book.*.toml`. The checker stays single-book with
+root `book.toml` as its default and supports `--config`/`--book`. The old docs
+wrappers and `scripts/md-book/docs.py`/`check.py` remain compatibility forwarders.
 
 Builder checks cover additive ordering, DDD independence, destination-specific prose,
 safe operation-item rendering, indentation, dependencies, malformed contributions,

@@ -9,7 +9,7 @@ from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
-INSTALLER_PATH = ROOT / "scripts" / "md-book" / "download-latest-mdbook.py"
+INSTALLER_PATH = ROOT / "scripts" / "md-book-builder" / "download-latest-mdbook.py"
 
 
 def load_installer():
@@ -24,6 +24,31 @@ class MdBookInstallerTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.installer = load_installer()
+
+    def test_install_defaults_to_both_tools_and_supports_selection(self):
+        for selected, expected in ((None, ["mdbook", "mdbook-mermaid"]),
+                                   (["mdbook"], ["mdbook"]),
+                                   (["mdbook-mermaid"], ["mdbook-mermaid"]), ([], [])):
+            with self.subTest(selected=selected), mock.patch.object(
+                self.installer, "target_asset", return_value=("target", "tar.gz")
+            ), mock.patch.object(self.installer, "install_tool", return_value=Path("binary")) as install:
+                result = self.installer.install(Path("cache"), selected)
+                self.assertEqual(list(result), expected)
+                self.assertEqual([call.args[1].name for call in install.call_args_list], expected)
+
+    def test_install_rejects_unknown_names_before_any_download(self):
+        with mock.patch.object(self.installer, "install_tool") as install:
+            with self.assertRaisesRegex(ValueError, "unknown tool names"):
+                self.installer.install(Path("cache"), ["other"])
+            install.assert_not_called()
+
+    def test_cli_retains_cache_only_and_accepts_tool_names(self):
+        for arguments, selected in ((["cache"], None), (["cache", "mdbook"], ["mdbook"])):
+            with mock.patch.object(sys, "argv", ["installer", *arguments]), mock.patch.object(
+                self.installer, "install", return_value={"mdbook": Path("binary")}
+            ) as install, mock.patch("builtins.print"):
+                self.assertEqual(self.installer.main(), 0)
+                install.assert_called_once_with(Path("cache").resolve(), selected)
 
     def test_supported_targets_match_both_release_families(self):
         cases = (

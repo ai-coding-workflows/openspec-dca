@@ -24,7 +24,7 @@ class BuildEntryPointTests(unittest.TestCase):
             run.assert_called_once_with("scripts/schema-builder/build.py", "--base", "--output", "build/custom")
         with patch.object(builder, "run", return_value=0) as run:
             self.assertEqual(builder.main(["docs", "--docker"]), 0)
-            run.assert_called_once_with("scripts/md-book/docs.py", "build", "--docker")
+            run.assert_called_once_with("scripts/md-book-builder/book.py", "build", "--docker")
 
     def test_all_stops_on_failure(self):
         with patch.object(builder, "run", side_effect=[0, 7]) as run, patch.object(builder, "check") as check:
@@ -36,7 +36,7 @@ class BuildEntryPointTests(unittest.TestCase):
         with patch.object(builder, "run", return_value=0) as run, patch.object(builder, "check", return_value=9) as check:
             self.assertEqual(builder.main(["all"]), 9)
             self.assertEqual(run.call_args_list[0].args, ("scripts/schema-builder/build.py",))
-            self.assertEqual(run.call_args_list[1].args, ("scripts/md-book/docs.py", "build"))
+            self.assertEqual(run.call_args_list[1].args, ("scripts/md-book-builder/book.py", "build"))
             check.assert_called_once_with()
 
     def test_check_rejects_unsupported_cli_before_tests_can_skip(self):
@@ -56,7 +56,7 @@ class BuildEntryPointTests(unittest.TestCase):
                 run.assert_called_once_with("-m", "unittest", "discover", "-s", "tests", "-v")
             with patch.object(builder, "run", side_effect=[0, 0]) as run:
                 self.assertEqual(builder.main(["check"]), 0)
-                self.assertEqual(run.call_args_list[-1].args, ("scripts/md-book/check.py", "--rendered"))
+                self.assertEqual(run.call_args_list[-1].args, ("scripts/md-book-builder/check.py", "--rendered"))
 
     def test_real_invocation_from_another_directory(self):
         with tempfile.TemporaryDirectory() as temp:

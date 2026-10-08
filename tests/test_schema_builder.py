@@ -114,7 +114,8 @@ class SchemaBuilderTests(unittest.TestCase):
                 self.assertLess(combined[path].index("arc42"), combined[path].lower().index("user documentation"))
                 self.assertLess(reverse[path].lower().index("user documentation"), reverse[path].index("arc42"))
         self.assertEqual(combined, builder.compose(["arc42", "user-doc"]))
-        self.assertNotIn("{{hook:", "\n".join(combined.values()))
+        self.assertNotIn("{{hook:", "\n".join(content for path, content in combined.items()
+                                               if not path.startswith("helpers/")))
 
     def test_documentation_delivery_boundary_in_every_composition(self):
         selections = builder.combinations() + [["user-doc", "arc42"]]
@@ -305,7 +306,10 @@ class SchemaBuilderTests(unittest.TestCase):
             self.assertEqual(builder.read_files(output), expected)
 
     def test_ddd_is_independent_of_arc42_layout(self):
-        base = builder.compose()
+        # Helper executables can mention optional architecture metadata paths without
+        # imposing that layout on the schema's native instructions or templates.
+        base = {path: content for path, content in builder.compose().items()
+                if not path.startswith("helpers/")}
         self.assertFalse(any("system-architecture" in path for path in base))
         self.assertNotIn("system-architecture", "\n".join(base.values()))
         self.assertNotIn("brownfield", "\n".join(base.values()))
@@ -541,6 +545,208 @@ class SchemaBuilderTests(unittest.TestCase):
                     path.write_text(json.dumps(dict(original, **{key: value})))
                     with self.assertRaises(ValueError):
                         builder.compose(["arc42"], sources)
+
+
+class HelperCompositionTests(unittest.TestCase):
+    """Use isolated sources: helper distribution must not depend on repository packs."""
+
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+        self.sources = self.root / "sources"
+        self.put("ddd/files/schema.yaml", "artifacts: []\napply:\n  requires: []\n")
+        self.put("ddd/files/templates/test.md", "Base\n{{hook:test}}\n")
+        self.put("legacy/openspec-ddd/schema.yaml", "Historical schema\n")
+
+    def put(self, relative, content):
+        path = self.sources / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content)
+        return path
+
+    def component(self, name, packs=None):
+        manifest = {"description": name, "requires": [], "contributions": {}}
+        if packs is not None:
+            manifest["helper-packs"] = packs
+        return self.put(f"components/{name}/component.json", json.dumps(manifest))
+
+    def assert_failure(self, selection, pattern):
+        output = self.root / "output"
+        with self.assertRaisesRegex(ValueError, pattern):
+            builder.build(output, selection, self.sources)
+        self.assertFalse(output.exists())
+
+    def test_base_and_component_helpers_preserve_native_files_and_legacy(self):
+        expected = builder.compose([], self.sources)
+        self.put("ddd/helpers/ddd/ddd.py", "print('base')\n")
+        self.put("ddd/helpers/README.md", "Base documentation\n")
+        for name in ("arc42", "user-doc"):
+            self.component(name)
+            self.put(f"components/{name}/helpers/{name}/check.py", f"print('{name}')\n")
+        for selection in ([], ["arc42"], ["user-doc"], ["arc42", "user-doc"]):
+            with self.subTest(selection=selection):
+                files = builder.compose(selection, self.sources)
+                self.assertEqual({p: c for p, c in files.items() if not p.startswith("helpers/")}, expected)
+                self.assertEqual(files["helpers/ddd/ddd.py"], "print('base')\n")
+                for name in ("arc42", "user-doc"):
+                    self.assertEqual(f"helpers/{name}/check.py" in files, name in selection)
+        legacy = builder.build_legacy(self.root / "legacy", self.sources)
+        self.assertEqual(legacy, {"schema.yaml": "Historical schema\n"})
+
+    def test_shared_pack_distributed_once_at_first_request_and_readme_order(self):
+        self.put("ddd/helpers/README.md", "BASE\n")
+        self.put("helper-packs/docs-check/README.md", "SHARED\n")
+        self.put("helper-packs/docs-check/check.py", "print('shared')\n")
+        for name in ("arc42", "user-doc"):
+            self.component(name, ["docs-check"])
+            self.put(f"components/{name}/helpers/README.md", name + " body\n")
+        for selection in (["arc42"], ["user-doc"], ["arc42", "user-doc"], ["user-doc", "arc42"]):
+            with self.subTest(selection=selection):
+                files = builder.compose(selection, self.sources)
+                readme = files["helpers/README.md"]
+                self.assertTrue(readme.startswith("BASE\n"))
+                self.assertEqual(readme.count("Helper pack: docs-check"), 1)
+                self.assertEqual(readme.count("SHARED"), 1)
+                labels = ["Helper pack: docs-check", *[f"Component: {name}" for name in selection]]
+                indices = [readme.index(label) for label in labels]
+                self.assertEqual(indices, sorted(indices))
+                self.assertEqual(files["helpers/check.py"], "print('shared')\n")
+                self.assertEqual(files, builder.compose(selection, self.sources))
+
+    def test_readme_exception_is_exclusive_to_helper_merge(self):
+        self.put("ddd/helpers/README.md", "Base\n")
+        self.component("extra")
+        self.put("components/extra/files/helpers/README.md", "Not a helper contribution\n")
+        self.assert_failure(["extra"], "conflict")
+
+    def test_identical_file_collisions_between_all_providers_are_errors(self):
+        for first, second in (("ddd/helpers", "components/extra/helpers"),
+                              ("helper-packs/one", "helper-packs/two"),
+                              ("helper-packs/one", "components/extra/helpers"),
+                              ("components/first/helpers", "components/extra/helpers")):
+            with self.subTest(first=first, second=second):
+                paths = [self.put(f"{provider}/check.py", "identical\n") for provider in (first, second)]
+                self.component("first")
+                self.component("extra", ["one", "two"] if second == "helper-packs/two" else
+                               ["one"] if first == "helper-packs/one" else [])
+                self.assert_failure(["first", "extra"], "conflict")
+                for path in paths:
+                    path.unlink()
+
+    def test_file_directory_conflicts_leave_no_output(self):
+        self.component("extra")
+        self.put("ddd/helpers/tool", "file\n")
+        self.put("components/extra/helpers/tool/check.py", "nested\n")
+        self.assert_failure(["extra"], "conflict")
+        (self.sources / "ddd/helpers/tool").unlink()
+        self.put("components/extra/files/helpers", "file instead of helper directory\n")
+        self.assert_failure(["extra"], "conflict")
+
+    def test_missing_pack_is_clear_and_optional_helper_directories_are_optional(self):
+        self.component("extra")
+        self.assertEqual(builder.compose(["extra"], self.sources), builder.compose([], self.sources))
+        self.component("extra", ["missing"])
+        self.assert_failure(["extra"], "Unknown helper pack: missing")
+
+    def test_manifest_helper_packs_requires_unique_safe_identifier_list(self):
+        for invalid in ("docs", {}, None, [1], ["docs", "docs"], ["../docs"],
+                        ["/docs"], ["a/b"], [""], ["Bad"], ["a_b"]):
+            with self.subTest(invalid=invalid):
+                self.component("extra", [])
+                path = self.sources / "components/extra/component.json"
+                manifest = json.loads(path.read_text())
+                manifest["helper-packs"] = invalid
+                path.write_text(json.dumps(manifest))
+                self.assert_failure(["extra"], "Invalid helper-packs")
+        for mutation in ({"unknown": []}, {"description": None}, {"requires": None}, {"contributions": None}):
+            self.component("extra", [])
+            path = self.sources / "components/extra/component.json"
+            manifest = json.loads(path.read_text())
+            manifest.update(mutation)
+            path.write_text(json.dumps(manifest))
+            self.assert_failure(["extra"], "Invalid")
+        builder.validate_manifest({"description": "Valid", "requires": [], "contributions": {},
+                                   "helper-packs": []}, "extra")
+
+    def test_helpers_exclude_only_python_cache_and_do_not_render_literal_hooks(self):
+        self.component("extra", ["docs"])
+        literal = "text = '{{hook:unknown}}'\n{{hook:operation.apply}}\n{{slot:literal}}\n"
+        for provider in ("ddd/helpers", "components/extra/helpers", "helper-packs/docs"):
+            name = provider.replace("/", "-")
+            self.put(f"{provider}/{name}.py", literal)
+            self.put(f"{provider}/assets/{name}.txt", "Required asset\n")
+            self.put(f"{provider}/__pycache__/{name}.pyc", "cache")
+            self.put(f"{provider}/nested/{name}.pyc", "cache")
+            self.put(f"{provider}/nested/{name}.pyo", "cache")
+        files = builder.compose(["extra"], self.sources)
+        for provider in ("ddd/helpers", "components/extra/helpers", "helper-packs/docs"):
+            name = provider.replace("/", "-")
+            self.assertEqual(files[f"helpers/{name}.py"], literal)
+            self.assertEqual(files[f"helpers/assets/{name}.txt"], "Required asset\n")
+        self.assertFalse(any("__pycache__" in p or p.endswith((".pyc", ".pyo")) for p in files))
+
+    def test_symlink_roots_directories_files_and_manifest_are_rejected(self):
+        self.component("extra", ["docs"])
+        self.put("helper-packs/docs/real.txt", "real")
+        target = self.root / "target"
+        target.mkdir()
+        (target / "file.txt").write_text("outside")
+        for relative, is_directory in (("ddd/helpers", True), ("components/extra/helpers", True),
+                                        ("helper-packs/docs/nested", True),
+                                        ("helper-packs/docs/link.txt", False)):
+            with self.subTest(relative=relative):
+                link = self.sources / relative
+                link.parent.mkdir(parents=True, exist_ok=True)
+                link.symlink_to(target if is_directory else target / "file.txt", target_is_directory=is_directory)
+                self.assert_failure(["extra"], "Symlink")
+                link.unlink()
+        pack = self.sources / "helper-packs/docs"
+        shutil.rmtree(pack)
+        pack.symlink_to(target, target_is_directory=True)
+        self.assert_failure(["extra"], "Symlink")
+        pack.unlink()
+        manifest = self.sources / "components/extra/component.json"
+        original = manifest.read_text()
+        manifest.unlink()
+        outside = target / "component.json"
+        outside.write_text(original)
+        manifest.symlink_to(outside)
+        self.assert_failure(["extra"], "Symlink")
+        with self.assertRaisesRegex(ValueError, "Symlink"):
+            builder.read_files(manifest)
+
+    def test_helpers_in_files_tree_remain_data_but_cannot_append_readme(self):
+        self.component("extra")
+        literal = "text = '{{hook:unknown}}'\n"
+        self.put("components/extra/files/helpers/tool.py", literal)
+        self.put("components/extra/files/helpers/tool.pyc", "cache")
+        files = builder.compose(["extra"], self.sources)
+        self.assertEqual(files["helpers/tool.py"], literal)
+        self.assertNotIn("helpers/tool.pyc", files)
+        self.put("components/extra/files/helpers/README.md", "Ordinary file\n")
+        self.component("second")
+        self.put("components/second/helpers/README.md", "Helper section\n")
+        self.assert_failure(["extra", "second"], "conflict")
+
+    def test_matrix_rejects_unowned_bytecode_in_output(self):
+        self.component("extra")
+        self.put("ddd/helpers/tool.py", "original\n")
+        output = self.root / "matrix"
+        builder.build_all(output, self.sources)
+        (output / "ddd/helpers/unowned.pyc").write_bytes(b"unowned bytecode")
+        with self.assertRaisesRegex(ValueError, "modified|unowned"):
+            builder.build_all(output, self.sources)
+
+    def test_matrix_ownership_includes_helper_integrity(self):
+        self.component("extra", ["docs"])
+        self.put("helper-packs/docs/check.py", "original\n")
+        output = self.root / "matrix"
+        builder.build_all(output, self.sources)
+        builder.build_all(output, self.sources)
+        (output / "ddd+extra/helpers/check.py").write_text("edited\n")
+        with self.assertRaisesRegex(ValueError, "modified"):
+            builder.build_all(output, self.sources)
 
 
 @unittest.skipUnless(CLI, "Install OpenSpec 1.13.1 or set OPENSPEC_BIN for integration tests")

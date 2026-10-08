@@ -28,7 +28,7 @@ def check():
     result = run("-m", "unittest", "discover", "-s", "tests", "-v")
     if result:
         return result
-    return run("scripts/md-book/check.py", "--rendered")
+    return run("scripts/md-book-builder/check.py", "--rendered")
 
 
 def main(argv=None):
@@ -49,10 +49,10 @@ def main(argv=None):
         if args.command == "schemas":
             return run("scripts/schema-builder/build.py", *args.arguments)
         if args.command == "docs":
-            return run("scripts/md-book/docs.py", "build", *args.arguments)
+            return run("scripts/md-book-builder/book.py", "build", *args.arguments)
         if args.command == "all":
             for arguments in (("scripts/schema-builder/build.py",),
-                              ("scripts/md-book/docs.py", "build")):
+                              ("scripts/md-book-builder/book.py", "build")):
                 result = run(*arguments)
                 if result:
                     return result
