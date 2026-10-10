@@ -17,8 +17,8 @@ the change in the one Apply checklist, with actual publication and dependent lin
 non-checkbox handoff for separately authorized sync/archive-stage integration. Draft references are optional,
 not a mandatory second editable copy.
 Sources and maintained destinations are project-relative; drafts are change-relative.
-Default target: user-documentation/ at the project root, not openspec/user-documentation/.
-Optional draft location: user-documentation/ inside the selected change. An existing root
+Default target: user-doc/ at the project root, not openspec/user-doc/.
+Optional draft location: user-doc/ inside the selected change. An existing root
 explicitly selected in project instructions/design wins; do not silently migrate it. Include
 affected images, navigation, generated references, redirects, removals, and renames where needed.
 

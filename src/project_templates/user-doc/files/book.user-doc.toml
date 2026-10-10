@@ -1,0 +1,13 @@
+[book]
+title = "User documentation"
+language = "en"
+src = "user-doc"
+
+[build]
+build-dir = "build/books/user-doc"
+create-missing = false
+
+[output.html]
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build schemas, documentation, or run repository checks from one entry point."""
+"""Build schemas and project templates, documentation, or repository checks."""
 
 import argparse
 import os
@@ -34,24 +34,33 @@ def check():
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description=__doc__,
-        epilog="Arguments after schemas or docs are forwarded to that tool. "
+        epilog="Arguments after schemas, project_templates, or docs are forwarded to that tool. "
                "Paths are relative to the repository root. "
                "check requires a built handbook and OpenSpec 1.13.1.")
-    parser.add_argument("command", nargs="?", default="schemas",
-                        choices=("schemas", "docs", "check", "all"),
-                        help="Default: schemas. all builds schemas and docs, then runs checks.")
+    parser.add_argument("command", nargs="?", default="bundle",
+                        choices=("bundle", "schemas", "project_templates", "docs", "check", "all"),
+                        help="Default: bundle (schemas and project templates). all also builds docs and runs checks.")
     parser.add_argument("arguments", nargs=argparse.REMAINDER,
                         help="Tool arguments, e.g. schemas --base --output build/custom/openspec-ddd")
     args = parser.parse_args(argv)
-    if args.command in ("check", "all") and args.arguments:
+    if args.command in ("bundle", "check", "all") and args.arguments:
         parser.error(f"{args.command} takes no additional arguments")
     try:
         if args.command == "schemas":
             return run("scripts/schema-builder/build.py", *args.arguments)
+        if args.command == "project_templates":
+            return run("scripts/starter-builder/build.py", *args.arguments)
+        if args.command == "bundle":
+            for tool in ("schema-builder", "starter-builder"):
+                result = run(f"scripts/{tool}/build.py")
+                if result:
+                    return result
+            return 0
         if args.command == "docs":
             return run("scripts/md-book-builder/book.py", "build", *args.arguments)
         if args.command == "all":
             for arguments in (("scripts/schema-builder/build.py",),
+                              ("scripts/starter-builder/build.py",),
                               ("scripts/md-book-builder/book.py", "build")):
                 result = run(*arguments)
                 if result:

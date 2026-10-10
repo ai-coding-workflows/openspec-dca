@@ -1,5 +1,5 @@
 User documentation Apply updates mapped maintained pages in the development checkout.
-Read the reader/page assessment and design mappings. Use project-root user-documentation/
+Read the reader/page assessment and design mappings. Use project-root user-doc/
 unless project instructions/design explicitly select an existing root; preserve that choice.
 Before writing, read current destinations, reconcile concurrent edits, and preserve pre-existing
 dirty and unrelated content. Update only explicitly mapped descriptive pages, navigation,

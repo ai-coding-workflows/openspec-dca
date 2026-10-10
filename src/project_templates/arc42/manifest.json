@@ -1,0 +1,31 @@
+{
+  "files": {
+    "book.arc42.toml": "src/project_templates/arc42/files/book.arc42.toml",
+    "openspec/system-architecture/SUMMARY.md": "src/project_templates/arc42/files/SUMMARY.md",
+    "openspec/system-architecture/README.md": "schema:templates/system-architecture/README.md",
+    "openspec/system-architecture/goals-and-stakeholders.md": "schema:templates/system-architecture/goals-and-stakeholders.md",
+    "openspec/system-architecture/constraints.md": "schema:templates/system-architecture/constraints.md",
+    "openspec/system-architecture/system-context.md": "schema:templates/system-architecture/system-context.md",
+    "openspec/system-architecture/solution-strategy.md": "schema:templates/system-architecture/solution-strategy.md",
+    "openspec/system-architecture/building-blocks.md": "schema:templates/system-architecture/building-blocks.md",
+    "openspec/system-architecture/runtime.md": "schema:templates/system-architecture/runtime.md",
+    "openspec/system-architecture/deployment.md": "schema:templates/system-architecture/deployment.md",
+    "openspec/system-architecture/crosscutting-concepts.md": "schema:templates/system-architecture/crosscutting-concepts.md",
+    "openspec/system-architecture/architectural-decisions.md": "schema:templates/system-architecture/architectural-decisions.md",
+    "openspec/system-architecture/quality-requirements.md": "schema:templates/system-architecture/quality-requirements.md",
+    "openspec/system-architecture/risks-and-technical-debt.md": "schema:templates/system-architecture/risks-and-technical-debt.md",
+    "openspec/system-architecture/glossary.md": "schema:templates/system-architecture/glossary.md"
+  },
+  "guidance": {
+    "group": "documentation",
+    "title": "System architecture",
+    "source": "src/schemas/components/arc42/fragments/project-agent-instructions.txt"
+  },
+  "books": {
+    "arc42": {
+      "config": "book.arc42.toml",
+      "export-formats": ["markdown"],
+      "serve": true
+    }
+  }
+}

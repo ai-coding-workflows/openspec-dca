@@ -1,8 +1,8 @@
 ### User documentation (optional)
 
-[User-documentation templates](user-documentation/README.md) help describe user tasks,
+[User documentation templates](user-doc/README.md) help describe user tasks,
 configuration, and results. Their maintained destination is project-root
-`user-documentation/`, outside `openspec/`, unless project instructions/design explicitly
+`user-doc/`, outside `openspec/`, unless project instructions/design explicitly
 select an existing root. Planning is change-local/read-only at maintained destinations;
 optional drafts aid planning. Apply updates mapped maintained pages, navigation, assets,
 and approved reference sources outside `openspec/specs/**` in the development checkout.

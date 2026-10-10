@@ -1,0 +1,18 @@
+[book]
+title = "Project architecture"
+language = "en"
+src = "openspec/system-architecture"
+
+[build]
+build-dir = "build/books/arc42"
+create-missing = false
+
+[output.html]
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
+# Optional generated view of actual maintained scoped ADR records.
+# Add {{#adr-index}} once in a dedicated listed chapter before enabling:
+# [preprocessor.adr]
+# command = "python3 openspec/schemas/{{schema-name}}/helpers/adr-preprocessor.py"

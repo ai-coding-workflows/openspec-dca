@@ -1,10 +1,10 @@
-# Optional user-documentation component
+# Optional user-doc component
 
 This component follows the existing component manifest and additive-hook model.
 Select `user-doc` when composing the DDD schema with the project's builder.
 It has no required component: DDD alone, DDD + arc42, DDD + user-doc, and
 DDD + both are valid intended selections. The seven artifacts and their dependencies
-stay in the DDD foundation. Disabling arc42 does not disable user-documentation.
+stay in the DDD foundation. Disabling arc42 does not disable user-doc.
 
 The directory's presence makes it available, not enabled. Only explicit builder
 selection injects its guidance and copies its support templates. No native `enabled`
@@ -26,7 +26,7 @@ existing builder's CLI rather than an invented command in this package.
 | Tasks instructions/template | Maintained edits/checks in one checklist; separate work only in handoff |
 | Apply instructions | Update mapped maintained pages in development; preserve unrelated edits |
 | Verification template | Actual maintained results, examples, navigation/procedure checks and gaps |
-| Support index and files | Six optional page-writing starters under templates/user-documentation/ |
+| Support index and files | Six optional page-writing starters under templates/user-doc/ |
 
 The domain-model and architectural-decisions artifacts remain the sources of model
 meaning and significant decision rationale. They do not need another user-doc assessment
@@ -35,13 +35,13 @@ or repeated definitions. The component uses the existing scopes and generic hook
 ## Files versus content
 
 Builder output places starters at:
-`openspec/schemas/openspec-ddd/templates/user-documentation/`.
+`openspec/schemas/openspec-ddd/templates/user-doc/`.
 That is the template library, not the handover of a complete handbook.
 
-Real maintained pages belong at `user-documentation/` in the project root unless project
+Real maintained pages belong at `user-doc/` in the project root unless project
 instructions/design explicitly select an existing root; that choice wins without migration.
 Planning remains change-local and read-only at maintained destinations. Optional drafts may
-live at `openspec/changes/<change>/user-documentation/`; no second editable copy is required.
+live at `openspec/changes/<change>/user-doc/`; no second editable copy is required.
 Apply updates explicitly mapped descriptive pages, navigation, assets, and approved reference
 sources in the repo-local development checkout alongside code. Read current destinations,
 reconcile concurrent edits, preserve dirty/unrelated content, and check actual results,
@@ -82,6 +82,6 @@ process. Selecting a component is not permission to rewrite installed project gu
 Review and merge generated config, agent-instruction, and README starters into active
 project-owned files deliberately, preserving customizations.
 
-See [the template guide](files/templates/user-documentation/README.md) for writing and
+See [the template guide](files/templates/user-doc/README.md) for writing and
 verification rules. See the [builder README](../../../../scripts/schema-builder/README.md) for composition,
 destination-specific hooks, custom component migration, and integration checks.

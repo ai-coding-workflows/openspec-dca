@@ -1,0 +1,47 @@
+{
+  "files": {
+    "scripts/book.sh": "scripts/book.sh",
+    "scripts/book.cmd": "scripts/book.cmd",
+    "scripts/book.md": "scripts/book.md"
+  },
+  "books": {},
+  "tooling": {
+    "source": "scripts/md-book-builder",
+    "destination": "scripts/md-book-builder",
+    "files": [
+      ".gitignore",
+      "book.py",
+      "book_capture.py",
+      "book_discovery.py",
+      "book_environment.py",
+      "book_features.py",
+      "book_paths.py",
+      "book_root.py",
+      "book_runtime.py",
+      "book_selection.py",
+      "book_servers.py",
+      "book_toml.py",
+      "cache_lock.py",
+      "capture_backend.py",
+      "check.py",
+      "docker/.dockerignore",
+      "docker/Dockerfile",
+      "docker/compose.yml",
+      "docker/install-mdbook.py",
+      "docker/svgbob.Dockerfile",
+      "docker/toolchain.json",
+      "download-latest-mdbook.py",
+      "exporter/README.md",
+      "exporter/__init__.py",
+      "exporter/export_book.py",
+      "exporter/markdown_to_typst.py",
+      "exporter/render_context.py",
+      "exporter/requirements-pdf.txt",
+      "exporter/templates/default.typ",
+      "exporter/templates/modern-guide.typ",
+      "mermaid_assets.py",
+      "pdf_runtime.py",
+      "svgbob.py"
+    ]
+  }
+}

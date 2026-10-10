@@ -18,10 +18,16 @@ class BuildEntryPointTests(unittest.TestCase):
     def test_default_build_and_forwarded_arguments(self):
         with patch.object(builder, "run", return_value=0) as run:
             self.assertEqual(builder.main([]), 0)
-            run.assert_called_once_with("scripts/schema-builder/build.py")
+            self.assertEqual([call.args for call in run.call_args_list], [
+                ("scripts/schema-builder/build.py",),
+                ("scripts/starter-builder/build.py",),
+            ])
         with patch.object(builder, "run", return_value=17) as run:
             self.assertEqual(builder.main(["schemas", "--base", "--output", "build/custom"]), 17)
             run.assert_called_once_with("scripts/schema-builder/build.py", "--base", "--output", "build/custom")
+        with patch.object(builder, "run", return_value=17) as run:
+            self.assertEqual(builder.main(["project_templates", "--base", "--output", "build/custom"]), 17)
+            run.assert_called_once_with("scripts/starter-builder/build.py", "--base", "--output", "build/custom")
         with patch.object(builder, "run", return_value=0) as run:
             self.assertEqual(builder.main(["docs", "--docker"]), 0)
             run.assert_called_once_with("scripts/md-book-builder/book.py", "build", "--docker")
@@ -32,11 +38,22 @@ class BuildEntryPointTests(unittest.TestCase):
             self.assertEqual(run.call_count, 2)
             check.assert_not_called()
 
-    def test_all_runs_checks_after_both_builds(self):
+    def test_project_template_command_replaces_old_name(self):
+        with patch.object(builder, "run") as run, self.assertRaises(SystemExit):
+            builder.main(["starters"])
+        run.assert_not_called()
+
+    def test_bundle_stops_on_schema_failure(self):
+        with patch.object(builder, "run", return_value=7) as run:
+            self.assertEqual(builder.main([]), 7)
+            run.assert_called_once_with("scripts/schema-builder/build.py")
+
+    def test_all_runs_checks_after_all_builds(self):
         with patch.object(builder, "run", return_value=0) as run, patch.object(builder, "check", return_value=9) as check:
             self.assertEqual(builder.main(["all"]), 9)
             self.assertEqual(run.call_args_list[0].args, ("scripts/schema-builder/build.py",))
-            self.assertEqual(run.call_args_list[1].args, ("scripts/md-book-builder/book.py", "build"))
+            self.assertEqual(run.call_args_list[1].args, ("scripts/starter-builder/build.py",))
+            self.assertEqual(run.call_args_list[2].args, ("scripts/md-book-builder/book.py", "build"))
             check.assert_called_once_with()
 
     def test_check_rejects_unsupported_cli_before_tests_can_skip(self):

@@ -104,7 +104,7 @@ class SchemaBuilderTests(unittest.TestCase):
         combined = builder.compose(["arc42", "user-doc"])
         reverse = builder.compose(["user-doc", "arc42"])
         self.assertEqual(before, builder.read_files(builder.SOURCES / "ddd/files"))
-        self.assertIn("templates/user-documentation/how-to.md", combined)
+        self.assertIn("templates/user-doc/how-to.md", combined)
         self.assertIn("templates/system-architecture/README.md", combined)
         for path in ("schema.yaml", "templates/impact.md", "templates/tasks.md",
                      "templates/verification.md", "templates/agent-instructions.md"):
@@ -116,6 +116,24 @@ class SchemaBuilderTests(unittest.TestCase):
         self.assertEqual(combined, builder.compose(["arc42", "user-doc"]))
         self.assertNotIn("{{hook:", "\n".join(content for path, content in combined.items()
                                                if not path.startswith("helpers/")))
+
+    def test_user_doc_paths_and_existing_root_policy(self):
+        for components in (["user-doc"], ["arc42", "user-doc"], ["user-doc", "arc42"]):
+            with self.subTest(components=components):
+                files = builder.compose(components)
+                normalized = {path: " ".join(text.split()) for path, text in files.items()}
+                self.assertIn("templates/user-doc/how-to.md", files)
+                self.assertNotIn("user-documentation", " ".join(files) + " ".join(files.values()))
+                self.assertIn("User documentation lives at user-doc/ in the project root",
+                              normalized["templates/config.yaml"])
+                self.assertIn("Default target: user-doc/ at the project root, not openspec/user-doc/.",
+                              normalized["templates/design.md"])
+                self.assertIn("Optional draft location: user-doc/ inside the selected change.",
+                              normalized["templates/design.md"])
+                self.assertIn("openspec/changes/<change>/user-doc/",
+                              normalized["templates/user-doc/README.md"])
+                self.assertIn("Do not move it automatically.",
+                              normalized["templates/user-doc/README.md"])
 
     def test_documentation_delivery_boundary_in_every_composition(self):
         selections = builder.combinations() + [["user-doc", "arc42"]]
@@ -135,7 +153,7 @@ class SchemaBuilderTests(unittest.TestCase):
                 text = " ".join(normalized.values())
                 for obsolete in (
                     "Keep maintained baseline paths read-only in planning/Apply",
-                    "Write and verify only the selected change's user-documentation drafts",
+                    "Write and verify only the selected change's user-doc drafts",
                     "maintained handbook writes are publication work, outside Apply checkboxes",
                     "Do not write it during Apply",
                     "Do not turn maintained publication into an Apply checkbox",

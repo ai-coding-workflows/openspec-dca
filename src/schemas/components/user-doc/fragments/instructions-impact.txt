@@ -8,4 +8,4 @@ This assessment owns reader/page coverage. Design owns the precise maintained-ta
 with optional draft references; tasks owns the maintained edits and checks. Record unknown UI labels, defaults, behavior, or sources
 with the dependent writing or checks they block. A source/spec discrepancy is a finding,
 not permission to weaken a contract. User pages are not catalog owners or depends_on
-edges. Do not silently add broader user-documentation reconstruction to this change.
+edges. Do not silently add broader user documentation reconstruction to this change.

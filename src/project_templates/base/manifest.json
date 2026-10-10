@@ -1,0 +1,10 @@
+{
+  "files": {
+    "README.md": "src/project_templates/base/files/README.md",
+    ".gitignore": "src/project_templates/base/files/.gitignore",
+    "openspec/config.yaml": "schema:templates/config.yaml",
+    "openspec/README.md": "schema:templates/openspec-README.md",
+    "openspec/catalog.json": "schema:templates/catalog.json"
+  },
+  "books": {}
+}

@@ -10,7 +10,14 @@ This repository is a guide and reusable bundle, not the equipment-lending applic
   `src/schemas/helper-packs/docs/`. Composed v3 schemas include their helpers;
   the historical five-artifact legacy schema adds none automatically.
   Build all variants with `python3 build.py`;
-  generated schemas under `build/schemas/` are never edited or committed. The example uses
+  generated schemas under `build/schemas/` and project templates under `build/project_templates/`
+  are never edited or committed. Starter manifests and project-only files live under
+  `src/project_templates/`; reuse composed schema templates and canonical book tooling rather
+  than fork them. `guidance.json` and component guidance metadata compose only
+  `AGENTS.proposal.md` through reusable groups; do not install unreviewed active
+  project instructions or duplicate canonical component text. Project templates
+  initialize empty projects, not merge/update existing ones.
+  The example uses
   the separately retained five-artifact legacy schema. Install shared sources into
   temporary example copies; do not add divergent schema copies.
 - Example baseline specs and proposed deltas must stay distinct. Its delivery tasks

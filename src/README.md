@@ -2,7 +2,7 @@
 
 Editable sources live here: `schemas/ddd/`, `schemas/components/`,
 `schemas/legacy/`, `schemas/ddd/helpers/`, `schemas/helper-packs/docs/`, and
-`addons/mdbook/`.
+`addons/mdbook/`, and `project_templates/`.
 Build and install a selected schema from the repository root:
 
 ```sh
@@ -75,6 +75,17 @@ Use OpenSpec for creating changes, artifact status, task progress, validation,
 synchronization, and archive. No active-change pointer, `change.json`, or separate
 planning engine is introduced. Full setup and workflow guidance is in
 [the tooling chapter](../docs/09-tooling.md).
+
+For an empty new project, `python3 build.py project_templates` generates the four v3
+compositions under `build/project_templates/`. Their manifests in `project_templates/` map existing
+composed schema templates to project destinations and add project-only skeletons.
+Documentation variants include selected books and the canonical reusable book tool;
+DDD-only has no publishing dependency. Group declarations and component metadata
+assemble a reviewable `AGENTS.proposal.md`, not an active `AGENTS.md`. Shared intros
+and packages occur once through group/ancestor activation; canonical agent fragments
+are not copied into a second maintained source. `python3 build.py` builds both collections.
+Do not use starters to overwrite existing projects. See
+[the starter builder](../scripts/starter-builder/README.md).
 
 For the modular v3 variant, see [the Python schema builder](../scripts/schema-builder/README.md).
 Its sources live under `src/schemas/`; select DDD alone or add arc42,

@@ -1,0 +1,37 @@
+ Concept: Specifications and Documentation as Integrated Project Assets
+
+ ### Goal
+
+ Maintain requirements, architectural decisions, and user knowledge alongside the code in version control. Produce reproducible, verifiable documentation books independently of the application’s programming
+ language or framework.
+
+ ### Two Reusable Components
+
+ - ddd+arc42+user-doc provides the OpenSpec workflow, templates, and helpers for domain models, contracts, architectural decisions, architecture documentation, and user documentation.
+ - md-book-builder provides previews, HTML builds, and Markdown/PDF exports. It processes documentation without prescribing its domain-specific content.
+
+ Integration uses Markdown files, TOML configuration, and Python commands—not the application’s build system.
+
+ ### Project Integration
+
+ 1. Install the tooling: Install and select the OpenSpec schema; place the shared builder under scripts/md-book-builder/.
+ 2. Establish ownership: Assign durable contracts and local architecture information to their domain or technical owners. Keep change-specific planning under openspec/changes/.
+ 3. Configure the books: Create a central arc42 book and a concise user/operator handbook. Give each book a native mdBook configuration and SUMMARY.md; use book-builder.toml to select books and export formats.
+ 4. Connect canonical content: Include or reference local architecture fragments instead of copying them. Keep ADRs at their canonical locations; optionally generate their book representation using the ADR
+    preprocessor.
+ 5. Integrate verification: Add OpenSpec validation, helper checks, and documentation checks to local verification and CI. Exclude generated outputs from version control.
+
+ Example structure:
+
+ ```text
+   openspec/
+     config.yaml
+     schemas/<schema>/
+     specs/                  # durable contracts, models, architecture, ADRs
+     changes/<change>/       # proposal, impact, design, tasks
+   docs/architecture/        # central arc42 view
+   user-doc/                 # user and operator handbook
+   scripts/md-book-builder/
+   book-builder.toml
+   book.arc42.toml
+   book.userdoc.toml                                                                     ↓ Jump to latest message · Ctrl+End

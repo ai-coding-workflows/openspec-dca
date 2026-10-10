@@ -1,0 +1,6 @@
+# Derived documentation and local tool environments.
+/build/
+__pycache__/
+*.py[cod]
+/scripts/md-book-builder/.cache/
+/scripts/md-book-builder/.venv/

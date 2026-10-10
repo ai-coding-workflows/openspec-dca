@@ -22,7 +22,12 @@ the name `openspec-ddd` in a project's
 `openspec/schemas/openspec-ddd/`, then review and merge its generated configuration,
 agent-instruction (for example, AGENTS.md), and README starters into project-owned
 files, preserving customizations. Copying the chosen schema includes its helpers
-without a second copy. Support templates are not automatically published documentation.
+without a second copy. Schema-only support templates are not automatically published documentation.
+
+For an empty new project, use `python3 build.py project_templates` to assemble those sources
+into project destinations with optional ready-to-build documentation skeletons.
+The root default command builds both schemas and project templates; explicit `schemas`
+remains schema-only. See [the starter builder](../starter-builder/README.md).
 
 The default build writes `build/schemas/<variant>/`, plus `index.json`
 and a readable `README.md`. For example, `ddd+arc42+user-doc` contains DDD with

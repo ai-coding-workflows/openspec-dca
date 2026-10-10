@@ -1,4 +1,4 @@
-# User-documentation templates
+# User documentation templates
 
 Use these optional starters for people who use or configure the product. They are
 not the product manual and not extra OpenSpec artifacts. Remove authoring comments
@@ -9,9 +9,9 @@ chosen language and explain necessary technical terms before relying on them.
 
 | Purpose | Location |
 | --- | --- |
-| Installed template library | `openspec/schemas/openspec-ddd/templates/user-documentation/` |
-| Optional planning drafts and supporting assets | `openspec/changes/<change>/user-documentation/` |
-| Maintained user documentation | `user-documentation/` at the project root |
+| Installed template library | `openspec/schemas/openspec-ddd/templates/user-doc/` |
+| Optional planning drafts and supporting assets | `openspec/changes/<change>/user-doc/` |
+| Maintained user documentation | `user-doc/` at the project root |
 | Maintained system architecture, when arc42 is selected | `openspec/system-architecture/` |
 
 Planning stays change-local and read-only at maintained destinations. Drafts are optional

@@ -27,9 +27,11 @@ and does not maintain a second change engine.
 - `src/schemas/legacy/`: retained five-artifact workflow used by the worked example.
 - `src/schemas/ddd/helpers/`: canonical read-only catalog, impact, ADR reading, and metadata helpers.
 - `src/schemas/helper-packs/docs/`: shared thin documentation-check orchestrator.
-- `src/addons/mdbook/`: optional project architecture publishing stub.
-- `scripts/`: schema builder, documentation commands, mdBook bootstrap, and exporter.
+- `src/addons/mdbook/`: optional minimal architecture publishing addon for existing projects.
+- `src/project_templates/`: composable fresh-project files, source mappings, and book configuration contributions.
+- `scripts/`: schema/starter builders, documentation commands, mdBook bootstrap, and exporter.
 - `build/schemas/`: generated schema variants and their index; ignored by Git.
+- `build/project_templates/`: four generated fresh-project templates and their index; ignored by Git.
 - `examples/equipment-lending/`: baseline contracts and one deliberately unfinished change.
 - `tests/`: helper tests and compatibility tests against the real OpenSpec CLI.
 
@@ -59,16 +61,50 @@ See [the source guide](src/README.md) for helper usage
 and [the tooling guide](docs/09-tooling.md) for agent setup, optional templates,
 and validation.
 
+## Start a fresh project
+
+For a new project, use a complete starter instead of assembling the schema and
+support files yourself:
+
+```sh
+python3 build.py project_templates
+mkdir /path/to/new-project
+cp -R build/project_templates/ddd+arc42+user-doc/. /path/to/new-project/
+cd /path/to/new-project
+openspec init --tools pi --profile core --no-animation
+openspec schema validate ddd+arc42+user-doc
+./scripts/book.sh build
+```
+
+Install OpenSpec 1.13.1 first. Choose `ddd`, `ddd+arc42`, `ddd+user-doc`, or
+`ddd+arc42+user-doc`. Each starter installs the matching schema under
+`openspec/schemas/<variant>/` and selects that variant in `openspec/config.yaml`,
+with composed configuration, a reviewable `AGENTS.proposal.md`, and an empty optional catalog.
+The schema library is byte-identical to `build/schemas/<variant>/`; its generic
+`openspec-ddd` name and reusable-template references remain installation defaults.
+Project guidance is rendered for the chosen variant. No active `AGENTS.md` is supplied:
+review the proposal and merge useful sections into existing project instructions.
+Its DDD foundation is always included; selected components activate shared groups
+and their ancestors, with each group intro appearing once. Documentation variants also include editable, navigable
+book skeletons and the complete reusable book tool. DDD-only has no books or book tooling.
+Native OpenSpec generates agent integrations; the starter does not vendor them.
+
+The included pages are writing starters, not verified architecture or product help.
+Customize context and checks, replace prompts, and remove unused pages/navigation.
+Starters are for empty projects only: never copy them over an adopted project as
+an upgrade. See [the starter builder guide](scripts/starter-builder/README.md).
+
 ## Build entry point
 
 Run from the repository root:
 
 ```sh
-python3 build.py          # All schema variants (default)
-python3 build.py schemas  # Explicit schema build
-python3 build.py docs     # Build and export the handbook
-python3 build.py check    # Tests, source links, and rendered links
-python3 build.py all      # Schemas, handbook, then checks
+python3 build.py                    # Schemas and project templates (default: bundle)
+python3 build.py schemas            # Schema variants only
+python3 build.py project_templates  # Fresh-project templates only
+python3 build.py docs               # Build and export the handbook
+python3 build.py check              # Tests, source links, and rendered links
+python3 build.py all                # Schemas, project templates, handbook, then checks
 ```
 
 On Windows, use `python build.py` or `py -3 build.py`. The dispatcher uses the
@@ -79,19 +115,20 @@ have the additional requirements described below.
 
 `check` requires an already built handbook and OpenSpec **1.13.1** on `PATH` or
 through `OPENSPEC_BIN`. It rejects a missing or different CLI version so native
-integration tests cannot silently skip. `all` performs both builds before checking.
+integration tests cannot silently skip. `all` builds schemas, project templates, and the handbook before checking.
 The dispatcher stops at the first failing stage and preserves the child tool's
 exit code; the book builder still attempts remaining books and export formats.
 
-Arguments after `schemas` or `docs` are forwarded to the existing tool:
+Arguments after `schemas`, `project_templates`, or `docs` are forwarded to the selected tool:
 
 ```sh
 python3 build.py schemas --component arc42 --output build/custom/openspec-ddd
+python3 build.py project_templates --component arc42 --output build/custom-project
 python3 build.py docs --docker
 python3 build.py schemas --help
 ```
 
-The root script only coordinates tools; schema composition and documentation logic
+The root script only coordinates tools; schema/starter composition and documentation logic
 remain under `scripts/`. The existing direct commands are also available.
 
 ## Read and build
@@ -99,8 +136,9 @@ remain under `scripts/`. The existing direct commands are also available.
 mdBook publishes this repository's handbook from `docs/`. Edit the Markdown chapters
 and `docs/SUMMARY.md` for navigation; `book.toml` controls the build. Run `build`
 for static HTML in `build/book/` or `serve` for a live local preview. The OpenSpec
-bundle does not install a book in an adopting project. The separate
-[mdBook addon](src/addons/mdbook/README.md) starts a project book that publishes its
+schema-only output does not install a book in an adopting project. Documentation
+starters include selected books; the separate
+[mdBook addon](src/addons/mdbook/README.md) offers a smaller project book that publishes its
 editable `openspec/system-architecture/` entry point. It includes Mermaid
 preprocessor configuration, not vendored JavaScript. The reusable builder prepares
 browser assets in its own cache for both the addon and this handbook.

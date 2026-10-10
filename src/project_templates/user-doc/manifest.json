@@ -1,0 +1,24 @@
+{
+  "files": {
+    "book.user-doc.toml": "src/project_templates/user-doc/files/book.user-doc.toml",
+    "user-doc/README.md": "src/project_templates/user-doc/files/README.md",
+    "user-doc/SUMMARY.md": "src/project_templates/user-doc/files/SUMMARY.md",
+    "user-doc/tutorial.md": "schema:templates/user-doc/tutorial.md",
+    "user-doc/how-to.md": "schema:templates/user-doc/how-to.md",
+    "user-doc/reference.md": "schema:templates/user-doc/reference.md",
+    "user-doc/explanation.md": "schema:templates/user-doc/explanation.md",
+    "user-doc/troubleshooting.md": "schema:templates/user-doc/troubleshooting.md"
+  },
+  "guidance": {
+    "group": "documentation",
+    "title": "User documentation",
+    "source": "src/schemas/components/user-doc/fragments/project-agent-instructions.txt"
+  },
+  "books": {
+    "user-doc": {
+      "config": "book.user-doc.toml",
+      "export-formats": ["markdown"],
+      "serve": true
+    }
+  }
+}

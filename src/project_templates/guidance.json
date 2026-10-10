@@ -1,0 +1,18 @@
+{
+  "intro": "src/project_templates/base/files/AGENTS.proposal-intro.md",
+  "groups": [
+    {
+      "id": "base",
+      "title": "DDD foundation",
+      "always": true,
+      "source": "base:templates/agent-instructions.md"
+    },
+    {
+      "id": "documentation",
+      "parent": "base",
+      "title": "Documentation",
+      "source": "src/project_templates/documentation/files/agent-intro.md",
+      "packages": ["documentation"]
+    }
+  ]
+}

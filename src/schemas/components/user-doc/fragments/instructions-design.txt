@@ -7,7 +7,7 @@ Map each affected page, section, image, navigation entry, or generated reference
 existing source and inspected basis, create/update/remove/rename/reuse action, maintained
 target, and concrete checks. Include optional change-local draft references only when useful.
 Put user mappings in the User Documentation Plan, not in the architecture-view inventory.
-The default target is project-root user-documentation/; drafts are relative to this change.
+The default target is project-root user-doc/; drafts are relative to this change.
 Planning does not write maintained destinations, including removals and renames. This is
 the single maintained-target map for user documentation; Apply and verification reference it.
 Change-local drafts are optional, not a mandatory second editable copy. The existing root

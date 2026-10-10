@@ -64,7 +64,7 @@ unknown-hook failures direct custom authors to `project.context`,
 `project.agent-instructions`, and `project.readme`. Add operation items separately
 and retain native instruction, template, and support-index contributions.
 
-For example, arc42 can contribute handbook impact guidance. A user-documentation
+For example, arc42 can contribute handbook impact guidance. A user-doc
 component could use the same impact hook to identify affected audiences and
 procedures, then contribute drafting tasks and verification guidance. Its guide
 templates would live in its own `files/` directory. Adding this concern needs no

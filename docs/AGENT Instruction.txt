@@ -1,0 +1,96 @@
+ ## Specifications, architecture, and documentation
+
+   Use OpenSpec with the project's installed `ddd+arc42+user-doc` schema.
+   These conventions are independent of the application's language and framework;
+   Python is required for the documentation tooling, not for the application.
+
+   The examples below assume:
+   - Schema helpers: `openspec/schemas/openspec-ddd/helpers/`
+   - Book builder: `scripts/md-book-builder/book.py`
+
+   Use the actual installed paths and existing project wrappers where they differ.
+
+   ### 1. OpenSpec workflow
+
+   Always use the OpenSpec skills for codebase changes: `openspec-propose` to
+   plan a new change, `openspec-update-change` to revise an existing plan, and
+   `openspec-apply-change` to implement it. Follow their instructions; they provide
+   the required context and schema-specific workflow.
+
+   If any required skill is unavailable, stop and require its installation before
+   proceeding. Do not substitute an ad hoc planning or implementation workflow.
+
+   ### 2. Schema helpers
+
+   Read the installed `helpers/README.md` before integrating or changing helper usage.
+   The helpers are read-only structural tools, not publication or approval mechanisms.
+
+   - `ddd.py check`: validate the existing ownership catalog and dependency graph.
+   - `ddd.py context <owner>`: inspect prerequisite contract context.
+   - `ddd.py impact <owner>`: identify consumers requiring review.
+   - `check.py`: validate optional catalog data and canonical ADR metadata.
+   - `docs-check.py`: orchestrate metadata, source, book-build, and rendered-link checks.
+   - `adr-preprocessor.py`: optionally render maintained ADRs as generated book pages.
+
+   A catalog is optional for the generic metadata checks, but required by `ddd.py`.
+   Catalog dependencies describe contract consumption, not code imports or task order.
+   Do not create dummy catalog entries, infer decision acceptance, or treat every
+   transitive consumer as automatic edit scope.
+
+   Typical verification:
+
+   ```sh
+   openspec validate --all --strict --no-interactive
+
+   python3 openspec/schemas/openspec-ddd/helpers/check.py --root .
+
+   python3 openspec/schemas/openspec-ddd/helpers/docs-check.py \
+     --root . --builder scripts/md-book-builder/book.py --openspec
+   ```
+
+   `--source-only` omits rendering and cannot validate generated HTML anchors.
+   Add stricter project-specific policies separately; do not rewrite generic helpers
+   to impose application-specific rules.
+
+   ### 3. Architecture and user documentation
+
+   - Use the central arc42 book for system-wide architecture and owner-local views
+     for scoped detail. Include or reference canonical content rather than copying it.
+   - Organize user documentation by reader goals, tasks, configuration, and recovery,
+     not by internal components or specification filenames.
+   - Describe implemented behavior and distinguish prerequisites, proposals, and
+     verified support. Preserve warnings, conditions, and compatibility limitations.
+   - Use `book-builder.toml` to select books and export formats; each book retains
+     its native mdBook configuration and `SUMMARY.md`.
+   - Use the shared builder or existing project wrappers for builds and previews.
+     Do not introduce a parallel documentation toolchain.
+
+   ```sh
+   python3 scripts/md-book-builder/book.py --root . build
+   python3 scripts/md-book-builder/book.py --root . --book arc42 serve --no-open
+   ```
+
+   Activate ADR rendering explicitly in the relevant book configuration and place
+   `{{#adr-index}}` once in a registered chapter. Edit canonical ADRs, not generated pages.
+   Keep generated HTML, exports, caches, and managed dependencies out of source control.
+
+   ### 4. Publication boundaries and verification
+
+   - Planning leaves maintained destinations unchanged.
+   - During planning and Apply, the entire `openspec/specs/**` tree remains read-only,
+     including architecture, assets, indexes, and generated or indirect writes.
+   - Maintained models, ADRs, and the catalog remain protected wherever located.
+     Prepare their proposals and publication mappings inside the selected change.
+   - Apply may update explicitly mapped descriptive documentation outside the protected
+     tree. Reconcile concurrent edits and preserve unrelated working-tree changes.
+   - Publish protected content only during separately authorized sync/archive integration.
+     Native requirement synchronization does not publish models, ADRs, architecture
+     companions, or catalog changes.
+   - Do not create maintained links to unpublished targets or transient change drafts.
+     Record publication-dependent work in the integration handoff.
+   - Run the relevant checks and inspect changed rendered chapters. Review architecture
+     meaning and user procedures separately from syntax and link correctness.
+   - Report actual evidence and limitations. A successful build is not proof of code
+     conformance, usability, decision approval, acceptance, release, or deployment.
+   - Keep examples secret-free. Do not install new tooling, publish documentation,
+     or deploy services merely to make a documentation check pass.

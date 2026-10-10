@@ -137,13 +137,14 @@ Architecture reconstruction remains the separate host workflow described in adop
 not a schema component or builder selection. Selecting arc42 supplies handbook guidance,
 not a reconstruction runtime.
 
-The root `build.py` dispatches to the existing tools. With no command it builds
-schemas; `docs` invokes `scripts/md-book-builder/book.py` to build selected books,
-`check` runs tests and source/rendered link
-checks, and `all` builds schemas and the handbook before checking. `check` requires
+The root `build.py` dispatches to the existing tools. With no command (or `bundle`)
+it builds schemas and fresh-project templates; explicit `schemas` remains schema-only.
+`project_templates` builds project templates, `docs` invokes `scripts/md-book-builder/book.py`
+to build selected books, `check` runs tests and source/rendered link checks, and
+`all` builds schemas, project templates, and the handbook before checking. `check` requires
 a built handbook and OpenSpec 1.13.1 on PATH or through `OPENSPEC_BIN`. Arguments
-after `schemas` or `docs` are forwarded, including `docs --docker`. Relative paths
-are resolved from the repository root.
+after `schemas`, `project_templates`, or `docs` are forwarded, including `docs --docker`.
+Relative paths are resolved from the repository root.
 
 Composition sources live under `src/schemas/`. The builder uses
 Python 3.10+ and its standard library without extra packages. Components use the existing
@@ -186,6 +187,76 @@ merges, not automatic replacement of project-owned customizations.
 See the builder README at `scripts/schema-builder/README.md` for authoring and migration instructions. Required
 checks validate components alone and in combination with real OpenSpec, including
 their contributed instructions and the native lifecycle.
+
+## Start a fresh project from a complete template
+
+For an empty new project, the generated `build/project_templates/<variant>/` directories
+assemble the schema, project guidance, and optional documentation tooling. Choose
+`ddd`, `ddd+arc42`, `ddd+user-doc`, or `ddd+arc42+user-doc`; no legacy starter is
+provided. From this bundle's root:
+
+```sh
+python3 build.py project_templates
+mkdir /path/to/new-project
+cp -R build/project_templates/ddd+arc42+user-doc/. /path/to/new-project/
+cd /path/to/new-project
+openspec init --tools pi --profile core --no-animation
+openspec schema which ddd+arc42+user-doc
+openspec schema validate ddd+arc42+user-doc
+openspec templates --schema ddd+arc42+user-doc
+```
+
+Install the supported CLI first as described above. Native initialization generates
+the chosen agent integration while retaining the starter's `openspec/config.yaml`.
+Each starter includes the matching schema content under
+`openspec/schemas/<variant>/`, selects that variant in `openspec/config.yaml`, and
+includes composed config/README guidance, a reviewable `AGENTS.proposal.md`, and the
+valid empty `openspec/catalog.json`. No active `AGENTS.md` is supplied; review the
+proposal against existing instructions before deliberately merging useful sections. The schema library is byte-identical to
+`build/schemas/<variant>/`: its generic `openspec-ddd` name and reusable-template
+references remain installation defaults, while project guidance is rendered for
+the chosen variant. Catalog maintenance is optional; add actual
+owners only after their main specs exist. No application code, dummy specs,
+accepted ADRs, or pre-generated agent integrations are supplied.
+
+The arc42 selection includes navigable writing starters under
+`openspec/system-architecture/` and root `book.arc42.toml`. The user-doc selection
+includes a minimal reader landing page and authoring starters under
+`user-doc/` plus `book.user-doc.toml`. Documentation selections install
+the complete relocatable `scripts/md-book-builder/` package, shell/Windows
+wrappers, and `book-builder.toml` with only the selected books. Outputs are separate
+under `build/books/arc42/` and `build/books/user-doc/`. Existing adopted projects
+retain their explicitly chosen documentation root; changing it requires a deliberate
+move with corresponding configuration/navigation updates, not a regenerated overlay.
+DDD-only includes neither books nor book tooling. The standalone mdBook addon remains a smaller opt-in
+publishing skeleton for existing projects; it is not a second full arc42 template source.
+
+```sh
+./scripts/book.sh build
+python3 openspec/schemas/ddd+arc42+user-doc/helpers/docs-check.py --source-only
+python3 openspec/schemas/ddd+arc42+user-doc/helpers/docs-check.py
+```
+
+These documentation commands apply only to documentation starters. The first
+build may provision tooling; `--docker` selects the pinned Docker mode. Replace
+prompts with checked project content and remove unused pages together with their
+navigation. Template copies and successful builds do not establish architecture
+correctness, product-task success, delivery acceptance, or deployment.
+
+Assembly manifests and project-template-owned files live under `src/project_templates/`. They reuse
+composed schema templates and the canonical reusable book tool rather than fork
+those sources. `guidance.json` declares ordered groups, optional parent groups,
+shared intros, and shared packages. Component manifests associate their canonical
+agent fragment with a group. The DDD group is always active; selected components
+activate their group and all ancestors. The documentation intro/tool package occurs
+once whether arc42, user-doc, or both activate it. Further groups/components use
+the same declarations rather than component-specific builder branches. Inactive
+groups disappear entirely; generated proposals retain no composition placeholders.
+Book configuration entries are composed structurally.
+See `scripts/starter-builder/README.md` for source authoring and safe regeneration.
+Rebuilds replace only verified builder-owned distribution output. Never copy a
+rebuilt starter over an adopted project: updates require reviewed diffs and merges
+that preserve project-owned configuration, integrations, docs, and customizations.
 
 ## Optional ASCII diagrams
 

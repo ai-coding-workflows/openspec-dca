@@ -32,8 +32,9 @@ python3 scripts/md-book-builder/book.py build
 python3 build.py docs
 ```
 
-On Windows, use `scripts\book.cmd` with the same options. `build.py docs` forwards
-arguments to the canonical builder.
+On Windows, use `scripts\book.cmd` with the same options. In this bundle repository,
+`build.py docs` forwards arguments to the canonical builder. Copied project starters
+use the book wrappers or `book.py` directly; they do not include that root dispatcher.
 
 No fixed `scripts/` layout is required when reusing the bundle. All resources,
 caches, and the PDF environment resolve relative to the actual `book.py` directory.
@@ -185,7 +186,7 @@ python3 src/schemas/helper-packs/docs/docs-check.py --openspec
 It checks optional DDD metadata first, then source references, builds selected books
 once, and checks local links and anchors in every configured HTML output. Source
 folders come from each native `[book].src`; repeated `--source` adds project-relative
-folders without imposing arc42 or user-documentation paths. Selection uses the
+folders without imposing arc42 or user-doc paths. Selection uses the
 builder's authoritative list and `--book`/`--config`. `--builder PATH` selects the
 actual `book.py` when installed elsewhere; `BOOK_BUILDER` selects the same file.
 The generic builder is required separately and may live in arbitrary folders;
