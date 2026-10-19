@@ -5,8 +5,11 @@ context: |
   Read openspec/README.md, the selected schema's templates/architecture-policy.md,
   and the project's implementation map. Own behavior by context, keep source
   dependencies inward, and map/test ports, adapters and composition using the stack's idioms.
-  Keep facts, proposals, acceptance and execution evidence distinct; reference authoritative
-  definitions instead of repeating them. Baseline plus the selected change governs work.
+  Give each normative rule one authoritative home; reference it elsewhere. Keep current
+  conclusions distinct from dated history. Baseline plus the selected change governs work.
+  Follow the policy's Ubiquitous Language rules for concepts AND named processes; keep
+  definitions at their owners and glossary links navigable. Align code/tests/current docs
+  with the change overlay; maintained language definitions have model/spec protection.
   Planning stays change-local. During Apply protect all openspec/specs/** content,
   maintained models, ADR records/status and the catalog, including generated writes.
   Deliver only mapped outside-tree descriptive docs; preserve prior dirty/unrelated work.
@@ -23,7 +26,7 @@ operations:
   archive:
     guidance:
       - Read tasks.md's integration handoff and integration.json. Separate authorization and actual acceptance are required; reconcile against the latest baseline.
-      - Merge requirement deltas, explicitly publish every required model/view/ADR companion, then update dependent links, implementation maps, and catalog registrations. Sync alone is not companion publication.
+      - Merge requirement deltas, explicitly publish required model/view/ADR and contract companions, and reconcile mapped supporting sections and dependent references/maps/catalog. Include configuration/API references, obsolete keys/meanings, language definitions and glossary/translation mappings; sync alone is not companion publication.
       - Record semantic review and link/anchor/symbol checks in verification.md. Fill fresh integration.json snapshots and run the selected schema's helpers/closure.py check before the final archive move. Pending or failed required work blocks closure.
       - This guidance is advisory, not a CLI hook. Use the project's CI or integration wrapper for a hard gate; do not claim that schema configuration changes the native archive command.
       {{hook:operation.archive}}

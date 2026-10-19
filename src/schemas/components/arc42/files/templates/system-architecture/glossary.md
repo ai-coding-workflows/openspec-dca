@@ -1,14 +1,19 @@
 # Glossary
 
-<!-- Starter for openspec/system-architecture/glossary.md. Define shared terminology
-and point to domain-specific meanings rather than replacing the local domain models. -->
+<!-- Starter for openspec/system-architecture/glossary.md. Follow the base DDD
+Ubiquitous Language policy and glossary.md template. Reuse the project's selected index
+here or link to it; do not create a second independently maintained glossary.
+When hosting the index here, use the base glossary.md context sections and
+alphabetical ordering, not a separate flat-table convention. -->
 
-## Terms and references
+## Domain language index
 
-| Term | Meaning or concise explanation | Scope | Authoritative definition / source |
-| --- | --- | --- | --- |
+<!-- Link to the selected index, or insert the base glossary.md layout here.
+Keep technical terms in its optional Technical terms section; sort there too. -->
 
-<!-- Keep one authoritative definition. Where a term means different things in two
+<!-- Include named processes/use cases, not only concepts/types. Link conceptual
+meanings to domain models and process behavior to owning feature/use-case specs.
+Keep one authoritative definition. Where a term means different things in two
 bounded contexts, list the scopes and references rather than force one global model.
 Use this page as navigation, not a second independently edited value list or invariant set.
 

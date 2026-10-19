@@ -1,7 +1,10 @@
 # Tasks: {change}
 
-<!-- Replace examples with concrete numbered slices and commands. One Apply checklist;
-no publication/deployment checkboxes. Preserve completed history as plans evolve. -->
+<!-- Replace examples with concrete numbered slices and references to design's checks.
+One current Apply checklist; no publication/deployment checkboxes. Keep dated replanning
+history separate, preserve completed evidence, and do not duplicate test catalogues.
+Name slices using their processes/use cases. Include affected naming, tests, definition
+links, translations and mappings in existing slices, not a parallel language backlog. -->
 
 ## 1. Foundation or affected boundary checks
 - [ ] 1.1 Establish or update the affected module map and executable dependency rules; prove forbidden dependencies fail and real modules are scanned.
@@ -19,7 +22,10 @@ publication backlog. integration.json records closure state and final snapshots,
 not another editable specification. Keep pending companion work visible.
 
 Separate authorization is required to reconcile the current baseline, integrate
-requirements, publish protected companions, and fix dependent references/catalog.
+requirements, publish protected companions, and reconcile mapped supporting sections
+and dependent references/catalog. Check coverage of configuration/API contracts and
+obsolete keys/meanings, language definitions and glossary/translation mappings;
+do not infer completeness from merged delta files alone.
 Run the closure helper after these writes and before the final archive move.
 A required unfinished publication blocks closure. Deployment remains separate. -->
 

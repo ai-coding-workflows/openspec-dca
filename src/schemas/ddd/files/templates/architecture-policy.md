@@ -38,3 +38,37 @@ interfaces, diagrams, repositories, or shared kernels to complete a pattern.
 
 Publish the project's concrete realization in its owned implementation map, not
 by rewriting this reusable policy as though it described existing code.
+
+## Ubiquitous Language
+
+Use a shared language within each bounded context for concepts, relationships,
+named processes/use cases, actions, states/outcomes and events where relevant.
+The same word may have different explicitly scoped meanings in different contexts.
+
+Keep conceptual meanings in the owning domain model; process scope, triggers,
+completion and behavior in the owning feature/use-case specification; shared rules
+in domain requirements. Runtime views explain collaboration, not a second process
+contract. A cross-context process has an explicit contract owner and references
+its participants; the glossary does not become that owner.
+
+The glossary indexes terms by kind, context and a link to the authoritative file
+and section. Reuse an existing glossary; short explanations identify terms without
+copying rules. Definitions need no separate file per term or mandatory filesystem hierarchy.
+Group the glossary by bounded context/scope; separate genuinely shared domain terms
+and technical terms when needed. Sort context sections alphabetically and entries
+by canonical display term, case-insensitively. Optional kind subgroups remain
+alphabetically sorted internally. Follow glossary.md for the compact layout.
+
+Use recognizable terms across code, tests, specifications, diagrams, current docs
+and active changes. Allow native identifier conventions and explicitly mapped
+translations, external representations and compatibility aliases. Assess public
+API/configuration/data compatibility before renaming. Not every term needs a code
+type, and ordinary technical identifiers need no invented domain equivalent.
+
+Assess terminology evolution in the existing domain-model artifact. Distinguish
+established meanings, proposals and unknowns; do not invent stakeholder agreement.
+A meaning change can affect obligations without changing its name. Apply uses the
+baseline overlaid with the selected change; historical records retain their wording.
+Maintained language definitions follow model/spec protection regardless of location.
+Index-only edits follow mapped documentation rules; stage links to unpublished
+owners until integration. Ordinary naming does not require an ADR.

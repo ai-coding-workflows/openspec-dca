@@ -1,2 +1,3 @@
 arc42: the handbook's decision index links actual durable ADRs; it neither owns
-duplicate rationale nor accepts/publishes a record. Defer links until targets exist.
+duplicate rationale nor accepts/publishes a record. Index maintenance does not
+warrant another ADR. Defer links until targets exist.

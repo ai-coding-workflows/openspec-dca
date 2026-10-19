@@ -2,5 +2,7 @@ User-doc: map affected pages/assets/navigation to inspected sources, action, act
 maintained target and checks in User documentation plan. Respect the chosen root.
 Group pages by reader goal and select only useful page types. Plan safe procedure,
 source and link/preview checks for the supported product version. Preserve warnings
-and incoming links. Use approved tools/generator mappings and inspect incidental
+and incoming links. Explain owned contracts for readers without creating a competing
+normative rule; include affected configuration/API references in the mapping.
+Use approved tools/generator mappings and inspect incidental
 output. Protected targets and their dependent links follow the base handoff.

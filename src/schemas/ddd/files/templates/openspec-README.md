@@ -7,11 +7,14 @@ it is a policy, not evidence that this project's architecture is implemented.
 ## Project entry points
 
 Record the actual context/spec roots, implementation map, accepted decisions,
-local/CI check commands and documentation roots here. For a new project use the
+local/CI check commands, definition/glossary locations and documentation roots here. For a new project use the
 schema's project-setup.md prompt to establish only the justified foundation.
 Suggested implementation-map destination:
 openspec/specs/system/composition/architecture/implementation-map.md.
 Do not link a destination until it exists; preserve its planned location in the change.
+The DDD glossary indexes concepts AND named processes. Reuse an existing glossary, or
+use openspec/glossary.md; definitions remain with their domain model or feature owner.
+The schema's glossary.md template is navigation, not an additional behavior contract.
 
 ## Change lifecycle
 

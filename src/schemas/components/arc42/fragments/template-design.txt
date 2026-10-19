@@ -1,5 +1,5 @@
 ## arc42 views
-<!-- Use View and implementation-map publication above for affected handbook
+<!-- Use Publication and reconciliation mapping above for affected handbook
 sources, destinations and checks. Link owned realization rather than duplicate it.
 Outside-tree descriptive pages are Apply delivery; protected targets and dependent
 links belong to separate integration. -->

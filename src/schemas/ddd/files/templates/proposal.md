@@ -1,7 +1,9 @@
 # Proposal: {change}
 
 ## Why and outcome
-<!-- Problem, beneficiary, intended observable outcome; distinguish facts and proposals. -->
+<!-- Name the process/use case in the shared language; problem, beneficiary and
+observable outcome. Read definition/glossary references; distinguish facts, proposals
+and unresolved terminology instead of inventing agreement. -->
 
 ## Scope and acceptance
 <!-- Useful acceptance examples, non-goals, compatibility/failure limits. -->

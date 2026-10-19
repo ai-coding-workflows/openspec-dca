@@ -5,7 +5,10 @@
 | --- | --- | --- |
 
 <!-- Reuse existing / New ADR / Supersede existing / No ADR required.
-Record status and real authority separately; no invented acceptance or alternatives. -->
+Assess significant new/changed choices, not every requirement, feature, port or adapter.
+A brief "No ADR required" reason is sufficient; do not invent rows or records to fill
+this table. New records need durable rationale beyond existing decisions/design.
+Record actual status/provenance; no invented acceptance or alternatives. -->
 
 ## Records and publication mapping
 | Existing record / inspected basis | Change-local record | Maintained target / supersession |

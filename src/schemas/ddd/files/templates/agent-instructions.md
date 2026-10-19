@@ -3,12 +3,20 @@
 Read openspec/README.md, the selected schema's templates/architecture-policy.md, relevant
 contracts and the project's implementation map before planning or changing code.
 Use the selected active change and baseline plus its deltas/model revisions.
+Follow the policy's Ubiquitous Language rules, including named processes. Definitions
+stay with their model/spec owners; the glossary links them. Align code, tests and
+current docs using the selected change overlay; do not silently rewrite history.
+Treat maintained language definitions as protected model/spec content wherever stored.
 Write complete, precise sentences; distinguish evidence, proposals and decisions.
-Keep one authoritative definition, one design and one Apply task list.
+Give each normative rule one authoritative home; reference it elsewhere. Keep one
+current design, Apply task list and verification conclusion; separate dated history.
 
 The seven artifacts separate outcome, impact, model meaning, requirement deltas,
 implementation design, decisions and tasks. No-change model/ADR assessments are
-brief; never create empty specs, ports, models or records for symmetry.
+brief; never create empty specs, ports, models or records for symmetry. Applying an
+existing decision does not require a new ADR; record only significant new/changed
+choices needing durable rationale. Scenarios must demonstrate concrete observable
+outcomes, not merely repeat their requirements.
 Context owners and inward dependencies are required. Map use cases to actual
 application boundaries, ports, adapters and composition; test those dependencies
 with the stack's real module/compile graph and negative controls. Real adapters
@@ -22,7 +30,9 @@ in the local checkout, without changing protected meaning or decision status.
 
 Apply stops after implementation, evidence and publication preparation. Separate
 authorization covers baseline reconciliation, requirement sync, explicit companion
-publication and dependent link/map/catalog updates. Sync alone does not publish
+publication and reconciliation of mapped supporting sections and dependent
+references/maps/catalog, including configuration/API contracts, language definitions
+and glossary/translation mappings. Sync alone does not publish
 companions. Required unfinished publication blocks closure. Read the installed
 config's archive guidance and helpers/README.md, then run closure.py before the
 final archive move. The helper checks declared evidence, not semantic correctness

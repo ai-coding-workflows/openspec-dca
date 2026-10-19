@@ -18,7 +18,10 @@ For each: create/change/reuse/remove/unresolved and the contract reference.
 No outbound dependency is valid with a reason; missing ownership is not reuse. -->
 
 ## Model, architecture, and documentation effects
-<!-- Inventory affected definitions, views, ADRs, composition, and significant risks.
-Precise meanings belong to the model assessment; technical mappings to design. -->
+<!-- Inventory exact affected files/sections: definitions, views, ADRs, supporting
+information and companion contracts, including configuration/API references. Inspect
+consumers of renamed keys or changed meanings, not only direct links. Include named
+processes, glossary definition links, code/tests, translations and aliases. Precise meanings
+belong to the model assessment; publication/reconciliation mappings belong to design. -->
 
 {{hook:template.impact}}

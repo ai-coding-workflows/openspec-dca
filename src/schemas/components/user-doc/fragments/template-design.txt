@@ -2,6 +2,7 @@
 | Source / inspected basis | Action / maintained target | Reader goal and check |
 | --- | --- | --- |
 <!-- Single user-doc mapping. Respect the existing root, default project user-doc/.
-Include affected navigation/assets/approved generated sources and safe procedure
-checks. Outside-tree descriptive sources are Apply delivery; drafts are optional.
+Include affected configuration/API references, navigation/assets/approved generated
+sources and safe procedure checks. Outside-tree descriptive sources are Apply delivery;
+drafts are optional.
 Protected references follow the base handoff. Preserve warnings and incoming links. -->

@@ -1,7 +1,7 @@
 # DDD helpers
 
 These read-only, standard-library Python 3.10+ tools work without arc42 or mdBook.
-Every composed v3 schema variant includes this optional `helpers/` directory;
+Every composed v4 schema variant includes this optional `helpers/` directory;
 install it with the selected schema under `openspec/schemas/openspec-ddd/`.
 Existing helper APIs are unchanged; `closure.py` adds a read-only integration
 receipt check. The original alternate `openspec/ddd/` location remains supported.
@@ -54,10 +54,37 @@ helper does not parse `.openspec.yaml` or prove native CLI readiness.
 Publish means the authorized reviewed content was reconciled into the target.
 It does **not** imply byte-for-byte copying of a whole draft over a newer baseline.
 Final fingerprints are evidence of the reviewed result, not permission to overwrite it.
+
+A configuration/API contract outside `spec.md` is a companion publication target.
+Supporting sections inside a main `spec.md` are not separate companion files: map the
+section edits in design, reconcile them after the requirement merge, and record the
+final file under `reconciliation.files`. If that file also has a delta, its
+`requirements.files` row must fingerprint the same final content. Never put a main
+`spec.md` in `companions.files` or invent a requirement delta for supporting prose.
+Review affected obsolete keys/meanings as well as links; historical examples may be
+intentional. The existing receipt format needs no new fields for this distinction.
+
 Main-spec retirement needs the installed CLI's supported retirement operation and
 actual authorization. A receipt row with `action: retire` verifies absence, not that
 the deletion was semantically justified. Relocation uses the reviewed retirement
 and addition mappings; this helper does not implement a second spec merge engine.
+
+### Language and glossary evidence
+
+Use the same receipt format for language work. A separately maintained model or
+language definition is a companion; definitions inside `spec.md` follow requirement
+merge/supporting-section reconciliation above. A glossary's own file is a companion
+when explicitly published from a draft, or a `reconciliation.files` index when reviewed
+or updated in place. Choose its mapped action, not a new receipt section. Index-only
+outside-tree edits follow existing Apply documentation rules; stage links requiring
+unpublished definitions. Definitions retain model/spec protection at any location.
+
+List the durable definition files under `reconciliation.references`; check their
+actual Markdown links and section anchors with project tooling or review. The helper
+does not parse glossary rows, validate anchors or compare domain/process meaning.
+Use the baseline plus selected change proposals during Apply. At integration review
+concurrent terminology changes, affected code/tests/current docs, scoped translations
+and intentional historical/external aliases before taking final snapshots.
 
 ### What the check does
 
@@ -79,7 +106,8 @@ evidence invalidates the receipt and requires fresh review/snapshots.
 The helper does not execute recorded commands, prove tests passed, parse Markdown
 links/anchors, check code symbols, establish authorization, or prove a semantic merge.
 It cannot infer an omitted companion or undisclosed consumer from prose. Review the
-receipt against impact/design/model/ADR mappings; record that coverage review and
+receipt against impact/design/model/ADR mappings, including exact supporting sections
+and configuration/API contracts; record that coverage review and
 actual semantic/link/anchor/symbol checks in `verification.md`. Catalog omissions are
 reported by the existing helper, never automatically registered; this closure check
 also rejects omissions among this change's affected merged main specs. Use stack-specific
