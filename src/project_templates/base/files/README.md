@@ -11,14 +11,14 @@ From this project root, install the supported OpenSpec release and initialize
 its native integration:
 
 ```sh
-npm install --global @fission-ai/openspec@1.13.1
-openspec init --tools pi --profile core --no-animation
+openspec --version
+openspec init
 openspec schema which {{schema-name}}
 openspec schema validate {{schema-name}}
 openspec templates --schema {{schema-name}}
 ```
 
-Choose another supported tool instead of `pi` if needed. Native OpenSpec generates
+Select the actual agent integration in the installed CLI. Native OpenSpec generates
 agent commands and skills; this template intentionally contains none. Preserve
 `openspec/config.yaml` and your existing project instructions/customizations when
 updating integrations. Read the installed schema's `templates/README.md` for
@@ -31,6 +31,14 @@ only the selected component instructions. It is a reviewable proposal, not activ
 agent policy. Review and merge useful sections into the project's `AGENTS.md` or
 the chosen agent instruction file, preserving existing rules. Do not maintain two
 active copies. This template deliberately does not supply an active `AGENTS.md`.
+
+## Establish the foundation
+
+Use `PROJECT_SETUP.md` with the actual project goal, stack constraints and first
+use case. It creates a tested implementation map, core/adapter/composition checks
+and executable architecture rules. The prompt authorizes foundation Apply work,
+not protected publication or archive. A language/framework has not been selected
+by this template. Schema helpers use Python independently of application tooling.
 
 ## Ownership and metadata
 
@@ -45,6 +53,21 @@ python3 openspec/schemas/{{schema-name}}/helpers/check.py --root .
 OpenSpec owns its native change lifecycle. Artifact readiness, completed tasks,
 executed verification, and acceptance remain separate states. Native spec sync
 merges requirement deltas, not architecture, models, ADRs, catalog entries, or user docs.
+
+## Integration closure
+
+The schema's `templates/integration.json` is a pending evidence starter. During
+separately authorized integration, merge requirements, explicitly publish required
+companions and reconcile dependent links/maps/catalog. After recording current
+snapshots and actual review, run:
+
+```sh
+python3 openspec/schemas/{{schema-name}}/helpers/closure.py --root . check --change CHANGE
+```
+
+Run this before the final archive move. See the helper README for its format and
+limits; it does not merge content, run tests or intercept native archive. Wire the
+check into the project's CI/integration wrapper to make failure block closure.
 
 ## Documentation variants
 

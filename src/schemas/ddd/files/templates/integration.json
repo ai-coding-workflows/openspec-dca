@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "change": "REPLACE-WITH-CHANGE-NAME",
+  "evidence": "verification.md",
+  "inputs": [],
+  "requirements": {
+    "status": "pending",
+    "reason": "",
+    "files": []
+  },
+  "companions": {
+    "status": "pending",
+    "reason": "",
+    "files": []
+  },
+  "reconciliation": {
+    "status": "pending",
+    "reason": "",
+    "files": [],
+    "references": []
+  }
+}

@@ -1,539 +1,213 @@
 name: openspec-ddd
-version: 1
-description: Domain-centered delivery with maintained descriptive documentation and separate contract publication
+version: 2
+description: Domain-centered delivery with explicit ports, adapters, executable boundaries, and separate publication
 artifacts:
   - id: proposal
     generates: proposal.md
-    description: Outcome, scope, acceptance, and starting contract owners
+    description: Outcome, scope, acceptance, and owning contexts
     template: proposal.md
     instruction: |
-      Write for a reviewer who understands the product but did not investigate the code.
-      Start with what changes, why it matters, and what the reader must decide or check.
-      Use short complete sentences and explain a technical term at first use. Preserve
-      exact code identifiers, paths, requirement names, conditions, and uncertainty.
-      Separate observations, proposed behavior, recommendations, and actual decisions.
-      Use a short overview and focused detail sections; do not compress paragraphs into
-      wide table cells. Unknown existing behavior stays unknown, not absent or unchanged.
-      Retain substantive risks, compatibility, failure cases, and evidence below the
-      summary. Do not add a mandatory summary inside native requirement-delta syntax.
-      For a choice awaiting the user, state one concrete decision question. Explain the
-      observed behavior, the practical failure/risk, and what each option changes before
-      introducing implementation terms. Compare options using the same criteria: delivered
-      scope, deferred scope, required work, remaining limitations, and needed checks. Use
-      short option headings or a compact table plus details. Keep a recommendation separate
-      from approval and preserve the given option labels. An unresolved technical detail
-      stays visible; do not replace it with an asserted guarantee.
-
-      Describe one coherent delivery effort and observable acceptance. Explain the problem,
-      who benefits, and the intended outcome; reference existing goals rather than inventing
-      a need for every rule. A feature is a stable capability containing one or more
-      actor-goal use cases, not necessarily one endpoint, class, or spec per interaction.
-      Read project instructions, openspec/README.md, relevant maintained architecture documentation
-      sections, and main specs. Read existing sources; do not fabricate undocumented intent.
-      List exact capability paths relative to openspec/specs, separated into new and modified
-      capabilities; catalog aliases are not capability paths. New owners may be in contexts/,
-      technical-capabilities/, or an explicitly owned system/ scope. Create an owner only
-      for an independently meaningful contract, not a directory or reused implementation.
-      Include necessary domain/port refinements and explain their contribution. Keep unrelated
-      improvements outside scope. Identify non-goals, important failure outcomes, and breaks.
-      Reuse existing decisions and authorizations. Resolve material policy, boundary, and
-      compatibility choices before dependent work; mark open decisions and what they block.
-      During planning, prepare proposals inside the selected change and leave maintained
-      destinations unchanged. The entire openspec/specs/** tree remains read-only during planning and Apply.
-      Plan descriptive documentation outside that tree as Apply delivery work in the development
-      checkout. Prepare and check local-architecture proposals change-locally for protected targets;
-      actual publication belongs to separately authorized sync/archive integration. Maintained model
-      companions, ADR records, and the catalog remain protected wherever located. Do not sync/archive,
-      publish protected content, or deploy documentation as a planning or Apply substep.
-      For a native change with no behavioral change, explain this and set skip_specs: true in
-      its .openspec.yaml; create no deltas or placeholder specs. Remove that flag if obligations
-      change. This skips only specs: domain-model and architectural-decisions still record a
-      short, reasoned assessment. They do not force a model edit or a new ADR.
+      Read project instructions, openspec/README.md, the selected schema's
+      templates/architecture-policy.md, and relevant baseline contracts and decisions.
+      Describe one useful outcome, acceptance examples, non-goals, and material risks.
+      Identify owning contexts and exact new/modified capability paths relative to
+      openspec/specs/. Delivery packages and technical folders are not business owners.
+      Reuse accepted boundaries; a new project needs a minimal implementation map and
+      executable boundary checks as foundation work, not a complete speculative model.
+      Resolve conflicts between a roadmap's implementation suggestions and the adopted
+      architecture before dependent work. Name unresolved choices and what they block.
+      Keep planning inside this change. All openspec/specs/** content, maintained models,
+      ADR records, and the catalog remain read-only through planning and Apply.
+      With no changed obligations, explain why and use skip_specs: true only if supported
+      by the installed CLI; create no dummy deltas. The model and ADR assessments still
+      record reasoned reuse/no-change. Remove the flag when obligations change.
       {{hook:instructions.proposal}}
     requires: []
   - id: impact
     generates: impact.md
-    description: Contract ownership, dependency context, and consumer disposition
+    description: Owners, affected boundaries, and consumer dispositions
     template: impact.md
     instruction: |
-      Write for a reviewer who understands the product but did not investigate the code.
-      Start with what changes, why it matters, and what the reader must decide or check.
-      Use short complete sentences and explain a technical term at first use. Preserve
-      exact code identifiers, paths, requirement names, conditions, and uncertainty.
-      Separate observations, proposed behavior, recommendations, and actual decisions.
-      Use a short overview and focused detail sections; do not compress paragraphs into
-      wide table cells. Unknown existing behavior stays unknown, not absent or unchanged.
-      Retain substantive risks, compatibility, failure cases, and evidence below the
-      summary. Do not add a mandatory summary inside native requirement-delta syntax.
-      Explain what each affected component does before naming its relationship. Keep
-      precise locations in short source references; report unverified effects explicitly.
-
-      Read proposal and prerequisite contracts before reviewing their consumers. Read the
-      relevant architecture documentation, domain model, local architecture, and architectural-decisions/ records.
-      Use the optional catalog's depends_on graph or a small manual dependency map. Its edges
-      mean contract consumption, not code imports, task order, or arbitrary data flow.
-      Assign every definition and lasting rule one authoritative source. Record exact paths
-      and existing aliases. Distinguish contract delta, documentation only, implementation
-      only, unchanged with rationale, and unresolved. Every contract-delta owner needs an
-      actual matching delta file and intended requirement changes; glob existence is not
-      coverage. Reconcile proposal and all planned/existing deltas in both directions.
-      Transitive consumers are a review set, not automatic edit scope. Include external
-      callers, shared technical capabilities, system boundaries, and composition as relevant.
-      Ports/adapters may belong to any justified responsibility scope. State their reference
-      boundary: in/out is a driving/driven role, not the direction of results. A consuming
-      context can own a port and an adapter to another context's published contract without
-      creating shared ownership. A shared server or library alone does not justify a shared
-      contract. Do not duplicate feature behavior in a separate inbound-port spec for symmetry.
-      Identify potentially affected model definitions, requirement names, and consumers.
-      Do not author a competing model revision here: domain-model-changes.md owns the precise
-      proposed meaning or references its single change-local draft. A changed obligation also
-      needs contract deltas; a model edit is not a way to hide behavior under documentation-only
-      work. Flag historical-state and new-transition questions for the domain-model assessment.
-      Inventory the affected architecture documentation sections, owned models/views, diagram sources, and
-      existing ADRs. Record create, update, or reuse, the reason, and existing/planned maintained
-      paths. Impact owns this affected-scope inventory, not duplicate model text or ADR rationale.
-      The model assessment owns model source-to-target details; architectural-decisions.md owns
-      ADR dispositions and record destinations; design owns proposed technical views and
-      descriptive-documentation delivery mappings. During planning, prepare new content inside
-      this change, not at maintained destinations. The entire openspec/specs/** tree remains read-only during planning and Apply.
-      Map descriptive updates outside that tree for Apply; prepare and check proposals for views
-      inside it change-locally, with publication in separately authorized sync/archive integration.
-      Model/ADR publication remains separate wherever located. Identify relevant architecture gaps
-      without making an unrelated change rebuild all architecture documentation. Do not create empty
-      chapters, pretend templates are implemented views, or assign catalog entries to docs.
-      Surface additional owners and reasons. Apply routine adapter consequences of an agreed
-      contract; resolve material behavior/compatibility choices before dependent work. A shared
-      context does not authorize broader edits. Proposed owners remain in this change. Catalog
-      registration requires separately authorized publication and actual main specs; do not
-      create a missing main spec to satisfy the helper. Folder naming does not change catalog
-      fields, allowed metadata values, or the read-only helper's behavior.
+      Read proposal, prerequisite contracts, models, implementation maps, and decisions.
+      Use the optional catalog or a small manual map. Contract consumption, runtime
+      calls, source dependencies, and task order are different relationships.
+      For each affected use case identify its owning core, driving entry point,
+      application boundary, required external capabilities, port owners, and adapters.
+      Record create/change/reuse/remove or unresolved, with exact contract references.
+      Existing files are not proof of a complete boundary; inspect claimed reuse.
+      A port may be a function, protocol, interface, or module API. Features can own
+      inbound contracts; do not duplicate them in separate specs for folder symmetry.
+      Review direct/transitive consumers, external callers, and system composition.
+      Disposition each as contract delta, implementation/docs only, unchanged with
+      reason, or unresolved. Match contract-delta owners to actual delta paths in both
+      directions; one file satisfying a glob does not prove coverage.
+      Identify affected model meanings, views, ADRs, and documentation. Assess scope
+      here; keep precise definitions, technical mappings, and ADR rationale in their
+      respective artifacts. New owners stay change-local until explicit integration.
       {{hook:instructions.impact}}
     requires: [proposal]
   - id: domain-model
     generates: domain-model-changes.md
-    description: Assess model impact and specify change-local semantic revisions or justified reuse
+    description: Assess and describe changes to owned domain meaning
     template: domain-model-changes.md
     instruction: |
-      Write for a reviewer who understands the product but did not investigate the code.
-      Start with what changes, why it matters, and what the reader must decide or check.
-      Use short complete sentences and explain a technical term at first use. Preserve
-      exact code identifiers, paths, requirement names, conditions, and uncertainty.
-      Separate observations, proposed behavior, recommendations, and actual decisions.
-      Use a short overview and focused detail sections; do not compress paragraphs into
-      wide table cells. Unknown existing behavior stays unknown, not absent or unchanged.
-      Retain substantive risks, compatibility, failure cases, and evidence below the
-      summary. Do not add a mandatory summary inside native requirement-delta syntax.
-      Use the domain-model-changes template's change overview and one detail section per
-      model or mapping. Show current understanding next to the proposal and label Add,
-      Change, Remove, Rename, Document existing, Reuse, or Not yet determined as appropriate.
-      These are reading labels, not new schema values. Distinguish a new definition from
-      new runtime behavior; an existing class does not prove a complete maintained model.
-      Separate domain meaning, external-system mapping, and write/retry rules; link to
-      owning deltas/design rather than defining a competing contract. Show what is retained
-      and whether anything is removed. Put exact paths and inspected revisions in source
-      and destination references, not dense overview cells. Do not invent a Before value,
-      field name, identity rule, destination, test result, or resolved decision. An open
-      question names the work it blocks, even if it does not block domain-model agreement.
-
-      Read proposal, impact, existing domain definitions, relevant contracts, and their sources.
-      Create domain-model-changes.md even when no model edit is needed. This is an assessment
-      and a focused change description, not a copy of the entire domain or a new spec owner.
-      Choose Change required, Reuse existing, or Not affected; give a brief reason and identify
-      the sources reviewed. With several scopes, give per-scope dispositions; the overall
-      assessment is Change required if any scope changes. Reuse existing identifies the
-      applicable existing meaning. Not affected must explain why the change does not touch
-      model semantics. Do not invent definitions merely to complete this artifact.
-      For changed meanings, identify concepts, identity, relationships, states, and relevant
-      historical-data distinctions. Specify each semantic revision once, here or in a linked
-      change-local draft such as models/<scope>/model.md. Use the domain-model.md support
-      template only when a substantial draft helps. Never maintain two editable copies of the
-      same proposed definition. Do not mirror every implementation class or DDD pattern.
-      Keep the assessment and the readable model distinct: the assessment explains changes,
-      sources, comparisons, compatibility, approval questions, and publication mappings;
-      a model explains concepts and how they relate. For affected meanings, answer applicable
-      reader questions about identity, relationships/ownership, allowed values, absence versus
-      unknown, valid/invalid combinations, and lifecycle or historical data. Preserve exact
-      conditions and exceptions. Explain non-applicable identity or lifecycle briefly rather
-      than inventing entities, IDs, fields, or states. Use a concrete example or a small
-      relationship diagram when it clarifies a significant distinction; neither is a quota.
-      Keep technical representation separate from conceptual meaning. A type inventory,
-      diagram alone, or process narrative is not a complete model. Model drafts must be readable
-      without the change history or implementation. Keep task progress, authorization history,
-      Before/Proposed comparisons, and publication status in the assessment/handoff/evidence;
-      concise source and revision references may remain at the end of a model.
-      Record existing source paths and their inspected revision/content basis, proposed draft
-      locations, intended maintained destinations, affected requirements, and consumers. For a
-      new source, explicitly record that it does not exist yet; do not create a placeholder.
-      Sources/destinations are project-relative; draft paths are relative to this change.
-      Separate valid historical representations from permitted new operations. Keep normative
-      obligations and scenarios in the owning delta specs; link them without duplicating rules.
-      If a model change alters an obligation, reconcile impact and specs, including removing
-      skip_specs when appropriate. Metadata-only meaning clarifications still need review.
-      Record compatibility/migration concerns, assumptions, and open questions with the work
-      they block. Resolve semantics before dependent requirements or implementation; a file's
-      presence is not semantic approval. Later discoveries can revise this assessment and its
-      downstream artifacts; preserve actual decision history and recheck affected evidence.
-      The entire openspec/specs/** tree remains read-only during planning and Apply.
-      Maintained model files also remain protected wherever located. Prepare change-local
-      publication inputs, not publication. Before separately authorized sync/archive integration, compare
-      against the then-current baseline and reconcile overlaps; never overwrite a newer model
-      with a stale full draft. At authorized publication, produce a coherent model from the
-      reviewed semantic changes, not a wholesale copy of assessment prose. Check that a
-      product-informed reader can explain the concepts and interpret a concrete example
-      without reading change history or implementation; reconcile examples and explanatory
-      invariant summaries with owning requirements without creating a competing rule set.
-      Record the actual semantic review in the existing handoff/evidence. Heading presence
-      or native artifact readiness does not prove model clarity; this is prompt-level review,
-      not a new CLI gate, artifact, or approval process. No generic optional/conditional schema field is assumed here.
-      With skip_specs, this assessment is still produced, but no behavior delta is invented.
+      Read impact, existing models, contracts, and the evidence behind them. Record
+      Change required, Reuse existing, or Not affected for each relevant scope, with
+      sources and reasons. Missing evidence is unknown, not proof of no model.
+      For changed meaning explain concepts, identity, relationships, values/unknowns,
+      invariants, and lifecycle where applicable. Distinguish valid historical states
+      from permitted new operations, and domain concepts from storage/protocol types.
+      Keep one proposed definition here or in a linked change-local model draft, not
+      both. Use an example when it resolves ambiguity; do not invent entities or states.
+      Normative obligations and scenarios stay in the owning spec deltas. Reconcile
+      impact/specs when meaning changes an obligation, including removing skip_specs.
+      Map reviewed sources and their revision/basis to proposed drafts and maintained
+      destinations. Sources/targets are project-relative; drafts are change-relative.
+      Record compatibility concerns and unresolved questions with blocked work.
+      Prepare coherent model publication inputs, not edits to maintained models.
+      Semantic review must establish understandable meaning, not merely headings.
       {{hook:instructions.domain-model}}
     requires: [impact]
   - id: specs
     generates: "specs/**/spec.md"
-    description: OpenSpec deltas at the exact paths of their owning contracts
+    description: Requirement deltas at their exact owning capability paths
     template: spec.md
     instruction: |
-      Write for a reviewer who understands the product but did not investigate the code.
-      Start with what changes, why it matters, and what the reader must decide or check.
-      Use short complete sentences and explain a technical term at first use. Preserve
-      exact code identifiers, paths, requirement names, conditions, and uncertainty.
-      Separate observations, proposed behavior, recommendations, and actual decisions.
-      Use a short overview and focused detail sections; do not compress paragraphs into
-      wide table cells. Unknown existing behavior stays unknown, not absent or unchanged.
-      Retain substantive risks, compatibility, failure cases, and evidence below the
-      summary. Do not add a mandatory summary inside native requirement-delta syntax.
-      Keep all native delta headings, SHALL/MUST wording, and full MODIFIED blocks intact.
-      Explain behavior precisely; simpler prose must not remove a condition or exception.
-
-      Read impact and domain-model-changes.md together with the baseline contracts. Produce
-      one delta per changed owner at specs/<capability-path>/spec.md inside this change.
-      Interpret proposed requirements using the assessed model revision, not only today's
-      model. Preserve the main spec's exact nested path. The entire openspec/specs/** tree remains read-only during planning and Apply.
-      Preparing deltas never authorizes writes there, even for new capabilities or descriptive
-      companions. At separately authorized sync/archive integration, these rules still constrain
-      merged contracts; native sync merges requirement deltas, not companion documents. That explicit
-      publication is distinct from planning/Apply. Use ADDED Requirements for new rules,
-      MODIFIED Requirements for full replacement of a named existing rule, REMOVED Requirements
-      with Reason and Migration, and RENAMED Requirements with FROM and TO entries.
-      Read each original requirement and all scenarios before modifying it. A MODIFIED entry
-      keeps its exact name and all still-valid behavior. Optional stable IDs do not change
-      exact-name matching; introducing IDs into existing headings is a deliberate rename.
-      Every added/modified rule has a '### Requirement: <name>' heading, SHALL or MUST language,
-      and at least one '#### Scenario: <name>' with WHEN/THEN. Retain only applicable sections.
-      Give a new capability a meaningful Purpose section. Existing Purpose metadata is not
-      updated by requirement deltas; handle pure metadata corrections separately.
-      Keep domain obligations/invariants/transitions at domain owners, use-case outcomes and
-      rejections in features, needed/offered boundary guarantees in ports, and protocol
-      representations/mappings in adapters. A feature can expose several use cases and need
-      not duplicate its behavior in an inbound-port spec. Technical and system owners use
-      the same rules; scope is determined by responsibility, not by folder symmetry.
-      Use domain-model-changes.md or its linked draft for proposed meanings, identities,
-      and relationships; refer to the maintained model when it is explicitly reused. Use
-      stable intended references and record any not-yet-existing destination in the assessment
-      instead of creating baseline files. Resolve change-local/maintained links during explicit
-      publication. A small existing model may remain in a clearly identified spec section;
-      model changes still need an explicit assessment and cannot hide an obligation change. Supported historical data does not automatically permit an equivalent
-      new transition. Keep implementation choices, diagrams, and sequencing in design/views.
-      Include representative success, rejection, failure, and compatibility scenarios where
-      relevant. Markdown examples are not executed tests and need not each become E2E tests.
-      Do not strengthen or weaken guarantees merely to fit a planned adapter; resolve any
-      mismatch explicitly. Keep proposal, impact, and actual delta coverage coherent.
-      With skip_specs: true create no delta files; remove that flag when behavior changes.
-      Run the installed OpenSpec validation after writing deltas and address its findings.
+      Read impact and the assessed model together with full baseline requirements.
+      Write one delta per changed owner at specs/<exact-capability-path>/spec.md.
+      Domain owners hold business invariants; features hold use-case outcomes; ports
+      hold boundary guarantees; adapters hold meaningful protocol/mapping obligations.
+      Identify every needed boundary but create separate specs only for independently
+      meaningful contracts. A named function can be a port; a folder is not a contract.
+      For changed ports specify input/result meaning, rejection/failure behavior,
+      consistency, retries/idempotency, and representation limits where relevant.
+      Keep technical mechanisms out of the core contract. Do not weaken a guarantee
+      to suit an adapter; resolve the mismatch explicitly. Include representative
+      success/rejection/failure cases without turning every scenario into an E2E test.
+      Use native ADDED, MODIFIED, REMOVED, and RENAMED Requirements sections as needed.
+      Added/modified requirements need exact headings, SHALL/MUST, and at least one
+      #### Scenario with WHEN/THEN. MODIFIED carries the full rule and all retained
+      scenarios. REMOVED gives Reason/Migration; RENAMED gives FROM/TO. Optional IDs
+      do not replace exact-name matching. Add Purpose for new capabilities only;
+      metadata/companion edits are separate publication, not requirement deltas.
+      With supported skip_specs: true create no delta file. Otherwise validate the
+      deltas with the installed CLI. Keep openspec/specs/** unchanged during Apply.
+      At authorized sync, these ownership rules also constrain merged requirements;
+      native requirement sync does not publish models, views, ADRs, or the catalog.
       {{hook:instructions.specs}}
     requires: [impact, domain-model]
   - id: design
     generates: design.md
-    description: One implementation approach spanning the affected owners
+    description: Concrete hexagonal realization, delivery slices, and checks
     template: design.md
     instruction: |
-      Write for a reviewer who understands the product but did not investigate the code.
-      Start with what changes, why it matters, and what the reader must decide or check.
-      Use short complete sentences and explain a technical term at first use. Preserve
-      exact code identifiers, paths, requirement names, conditions, and uncertainty.
-      Separate observations, proposed behavior, recommendations, and actual decisions.
-      Use a short overview and focused detail sections; do not compress paragraphs into
-      wide table cells. Unknown existing behavior stays unknown, not absent or unchanged.
-      Retain substantive risks, compatibility, failure cases, and evidence below the
-      summary. Do not add a mandatory summary inside native requirement-delta syntax.
-      For a choice awaiting the user, state one concrete decision question. Explain the
-      observed behavior, the practical failure/risk, and what each option changes before
-      introducing implementation terms. Compare options using the same criteria: delivered
-      scope, deferred scope, required work, remaining limitations, and needed checks. Use
-      short option headings or a compact table plus details. Keep a recommendation separate
-      from approval and preserve the given option labels. An unresolved technical detail
-      stays visible; do not replace it with an asserted guarantee.
-
-      Read main contracts with the proposed deltas, impact, domain-model-changes.md and its
-      referenced definitions/drafts, architecture documentation, owned views, and existing decisions. Write one proportionate design, not a
-      separate plan per spec. Split into linked changes only when independently deliverable
-      outcomes or coordination costs justify it. Detail the next useful slices; keep later
-      work actionable without an exhaustive upfront implementation or test inventory.
-      Explain code boundaries, dependency direction, delivery dependencies, compatibility,
-      migration, rollback, and risks where material. Separate contract dependencies from task
-      order. Resolve material choices before dependent work; independent slices may proceed.
-      Reference impact's affected-scope inventory and the domain-model assessment; do not
-      copy proposed definitions here. This design owns the technical approach and view drafts.
-      The following architectural-decisions artifact reviews which significant choices need
-      records, reuses existing ADRs, and owns their dispositions/destinations. It may require
-      design/model/spec revisions; the dependency order is not a one-way prohibition on learning.
-      For a choice deserving a record, keep detailed rationale in its single change-local ADR
-      and link it here. Until that record is written, design may carry the working rationale;
-      replace duplication with a reference when the decision is recorded. Routine choices that
-      need no ADR can remain here. No ADR is required for every class or implementation detail.
-      Explain necessary views or reuse adequate existing ones. Require a focused diagram when
-      a significant changed boundary, dependency, interaction, or deployment would otherwise
-      remain ambiguous. Use representative runtime/failure paths, not a diagram per feature.
-      State question, scope, status, editable source, and relationship semantics. Distinguish
-      runtime calls, code dependencies, contract consumption, and execution boundaries;
-      explain in/out roles and cross-context translations. The support architecture.md template
-      is optional. It is not a further native artifact or a second architecture plan.
-      During planning, keep proposed technical content inside this change, in design.md or
-      an optional architecture/<scope>/<view>.md draft. Map each affected view to its existing
-      source and inspected basis, create/update/remove/rename/reuse action, maintained destination,
-      and required checks; link a separate draft only when useful. Sources/destinations are
-      project-relative; optional draft paths are change-relative. Refer to model and ADR mappings
-      in their assessments rather than duplicating them. Keep one mapping, not a parallel backlog.
-      Use the project's maintained architecture locations; local details stay under
-      contexts/, technical-capabilities/, or system/ in openspec/specs. The entire openspec/specs/** tree remains read-only during planning and Apply.
-      Prepare and check proposed local views inside this change, not at maintained targets.
-      Track actual publication and dependent links in the Integration handoff for separately
-      authorized sync/archive integration. A view can be published without a main spec; never create
-      a placeholder spec or catalog entry. Label implemented/observed versus proposed status and
-      revision honestly; a checked proposal does not make the maintained view current.
-      Apply updates mapped descriptive documentation outside openspec/specs/** in the development checkout.
-      Reconcile permitted current destinations before editing and preserve unrelated changes. Optional
-      drafts alone do not complete outside-tree delivery. Keep one editable maintained source.
-      Model/ADR/catalog publication, acceptance, shared-store writes, and deployment stay separate.
-      Requirement sync does not merge local architecture or other non-spec documents; explicitly
-      publish protected companion content during authorized sync/archive integration.
-      In Verification Strategy, map changed requirements, affected guarantees, and significant
-      risks to representative checks and appropriate levels, including real-adapter conformance
-      and integration/migration where relevant. Include success/rejection/failure/compatibility
-      cases. Reuse existing tests and explain test-first exceptions. No universal coverage
-      percentage or complete up-front dataset is required. Link code entry points or tests
-      only where useful; IDs/manifests are optional, and links are not passing results.
-      Record actual checks later in verification.md or its referenced evidence, not as results
-      in this strategy. Its support template is optional, not an additional planning artifact.
+      Read baseline plus deltas, impact, model assessment, and existing decisions.
+      Enforce the selected architecture policy using language/framework-native
+      modules, packages, functions, or interfaces; no prescribed source-folder names.
+      For each affected use case map exact proposed/existing paths and symbols for:
+      owning core, driving adapter, application entry point, domain rules, outbound
+      ports, driven adapters, and composition bindings. Reference adequate existing
+      mappings rather than copy them. For no outbound dependency, say why none is needed.
+      Show source dependency direction separately from runtime calls. Include type-only
+      imports, re-exports, generated dependencies, framework conventions, and any
+      cross-context translation. Core code depends on owned contracts, not concrete
+      adapters; only composition selects implementations. No hidden global/service
+      locator bypass. Resolve unowned boundaries or unapproved violations before work.
+      Explain consistency/transaction ownership, failure handling, compatibility,
+      migration, and rollback where material. Use one design and useful vertical
+      slices. Link significant rationale to the ADR assessment/records; avoid duplication.
+      Map affected views to inspected source/basis, action, draft, maintained target,
+      and checks. Reuse this implementation map as the publication input when sufficient.
+      Planning stays change-local. Apply updates mapped descriptive docs outside
+      openspec/specs/**; protected views/models/ADRs remain drafts for integration.
+      Plan domain/application tests without framework or real infrastructure, real
+      adapter contract/integration checks, a composition smoke check, and executable
+      dependency rules. Select levels by affected risk; document genuine non-applicability.
+      Architecture checks must detect a deliberately forbidden dependency; cover aliases,
+      re-exports, type/compile dependencies and generated paths where the stack uses them.
+      On foundation work record runnable local/CI commands, scope, exclusions and their
+      reasons. A passing empty scan is not success. Results belong in verification.md.
       {{hook:instructions.design}}
     requires: [specs, impact, domain-model]
   - id: architectural-decisions
     generates: architectural-decisions.md
-    description: Assess which architectural choices reuse existing ADRs or need new or superseding records
+    description: Reuse, introduce, or supersede significant architectural decisions
     template: architectural-decisions.md
     instruction: |
-      Write for a reviewer who understands the product but did not investigate the code.
-      Start with what changes, why it matters, and what the reader must decide or check.
-      Use short complete sentences and explain a technical term at first use. Preserve
-      exact code identifiers, paths, requirement names, conditions, and uncertainty.
-      Separate observations, proposed behavior, recommendations, and actual decisions.
-      Use a short overview and focused detail sections; do not compress paragraphs into
-      wide table cells. Unknown existing behavior stays unknown, not absent or unchanged.
-      Retain substantive risks, compatibility, failure cases, and evidence below the
-      summary. Do not add a mandatory summary inside native requirement-delta syntax.
-      For a choice awaiting the user, state one concrete decision question. Explain the
-      observed behavior, the practical failure/risk, and what each option changes before
-      introducing implementation terms. Compare options using the same criteria: delivered
-      scope, deferred scope, required work, remaining limitations, and needed checks. Use
-      short option headings or a compact table plus details. Keep a recommendation separate
-      from approval and preserve the given option labels. An unresolved technical detail
-      stays visible; do not replace it with an asserted guarantee.
-
-      Read design, domain-model-changes.md, specs when applicable, impact, and existing ADRs.
-      Create this change's architectural-decisions.md as a decision assessment and record index.
-      It is not the architecture documentation index and not an individual ADR. Even with no new ADR, identify
-      what was reviewed and why existing decisions suffice or no significant decision is made.
-      For each material choice select Reuse existing, New ADR, Supersede existing, or No ADR
-      required. Distinguish that disposition from the actual Proposed/Accepted/Rejected status.
-      A table row does not accept a decision. Record actual project authority/decision references
-      when available; no additional approval machinery is introduced by the artifact.
-      Consider an ADR for a consequential boundary, integration, consistency, technology, or
-      hard-to-reverse choice whose rationale should survive the change. Routine reversible
-      implementation details may remain in design. Do not manufacture records for every owner,
-      class, or pattern. Preserve existing accepted reasoning and do not invent historical
-      alternatives merely because a template contains a heading.
-      For New ADR or Supersede existing, prepare each needed record inside this change under
-      architectural-decisions/ using the architectural-decision.md support template. State its
-      context, choice, meaningful alternatives, consequences, and validation. Use stable,
-      project-compatible identities without writing a shared numbering file during Apply;
-      check for collisions during integration. Do not duplicate full rationale in this index.
-      For each record, name the existing record if applicable, change-local source, intended
-      maintained destination, actual status/decision reference, and any supersession relationship.
-      Draft paths are change-relative; maintained paths are project-relative. Reuse existing
-      requires a real record reference. No ADR required needs a reason, not a placeholder file.
-      Do not create the optional records directory when no record is needed.
-      Record unresolved material decisions and the work they block. Resolve them before dependent
-      implementation. Review consistency with model/spec/design; revise those artifacts if a
-      choice changes semantics, obligations, or the approach. File presence alone is not review
-      completion, decision acceptance, or permission to implement unresolved dependent work.
-      The entire openspec/specs/** tree remains read-only during planning and Apply.
-      Keep maintained ADR records, supersession annotations, and models protected wherever located.
-      Prepare publication mappings; activate maintained supersession only in separately authorized
-      sync/archive integration. During Apply, mapped descriptive decision-index prose outside the
-      protected tree may reflect existing durable records and their evidenced status, without accepting
-      or promoting a record. Index files inside openspec/specs/** stay unchanged. Defer entries
-      requiring unpublished records or local views to the Integration handoff;
-      do not create broken links or link maintained navigation to transient change-local drafts.
-      An ADR can be accepted inside this change without already being implemented or published. After
-      integration, retain this historical assessment and durable references; it is not another
-      maintained decision index. With skip_specs this assessment is still required.
+      Review design/model/spec consistency and existing ADRs. For each significant
+      choice record Reuse existing, New ADR, Supersede existing, or No ADR required,
+      with reason. A no-change assessment needs no invented record.
+      Architecture adoption, context boundaries, consequential dependencies, and scoped
+      exceptions warrant review. Routine reversible details can remain in design.
+      New/superseding records stay under this change's architectural-decisions/.
+      Record context, choice, real alternatives, consequences, validation, destination,
+      and actual status/authority. Proposed is not Accepted; acceptance is not publication.
+      An exception names the specific dependency, rationale, owner, review/removal trigger,
+      and corresponding narrow test allowance. Never disable a whole layer's checks.
+      Map record sources, inspected baseline, destinations, and supersession explicitly.
+      Check identity collisions at integration. Do not edit maintained records/status
+      during Apply. Resolve material open decisions before dependent implementation.
       {{hook:instructions.architectural-decisions}}
     requires: [design, domain-model, specs, impact]
   - id: tasks
     generates: tasks.md
-    description: One Apply checklist for implementation, permitted documentation delivery, and change-local publication inputs
+    description: One implementation checklist plus a separate integration handoff
     template: tasks.md
     instruction: |
-      Write for a reviewer who understands the product but did not investigate the code.
-      Start with what changes, why it matters, and what the reader must decide or check.
-      Use short complete sentences and explain a technical term at first use. Preserve
-      exact code identifiers, paths, requirement names, conditions, and uncertainty.
-      Separate observations, proposed behavior, recommendations, and actual decisions.
-      Use a short overview and focused detail sections; do not compress paragraphs into
-      wide table cells. Unknown existing behavior stays unknown, not absent or unchanged.
-      Retain substantive risks, compatibility, failure cases, and evidence below the
-      summary. Do not add a mandatory summary inside native requirement-delta syntax.
-      Write each task as an action with an observable completion check. Explain jargon
-      needed by the person reviewing the task; preserve checkbox syntax and publication limits.
-
-      Create one tasks.md for the whole change. Read proposal, impact, model assessment, deltas
-      when applicable, design, and decision assessment. Use '- [ ] 1.1 <work and verification>'
-      for work that Apply may execute: implementation, tests, mapped maintained descriptive
-      documentation outside openspec/specs/**, change-local local-architecture/model/ADR proposals,
-      reviews, and preparation of the integration handoff. Keep one checklist, not separate
-      owner/test/ADR backlogs. Replace examples with useful slices, owners, prerequisites, and checks.
-      Material open model or architectural questions block only dependent work. Preserve actual
-      completed history, append newly discovered work, and explain reopened tasks. An artifact
-      file or decision table is not a completed semantic check or an approval.
-      For changed executable behavior plan small test-first cycles, then refactor with tests
-      passing. Reuse adequate existing tests; state justified exceptions rather than manufacture
-      a failure for already conforming behavior or documentation-only work. Include relevant
-      domain, use-case, boundary, real-adapter conformance, integration, migration, compatibility,
-      and failure checks. A fake alone is not evidence of a real adapter's guarantee. Do not
-      require an E2E test for each scenario or a universal code-coverage percentage.
-      Apply updates mapped descriptive documentation outside openspec/specs/** in the development checkout.
-      Track actual outside-tree updates and checks, plus preparation and checking of change-local
-      local-architecture/model/ADR proposals. Name destinations and observable completion criteria;
-      a preparation task is not a maintained-publication task. Optional drafts alone do not complete
-      outside-tree delivery. Reference existing mappings instead of copying another target inventory.
-      The entire openspec/specs/** tree remains read-only during planning and Apply.
-      This includes creation, edits, deletion, renaming, and indirect/generated writes, regardless of
-      file type. Maintained model companions, ADR records, and openspec/catalog.json remain protected
-      wherever located. Keep sync/archive, publication/registration, shared-store writes, and deployment
-      out of Apply tasks. Outside-tree edits do not authorize protected publication.
-      Include a non-checkbox Integration handoff for remaining separately authorized publication,
-      including local architecture publication under openspec/specs/** at sync/archive integration.
-      Reference mappings, baseline revisions, prerequisites, actual authorization, and status/evidence.
-      State No separate publication needed only when genuinely true; do not invent pending work for
-      delivered outside-tree updates or hide pending local views. Preparing/checking the handoff is
-      Apply work, not authorization to execute it. Pending local-view/contract/model/ADR/catalog or
-      release work remains visible with all Apply tasks complete.
-      Compare the entire protected tree and other protected files with pre-Apply snapshots, including
-      additions/deletions/renames and prior dirty work. Protected paths stay unchanged; mapped outside-tree
-      targets receive planned updates with unrelated content preserved. Record checks of actual permitted
-      targets and change-local proposals, revisions, model/spec basis, limitations, and acceptance in
-      verification.md. Failed/Not run/Partial stays accurate even when a gap is accepted.
-      Stop after implementation/review for separately authorized sync/archive integration. Reconcile
-      proposals against the latest baseline, explicitly publish mapped local views and other protected
-      companions, register catalog owners only after main specs exist, resolve dependent links, and
-      confirm maintained documentation is current before closure. Native requirement sync does not
-      publish local architecture or other non-spec documentation.
-      Include model semantic review in preparation and publication checks: a product-informed
-      reader must be able to explain the concepts and interpret a concrete example without
-      change history or implementation. Check applicable identities, relationships, values,
-      unknowns, invariant summaries, and lifecycle against owning requirements. Produce a
-      coherent maintained model, not assessment prose with publication metadata. Record actual
-      review evidence in the existing handoff/evidence; headings alone do not prove clarity.
-      Reuse/no-change outcomes need no new model or extra native artifact.
-      There is no new native integration command or automatic publication mechanism in this schema.
+      Create one numbered Apply checklist of small, useful slices based on the design.
+      Each slice names its observable result, owning application boundary, and checks;
+      avoid horizontal tasks that build every repository before any working use case.
+      Test changed executable behavior first where practical; reuse adequate checks
+      and explain exceptions. Include real-adapter failure guarantees where needed.
+      Foundation tasks establish the implementation map, test commands, CI boundary
+      checks, forbidden-dependency fixtures, and a real composition smoke check.
+      Later changes extend these checks when boundaries change; do not exempt new files.
+      Include mapped outside-tree documentation delivery and change-local preparation/
+      checks of protected models/views/ADRs. Preserve existing dirty work and snapshot
+      protected paths before Apply, including additions/deletions and generator output.
+      Record actual results in verification.md. A test link or checked task is not proof.
+      Keep protected publication in the non-checkbox Integration handoff, referencing
+      authoritative model/design/ADR mappings. Prepare integration.json as a closure
+      receipt with Pending states; it is evidence, not an eighth planning artifact.
+      Separately authorized integration must merge requirements, publish all required
+      companions, reconcile links/implementation maps/catalog, and pass closure.py.
+      Do not mark a required unfinished publication as a completed or deferred closure.
+      Apply completion never authorizes sync/archive, shared-store writes, or deployment.
       {{hook:instructions.tasks}}
     requires: [design, specs, domain-model, architectural-decisions, impact]
 apply:
   requires: [proposal, impact, domain-model, specs, design, architectural-decisions, tasks]
   tracks: tasks.md
   instruction: |
-    Explain progress, discoveries, and blockers in ordinary product language first.
-    State the affected operation, observed result, consequence, and required decision.
-    Do not compress several options or risks into one sentence. Keep evidence and exact
-    technical details available, and distinguish proposed checks from actual results.
-    When updating documents, retain the readable overview/detail structure and all
-    conditions, uncertainties, and the separately authorized publication boundary.
+    Read the selected active change, project instructions, architecture policy, and
+    baseline plus its deltas/model revisions. Resolve blocking semantics/decisions.
+    Implement through the mapped application boundary and owned ports, inject concrete
+    adapters in composition, and enforce the chosen source dependency rules.
+    Work test-first where practical; run focused core tests, affected real-adapter
+    checks, architecture checks including their negative controls, and composition
+    smoke checks. A green scan covering no real modules is not evidence. Update affected
+    tests and mappings when implementation changes; report extra scope before widening it.
+    Keep one design/task list and preserve completed history. Mark work done only after
+    required checks. Record commands, environment, revisions/content basis, failures,
+    Not run results, and limitations in verification.md; never infer a passing result.
 
-    Apply implements and verifies the selected change, including permitted descriptive documentation.
-    Apply updates mapped descriptive documentation outside openspec/specs/** in the development checkout.
-    This permission covers repo-local development sources, not a shared canonical store or deployment.
-    Read the seven change artifacts (specs may be intentionally skipped), referenced model/ADR
-    records, relevant baseline contracts and views, and the actual project instructions. Use
-    baseline plus the selected change's deltas/model revisions, not baseline text alone. Never
-    implement an archived change or another active change. The template library is not an
-    application baseline. Resolve material semantic/decision blockers before dependent work.
+    WRITE BOUNDARY: All openspec/specs/** content, maintained models, ADR records/status,
+    and openspec/catalog.json remain read-only during planning and Apply, including
+    generated writes, additions, removals, and renames. Snapshot and compare protected
+    paths and preserve pre-existing dirty work. Do not sync/archive as an Apply substep.
+    Apply may update explicitly mapped descriptive docs outside that tree in the local
+    development checkout, preserving protected semantics and decision status. Check
+    actual maintained targets; optional drafts are not delivery. Stage protected
+    revisions inside the change. Never create main specs for links or catalog checks.
 
-    WRITE BOUNDARY: Planning leaves maintained destinations unchanged.
-    The entire openspec/specs/** tree remains read-only during planning and Apply.
-    This includes creation, edits, deletion, renaming, and indirect/generated writes, regardless of
-    file type: specs, descriptive local architecture, diagrams/assets, models, records, and indexes.
-    Maintained model companions, ADR records, and openspec/catalog.json also remain read-only wherever
-    located, including supersession annotations. Do not run sync/archive or publish protected content
-    as an Apply substep. Requirements, local views, model revisions, and ADRs stay change-local;
-    local architecture publication under openspec/specs/** belongs to separately authorized sync/archive
-    integration. Descriptive status never exempts a file from the directory-wide boundary.
-    Apply may create, edit, remove, or rename explicitly mapped descriptive documentation OUTSIDE
-    openspec/specs/**, including component-authorized user pages/handbook sources, navigation, and assets.
-    Outside-tree descriptive files retain protected semantic/decision content unchanged; stage necessary
-    revisions and report blocked portions. Do not change model meaning, obligations, or decision status
-    through prose. Keep one maintained source. Prepare and check local-view proposals inside this change;
-    optional outside-tree drafts are planning inputs, not maintained delivery. Before permitted writes,
-    reconcile current destinations, preserve unaffected content and pre-existing dirty work, and inspect
-    generated/incidental outputs. Dirty files do not authorize broader writes. Snapshot the entire
-    protected tree, other protected files, and mapped outside-tree targets before Apply, including new paths.
-
-    A task to write protected artifacts or deploy documentation conflicts with this boundary. Stop
-    that work, preserve its intent in tasks.md's non-checkbox Integration handoff, and report it.
-    Never create a main spec merely to satisfy catalog validation or documentation links. Resolve
-    maintained links to existing durable sources; defer references requiring unpublished protected
-    targets to the handoff rather than linking transient change-local drafts. Code, tests, and other
-    approved project files remain writable within task scope; no repository-wide permission is implied.
-
-    Work through the tracked Apply checklist in useful slices. For changed executable behavior,
-    add/adapt an appropriate test, observe the expected failure where applicable, implement, and
-    refactor with tests passing. Reuse adequate tests and explain sequencing exceptions. Check
-    real adapter guarantees where relevant, not only fakes. Use useful code-entry-point and
-    requirement-to-check links without requiring IDs or a separate manifest. Mark a task done
-    only after its work and required checks are complete; a test link is not execution evidence.
-
-    If implementation exposes a model, requirement, or decision change, revise the responsible
-    assessment and downstream artifacts before dependent code. Report additional owners/reasons,
-    review consumers without automatically editing them, preserve completed task history, and
-    recheck invalidated evidence. Keep one design and one task list. Record actual ADR acceptance
-    only from the project's authority; it is not implementation or baseline publication.
-
-    Verify actual outside-tree documentation and reused views, plus change-local local-architecture/
-    model/ADR proposals, against the implementation. Record results in verification.md: commands,
-    code/documentation and proposal revisions, uncommitted snapshot if relevant, baseline plus delta/model
-    basis, environment, findings, gaps, and acceptance reference. Compare the entire protected tree and
-    other protected files for unintended additions/deletions/renames/edits; confirm mapped outside-tree
-    targets received required updates and prior work was preserved.
-    An outside-tree delivery task is complete only after maintained targets and required checks are done;
-    a draft alone is not delivery. A checked local-view proposal completes preparation, not publication:
-    keep maintained-target status Pending until explicitly published during authorized integration.
-    A rendered page or linked test alone is not conformance. Report violations without silently reverting
-    user changes. Prompts are not an enforced filesystem sandbox.
-
-    When tracked Apply work is complete, report implementation, maintained-documentation/evidence
-    status, change-local proposal evidence, and the remaining Integration handoff, then stop.
-    All checked tasks do not authorize sync/archive, local-view/model/ADR publication, catalog
-    registration, shared-store publication, or deployment. Readiness, acceptance, integration, and
-    release are distinct. At separately authorized sync/archive integration, re-read the current
-    baseline, reconcile overlapping local-view/model/spec/ADR changes, explicitly publish mapped
-    protected companions, and resolve dependent links before closure. Authorization for native
-    requirement sync alone does not authorize companion publication. Native sync does not merge
-    local architecture or other non-spec documents; outside-tree Apply delivery and protected
-    companion publication remain explicit, distinct responsibilities.
-    Model preparation and authorized publication include semantic review: can a product-informed
-    reader explain the concepts and interpret a concrete example without change history or
-    implementation? Check applicable identities, relationships, values/unknowns, invariant
-    summaries, and lifecycle; reconcile examples with owning requirements and preserve exceptions.
-    Keep assessment/process metadata out of the model narrative. Produce a coherent maintained
-    model from reviewed changes, not a wholesale assessment copy. Record actual review in existing
-    handoff/evidence; native readiness and heading checks alone do not prove clarity or add a CLI gate.
+    Check model meaning and architecture against implemented behavior, not just headings.
+    Prepare the Integration handoff and integration.json with pending publication visible.
+    Stop after Apply and report remaining integration. At separately authorized
+    integration re-read the current baseline, reconcile overlaps, merge requirement
+    deltas, explicitly publish required models/views/ADRs, update dependent durable
+    references/implementation maps/catalog, then record fresh snapshots and run closure.py.
+    Requirement sync alone does not authorize or perform companion publication.
+    Closure requires all three results; no pending protected target may be called current.
+    The helper is a read-only evidence check, not a publisher or proof of semantic
+    correctness. Project CI/wrappers must invoke it to make failure block closure.
     {{hook:instructions.apply}}

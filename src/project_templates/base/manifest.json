@@ -4,7 +4,8 @@
     ".gitignore": "src/project_templates/base/files/.gitignore",
     "openspec/config.yaml": "schema:templates/config.yaml",
     "openspec/README.md": "schema:templates/openspec-README.md",
-    "openspec/catalog.json": "schema:templates/catalog.json"
+    "openspec/catalog.json": "schema:templates/catalog.json",
+    "PROJECT_SETUP.md": "schema:templates/project-setup.md"
   },
   "books": {}
 }

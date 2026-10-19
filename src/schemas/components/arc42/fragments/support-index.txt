@@ -1,6 +1,4 @@
-### arc42 handbook
-
-[System architecture starters](system-architecture/README.md) provide selected pages
-for openspec/system-architecture/. The handbook's architectural-decisions.md indexes
-scoped records; it is separate from the native change assessment. Instantiate only
-useful sections and preserve one editable source per view.
+## arc42 support
+[System architecture templates](system-architecture/README.md) provide optional
+system-wide views. Use affected pages only; the DDD base owns boundary policy,
+implementation-map requirements and the shared integration/closure lifecycle.

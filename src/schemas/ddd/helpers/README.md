@@ -1,10 +1,10 @@
-# Optional DDD helpers
+# DDD helpers
 
 These read-only, standard-library Python 3.10+ tools work without arc42 or mdBook.
 Every composed v3 schema variant includes this optional `helpers/` directory;
 install it with the selected schema under `openspec/schemas/openspec-ddd/`.
-The retained legacy schema is unchanged. Independently copying this whole directory
-to `openspec/ddd/` remains supported, but is not the main distribution.
+Existing helper APIs are unchanged; `closure.py` adds a read-only integration
+receipt check. The original alternate `openspec/ddd/` location remains supported.
 
 Without `--root`, installed helpers infer the project from the nearest ancestor
 named `openspec`, regardless of schema name or directory depth, even when invoked
@@ -12,8 +12,96 @@ from outside the project. Otherwise they search the nearest current-directory
 ancestor with an `openspec/` directory, `book-builder.toml`, or `book.toml`, then
 helper ancestors with a book marker, finally the current directory. `--root` selects
 an existing project directory explicitly. Catalog and decision arguments remain
-project-relative. Keep `ddd.py`, `check.py`, `model.py`, and `project_root.py`
+project-relative. Keep `ddd.py`, `check.py`, `model.py`, `project_root.py`, and `closure.py`
 together; no package install or additional dependencies are needed.
+
+## Integration closure receipt
+
+The revised profile uses one `integration.json` inside each change as closure
+**evidence**, not another native planning artifact or an automatic publisher.
+Prepare it during Apply with `pending` states. Finalize it only after separately
+authorized integration and actual review. `tasks.md` references the authoritative
+model/design/ADR mappings; do not write another editable publication plan here.
+
+```sh
+python3 openspec/schemas/openspec-ddd/helpers/closure.py --root . check --change CHANGE
+python3 openspec/schemas/openspec-ddd/helpers/closure.py --root . inputs --change CHANGE
+python3 openspec/schemas/openspec-ddd/helpers/closure.py --root . fingerprint PATH [PATH ...]
+```
+
+For an archived change, `--change` accepts its project-relative
+`openspec/changes/archive/YYYY-MM-DD-CHANGE` path. Old archived receipts are historical
+snapshots: later legitimate baseline changes can make revalidation stale. Gate the
+change being closed, not every archive against today's baseline.
+
+The receipt has these fields (see `templates/integration.json` for a pending starter):
+
+| Field | Required content |
+| --- | --- |
+| `version`, `change` | Receipt format `1`; active change name without archive date. |
+| `evidence` | Nonempty change-relative review/evidence file, normally `verification.md`. |
+| `inputs` | `{path, sha256}` for **every** file in the change except the receipt itself. Paths here are change-relative. This includes `.openspec.yaml` if present, all artifacts, drafts and evidence. |
+| `requirements` | `status`, `reason`, `files`. Every delta has `{source, target, sha256}`; source is change-relative and target is its exact `openspec/specs/.../spec.md`. The hash is of the final merged main spec, not the delta. Optional `action: retire` instead requires an absent main spec and `sha256: null`. |
+| `companions` | `status`, `reason`, `files`. Each row has `{action, source, target, sha256}`; action is `publish`, `reuse` or `remove`. Publish requires a snapshotted change-local source; reuse/remove use `source: null`. Targets are project-relative. Remove requires an absent target and `sha256: null`; other actions hash the final maintained target. A rename is remove plus publish. |
+| `reconciliation` | `status`, `reason`, `files`, `references`. Files are `{path, sha256}` for affected reviewed/updated maintained consumers, implementation maps, indexes or navigation. References are explicit project-relative durable file paths checked for existence; not Markdown URLs/anchors or code symbols. |
+
+Each section uses `complete`, `not-needed` (empty scope with a reviewed reason), or
+`pending`. The check rejects pending/failed states. With no deltas, requirements
+must be `not-needed` with a reason; use the installed CLI's supported no-spec route
+rather than making fake deltas. Inputs catch later edits/additions/removals; the
+helper does not parse `.openspec.yaml` or prove native CLI readiness.
+
+Publish means the authorized reviewed content was reconciled into the target.
+It does **not** imply byte-for-byte copying of a whole draft over a newer baseline.
+Final fingerprints are evidence of the reviewed result, not permission to overwrite it.
+Main-spec retirement needs the installed CLI's supported retirement operation and
+actual authorization. A receipt row with `action: retire` verifies absence, not that
+the deletion was semantically justified. Relocation uses the reviewed retirement
+and addition mappings; this helper does not implement a second spec merge engine.
+
+### What the check does
+
+It verifies known receipt keys/states, full change-input and delta coverage, finished
+Apply tasks, fresh hashes, existing publication/reuse targets, removed targets,
+explicit durable-reference existence, and the existing catalog/ADR structural checks.
+When a catalog exists, affected merged main specs must be registered; unrelated
+legacy omissions remain reported rather than expanding this change.
+Unsafe/escaping paths and stale snapshots fail with exit code 1. Outputs are JSON.
+All paths use canonical relative forward-slash spelling. Fingerprints are lowercase
+SHA-256. `inputs` prints the full change-relative input array for the receipt; it
+does not mark any stage complete. `fingerprint` reports project-relative targets
+for requirement, companion and reconciliation rows. Finalize evidence **before** taking snapshots.
+Keep the checker output in CI logs or outside the change; appending it to snapshotted
+evidence invalidates the receipt and requires fresh review/snapshots.
+
+### What remains a reviewed project obligation
+
+The helper does not execute recorded commands, prove tests passed, parse Markdown
+links/anchors, check code symbols, establish authorization, or prove a semantic merge.
+It cannot infer an omitted companion or undisclosed consumer from prose. Review the
+receipt against impact/design/model/ADR mappings; record that coverage review and
+actual semantic/link/anchor/symbol checks in `verification.md`. Catalog omissions are
+reported by the existing helper, never automatically registered; this closure check
+also rejects omissions among this change's affected merged main specs. Use stack-specific
+architecture tests for code conformance and documentation tooling for real link checks.
+There are no arbitrary commands or automatic writes hidden in the receipt.
+
+### Making it a gate
+
+The schema's Apply instructions prepare the handoff; its config template adds archive
+guidance; adopted agent instructions cover standalone sync. These are prompt-level
+obligations, **not a native OpenSpec archive hook**. Use this explicit integration order:
+
+1. With appropriate authorization, reconcile and sync requirement deltas.
+2. Explicitly publish required protected companions and fix dependent references/maps/catalog.
+3. Finish actual reviews, write fresh receipt snapshots, run the closure helper.
+4. Only after success perform the final archive move using the installed CLI's supported
+   already-synced/skip-sync path; do not blindly reapply non-idempotent deltas.
+
+A project wrapper or required CI check must invoke the helper for hard enforcement.
+A bare native archive command is not intercepted. The helper never authorizes sync,
+publication, archive, shared-store writes or deployment. Do not force Apply to publish
+protected content merely to make an all-stages CI job green; run closure after integration.
 
 ## Ownership graph
 
