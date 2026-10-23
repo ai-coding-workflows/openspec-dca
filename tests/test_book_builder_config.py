@@ -64,19 +64,21 @@ class BookBuilderConfigTests(unittest.TestCase):
 
     def test_feature_policies_inherit_for_custom_mapping_paths(self):
         nested = self.book('nested/book.toml')
-        mapping = self.config('[books.user]\nconfig="."\nmermaid=false\nsvgbob=true\n',
+        mapping = self.config('[books.user]\nconfig="."\nmermaid=false\nsvgbob=true\nd2=true\n',
                               'nested/custom.toml')
         for selection in (None, 'user', 'nested', str(nested)):
             with self.subTest(selection=selection):
                 record = select_books(self.root, selection, mapping)[0]
                 self.assertIs(record.mermaid, False)
                 self.assertIs(record.svgbob, True)
+                self.assertIs(record.d2, True)
         record = select_books(self.root, 'book.toml', mapping)[0]
         self.assertIsNone(record.mermaid)
         self.assertIsNone(record.svgbob)
+        self.assertIsNone(record.d2)
 
     def test_feature_policy_requires_boolean(self):
-        for feature in ('mermaid', 'svgbob'):
+        for feature in ('mermaid', 'svgbob', 'd2'):
             for value in ('1', '"false"', '[]', '{}'):
                 with self.subTest(feature=feature, value=value):
                     self.config(f'[books.main]\nconfig="book.toml"\n{feature}={value}\n')

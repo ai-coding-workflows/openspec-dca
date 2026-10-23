@@ -25,3 +25,8 @@ command = "mdbook-mermaid"
 # Optional ASCII-to-SVG diagrams; uncomment to enable Docker-built svgbob.
 # [preprocessor.svgbob]
 # command = "mdbook-svgbob"
+
+[preprocessor.d2]
+renderers = ["html"]
+inline = true
+fail-on-error = true

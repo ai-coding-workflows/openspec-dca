@@ -29,7 +29,7 @@ BOOK_PAYLOAD = (
     ".gitignore", "book.py", "book_capture.py", "book_discovery.py",
     "book_environment.py", "book_features.py", "book_paths.py", "book_root.py",
     "book_runtime.py", "book_selection.py", "book_servers.py", "book_toml.py",
-    "cache_lock.py", "capture_backend.py", "check.py", "download-latest-mdbook.py",
+    "cache_lock.py", "capture_backend.py", "check.py", "d2.py", "d2-toolchain.json", "download-latest-mdbook.py",
     "mermaid_assets.py", "pdf_runtime.py", "svgbob.py", "docker/.dockerignore",
     "docker/Dockerfile", "docker/compose.yml", "docker/install-mdbook.py",
     "docker/svgbob.Dockerfile", "docker/toolchain.json", "exporter/README.md",

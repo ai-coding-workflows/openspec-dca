@@ -1,0 +1,20 @@
+# BEGIN Lambda Flow managed local artifact protection
+/active-run.*.tmp
+/hub-state.json.tmp.*
+/run-presence.lock.stale-*/
+/worktrees/
+active-run
+feature-queues/
+hub-state.json
+logs/
+merge-operations/
+native-run-archives/
+pending-payloads/
+planning/
+run-presence-versions/
+run-presence.json
+run-presence.lock/
+sessions/
+setup-operations/
+workspace-evidence/
+# END Lambda Flow managed local artifact protection

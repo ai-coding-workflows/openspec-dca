@@ -27,11 +27,13 @@ def managed_feature(config: dict, name: str, requested: bool | None) -> bool:
 class FeaturePolicy:
     mermaid: bool
     svgbob: bool
+    d2: bool
 
 
 def feature_policy(config_file: Path, *, mermaid: bool | None = None,
-                   svgbob: bool | None = None) -> FeaturePolicy:
+                   svgbob: bool | None = None, d2: bool | None = None) -> FeaturePolicy:
     """False flags stop provisioning; they never remove author configuration."""
     config = read_config(config_file)
     return FeaturePolicy(managed_feature(config, 'mermaid', mermaid),
-                         managed_feature(config, 'svgbob', svgbob))
+                         managed_feature(config, 'svgbob', svgbob),
+                         managed_feature(config, 'd2', d2))

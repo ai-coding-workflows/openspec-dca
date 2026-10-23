@@ -272,11 +272,23 @@ It removes the builder container and image even
 when compilation fails. Linux and Windows host builds are supported; native macOS
 requires a locally installed binary, while Docker documentation mode uses Linux
 on every supported host. The repository's root `README.md` describes configuration,
-platform limits, and cache details. Each `[books.alias]` accepts optional `mermaid`
-and `svgbob` booleans: omitted autodetects native preprocessor tables; `true`
-provisions missing standard preprocessors; `false` disables managed setup but never
+platform limits, and cache details. Each `[books.alias]` accepts optional `mermaid`,
+`svgbob`, and `d2` booleans: omitted autodetects native preprocessor tables; `true`
+adds missing standard setup; `false` disables managed setup but never
 erases author configuration. Custom commands are preserved and remain author-managed;
 no competing standard binary is provisioned.
+
+Optional D2 diagrams use fenced `d2` blocks. Enable `d2 = true` for a book in
+`book-builder.toml`, or add `[preprocessor.d2]` to its native configuration.
+Native builds reuse PATH/cache executables or automatically download checksum-verified
+mdbook-d2 0.3.9 and D2 0.7.1 into the builder cache; Docker builds compile
+mdbook-d2 0.3.9 and D2 0.7.1 only when enabled. Newly added tables select inline
+SVG, HTML-only rendering, and failure on invalid diagrams. Existing options and
+custom commands remain author-managed; managed D2 rejects `inline = false` to
+avoid writing generated diagrams into maintained sources. With HTML-only
+rendering, common Markdown/Typst/PDF exports retain D2 source blocks. See the
+D2 setup section in `scripts/book.md` for native installation,
+configuration, and export limits.
 
 Managed setup permanently adds missing standard preprocessor tables and Mermaid
 `additional-js` cache references to the native configuration. Valid author scripts,

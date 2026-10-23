@@ -117,3 +117,15 @@ class TomlTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 update_book_config(self.config, mermaid=True, assets=self.assets)
         self.assertEqual(original, self.config.read_bytes())
+
+    def test_d2_setup_uses_html_inline_and_fails_on_errors(self):
+        self.config.write_text('# keep\n[book]\ntitle="Book"\n')
+        self.assertTrue(update_book_config(self.config, d2=True))
+        self.assertEqual(tomllib.loads(self.config.read_text())['preprocessor']['d2'],
+                         {'renderers': ['html'], 'inline': True, 'fail-on-error': True})
+        self.assertFalse(update_book_config(self.config, d2=True))
+        for content in ('[preprocessor.d2]\nlayout="elk"\n',
+                        '[preprocessor.d2]\ncommand="custom-d2"\n'):
+            self.config.write_text(content)
+            self.assertFalse(update_book_config(self.config, d2=True))
+            self.assertEqual(self.config.read_text(), content)

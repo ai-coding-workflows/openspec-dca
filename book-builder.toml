@@ -5,3 +5,4 @@ mermaid = true
 svgbob = false
 export-formats = ["markdown"]
 serve = true
+d2 = true

@@ -206,7 +206,7 @@ def _atomic_replace(config_file: Path, original: bytes, result: bytes) -> None:
 
 
 def update_book_config(config_file: Path, *, mermaid: bool = False,
-                       svgbob: bool = False, assets: tuple[Path, ...] = ()) -> bool:
+                       svgbob: bool = False, d2: bool = False, assets: tuple[Path, ...] = ()) -> bool:
     """Add managed native setup permanently; never delete/override author setup.
 
     Unsupported affected inline/dotted structures fail before any config write.
@@ -220,7 +220,7 @@ def update_book_config(config_file: Path, *, mermaid: bool = False,
     expected = copy.deepcopy(config)
     newline = '\r\n' if '\r\n' in text else '\n'
     active = {name: managed_feature(config, name, flag)
-              for name, flag in (('mermaid', mermaid), ('svgbob', svgbob))}
+              for name, flag in (('mermaid', mermaid), ('svgbob', svgbob), ('d2', d2))}
     tables = _tables(text)
     for name, enabled in active.items():
         if enabled:
@@ -228,6 +228,11 @@ def update_book_config(config_file: Path, *, mermaid: bool = False,
             if name not in config.get('preprocessor', {}):
                 expected.setdefault('preprocessor', {})[name] = {}
                 text += newline + f'[preprocessor.{name}]' + newline
+                if name == 'd2':
+                    expected['preprocessor'][name] = {'renderers': ['html'], 'inline': True,
+                                                       'fail-on-error': True}
+                    text += ('renderers = ["html"]' + newline + 'inline = true' + newline
+                             + 'fail-on-error = true' + newline)
     if active['mermaid'] and assets:
         text = _add_scripts(text, config, expected, _relative(config_file, assets), config_file, newline)
     if tomllib.loads(text) != expected:

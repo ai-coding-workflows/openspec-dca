@@ -1,0 +1,31 @@
+{
+  "mdbook-d2": {
+    "repository": "danieleades/mdbook-d2",
+    "version": "v0.3.9",
+    "assets": {
+      "mdbook-d2-aarch64-apple-darwin.tar.gz": "cab1c82d61d68f20b2a3eedc1ee5c04253a2254864f73984100c7d3f277f6212",
+      "mdbook-d2-aarch64-pc-windows-msvc.tar.gz": "df500a8fd44ca445772e3185d733962c82acffe2fd99a8a92d5e21dc33b39460",
+      "mdbook-d2-aarch64-pc-windows-msvc.zip": "67d0c54ef0f1d2511fa61212c5686e1230cc4f6a3ca8b531363db91e3dbde6ab",
+      "mdbook-d2-aarch64-unknown-linux-gnu.tar.gz": "96a174afcf9e317dd531cbabf5b046cced51319aa7671c6ca72beacb6ad36168",
+      "mdbook-d2-aarch64-unknown-linux-musl.tar.gz": "9bfc69c9684a14bd203cd43eef43722c48f62a8a9c84711fb94ce598c44ae8b3",
+      "mdbook-d2-x86_64-apple-darwin.tar.gz": "d9db9991176984727298458d4890459d72d1c7f5c2636db95b2c1ee2694d6f81",
+      "mdbook-d2-x86_64-pc-windows-msvc.tar.gz": "c2ea016807fc3672b34bd4fb3b44a758fa298faf6e9d9a2596f39110a8d7789b",
+      "mdbook-d2-x86_64-pc-windows-msvc.zip": "6e299bb3c328bd81905d05064f4adb1fbf8c1dda074beffda4f711b29803d520",
+      "mdbook-d2-x86_64-unknown-freebsd.tar.gz": "c2aafe409f311e89cf0af3fb51c2eba779a867701eb6b07f00fe0f55403af21a",
+      "mdbook-d2-x86_64-unknown-linux-gnu.tar.gz": "c7d045245900200a39665bb4228d6a104a59785a1e5a02ccce4f05d083fbd0ce",
+      "mdbook-d2-x86_64-unknown-linux-musl.tar.gz": "01a408b45108783d1e6e14bedbbdb478a122ead09babff248d39577edcdcdef0"
+    }
+  },
+  "d2": {
+    "repository": "d2lang/d2",
+    "version": "v0.7.1",
+    "assets": {
+      "d2-v0.7.1-linux-amd64.tar.gz": "eb172adf59f38d1e5a70ab177591356754ffaf9bebb84e0ca8b767dfb421dad7",
+      "d2-v0.7.1-linux-arm64.tar.gz": "ce3a0b985a8f91335a826c254b3a88736fd81afcdd08b58f6c749d2add6864b0",
+      "d2-v0.7.1-macos-amd64.tar.gz": "b0178e8fdae72194d5a23aa6effd323378cc58ccd3b08d175ab80371c14e106f",
+      "d2-v0.7.1-macos-arm64.tar.gz": "80de85f3b0ac7d9569acac0780ed65dd994ea78969b6b230c58bbb2c6113465b",
+      "d2-v0.7.1-windows-amd64.tar.gz": "d289c2866221c618c9fc6efcd416ee8c16e122bd0100761aea51001e3c958f57",
+      "d2-v0.7.1-windows-arm64.tar.gz": "c7ebdc7b2f6df513b715d431762105386f7c702b0b2dddff2a500a032b1bba67"
+    }
+  }
+}

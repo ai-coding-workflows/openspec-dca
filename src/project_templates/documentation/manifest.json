@@ -24,6 +24,8 @@
       "cache_lock.py",
       "capture_backend.py",
       "check.py",
+      "d2.py",
+      "d2-toolchain.json",
       "docker/.dockerignore",
       "docker/Dockerfile",
       "docker/compose.yml",

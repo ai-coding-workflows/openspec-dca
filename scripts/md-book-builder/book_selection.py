@@ -18,6 +18,7 @@ class BookDefinition:
     serve: bool = True
     mermaid: bool | None = None
     svgbob: bool | None = None
+    d2: bool | None = None
 
 
 def read_book_mapping(mapping: Path) -> dict:
@@ -82,11 +83,11 @@ def _definition(repository: Path, mapping: Path, alias: str, value) -> BookDefin
     serve = value.get("serve", True)
     if not isinstance(serve, bool):
         raise ValueError(f"Book alias {alias!r} serve must be a boolean")
-    for feature in ('mermaid', 'svgbob'):
+    for feature in ('mermaid', 'svgbob', 'd2'):
         if feature in value and not isinstance(value[feature], bool):
             raise ValueError(f"Book alias {alias!r} {feature} must be a boolean")
     return BookDefinition(_config_path(repository, mapping.parent, selection), export_formats, serve,
-                          value.get('mermaid'), value.get('svgbob'))
+                          value.get('mermaid'), value.get('svgbob'), value.get('d2'))
 
 
 def _definitions(repository: Path, mapping: Path | None,

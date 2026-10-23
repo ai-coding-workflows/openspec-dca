@@ -100,6 +100,22 @@ class BookToolsTests(unittest.TestCase):
                 self.assertEqual(env["DOCS_SVGBOB_BIN"],
                                  "/book/scripts/md-book-builder/.cache/native-tools/mdbook-svgbob/linux/revision")
 
+    def test_docker_d2_is_selected_per_book_and_preserves_custom_commands(self):
+        for extra, requested, expected in (
+                ('', None, 'false'), ('', True, 'true'),
+                ('[preprocessor.d2]\n', None, 'true'),
+                ('[preprocessor.d2]\n', False, 'false'),
+                ('[preprocessor.d2]\ncommand="custom-d2"\n', True, 'false')):
+            paths = self.paths(extra)
+            with self.subTest(extra=extra, requested=requested), \
+                    patch.object(runner, 'REPOSITORY', self.root), \
+                    patch.object(runner.shutil, 'which', return_value='docker'), \
+                    patch.object(runner, 'staged_book', return_value=nullcontext(self.root)), \
+                    patch.object(runner, 'run', return_value=0) as run, \
+                    patch.object(runner, 'serve_process', return_value=0):
+                self.assertEqual(runner.docker_command('serve', paths, 3000, False, d2=requested), 0)
+                self.assertEqual(run.call_args.kwargs['env']['DOCS_WITH_D2'], expected)
+
     def test_docker_svgbob_always_builds_linux_even_on_windows_host(self):
         self.paths('[preprocessor.svgbob]\n')
         with patch.object(svgbob.sys, "platform", "win32"), \

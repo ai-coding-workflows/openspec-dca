@@ -240,8 +240,8 @@ PDF uses its own managed environment described below.
 See the official
 [mdBook releases](https://github.com/rust-lang/mdBook/releases/latest) and
 [mdbook-mermaid setup](https://github.com/badboy/mdbook-mermaid#configure-your-mdbook-to-use-mdbook-mermaid).
-Each `[books.alias]` optionally accepts `mermaid` and `svgbob`: omitted autodetects
-the native table, `true` provisions a missing standard preprocessor, and `false`
+Each `[books.alias]` optionally accepts `mermaid`, `svgbob`, and `d2`: omitted autodetects
+the native table, `true` adds missing standard setup, and `false`
 disables managed setup without erasing author configuration. Custom commands and
 their tools/assets remain author-managed; no competing standard binary is provisioned.
 

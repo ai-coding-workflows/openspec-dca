@@ -19,6 +19,7 @@ from pathlib import Path
 from book_paths import read_book_paths, tomllib
 from book_root import resolve_project_root
 from book_features import feature_policy
+from d2 import prepare as prepare_d2
 from book_toml import update_book_config
 from mermaid_assets import native_mermaid_assets, ensure_mermaid_assets
 from book_environment import container_path, javascript_environment, capture_environment, requires_asset_staging
@@ -232,8 +233,8 @@ def prepared_svgbob(paths, *, enabled=None, docker_mode=False):
 def native_command(action: str, paths, port: int | None, open_browser: bool, *,
                    output_formats: tuple[str, ...] = ("markdown",), template: Path | None = None,
                    allow_install: bool = True, mermaid: bool | None = None,
-                   svgbob: bool | None = None) -> int:
-    policy = feature_policy(paths.config_file, mermaid=mermaid, svgbob=svgbob)
+                   svgbob: bool | None = None, d2: bool | None = None) -> int:
+    policy = feature_policy(paths.config_file, mermaid=mermaid, svgbob=svgbob, d2=d2)
     commands, result = (native_toolchain(paths) if mermaid is None
                         else native_toolchain(paths, mermaid=policy.mermaid))
     if result:
@@ -248,11 +249,13 @@ def native_command(action: str, paths, port: int | None, open_browser: bool, *,
     )
     tool_env["PATH"] = tool_dirs + os.pathsep + tool_env.get("PATH", "")
     tool_env["MDBOOK_BUILD__BUILD_DIR"] = json.dumps(str(paths.build_dir))
+    tool_env.update(prepare_d2(paths.config_file, enabled=policy.d2, cache=NATIVE_TOOLS_CACHE,
+                               allow_install=allow_install))
     bob = prepared_svgbob(paths, enabled=svgbob)
     if bob:
         tool_env["PATH"] = str(bob.parent) + os.pathsep + tool_env["PATH"]
     assets = native_mermaid_assets(Path(commands["mdbook-mermaid"]), SCRIPT_DIR) if policy.mermaid else ()
-    update_book_config(paths.config_file, mermaid=policy.mermaid, svgbob=policy.svgbob, assets=assets)
+    update_book_config(paths.config_file, mermaid=policy.mermaid, svgbob=policy.svgbob, d2=policy.d2, assets=assets)
     staging = {"force": True} if requires_asset_staging(paths.config_file, SCRIPT_DIR) else {}
     with staged_book(paths, **staging) as runtime:
         tool_env.update(javascript_environment(paths.config_file, project_root=REPOSITORY,
@@ -295,8 +298,8 @@ def docker_mermaid_assets(command, environment):
 def docker_command(action: str, paths, port: int | None, open_browser: bool, *,
                    output_formats: tuple[str, ...] = ("markdown",), template: Path | None = None,
                    allow_install: bool = True, mermaid: bool | None = None,
-                   svgbob: bool | None = None) -> int:
-    policy = feature_policy(paths.config_file, mermaid=mermaid, svgbob=svgbob)
+                   svgbob: bool | None = None, d2: bool | None = None) -> int:
+    policy = feature_policy(paths.config_file, mermaid=mermaid, svgbob=svgbob, d2=d2)
     docker = shutil.which("docker")
     if not docker:
         print("Docker mode requires the docker command.", file=sys.stderr)
@@ -318,6 +321,8 @@ def docker_command(action: str, paths, port: int | None, open_browser: bool, *,
     environment["DOCS_BOOK_BUILD_HOST"] = paths.build_dir.as_posix()
     environment["DOCS_BOOK_BUILD_PATH"] = build_path.as_posix()
     environment["DOCS_WITH_MERMAID"] = "true" if policy.mermaid else "false"
+    prepare_d2(paths.config_file, enabled=policy.d2, docker_mode=True)
+    environment["DOCS_WITH_D2"] = "true" if policy.d2 else "false"
     bob = prepared_svgbob(paths, enabled=svgbob, docker_mode=True)
     if bob:
         environment["DOCS_SVGBOB_BIN"] = container_path(bob.parent, REPOSITORY, SCRIPT_DIR)
@@ -336,7 +341,7 @@ def docker_command(action: str, paths, port: int | None, open_browser: bool, *,
         if result:
             return result
         assets = docker_mermaid_assets(command, environment) if policy.mermaid else ()
-        update_book_config(paths.config_file, mermaid=policy.mermaid, svgbob=policy.svgbob, assets=assets)
+        update_book_config(paths.config_file, mermaid=policy.mermaid, svgbob=policy.svgbob, d2=policy.d2, assets=assets)
         environment.update(javascript_environment(paths.config_file, project_root=REPOSITORY,
                                                   builder_dir=SCRIPT_DIR, docker_mode=True, runtime=runtime))
         if action == "serve":
@@ -387,7 +392,7 @@ def parse_args():
     parser.add_argument("--port", type=int, default=0, help="first serve port; subsequent books use available ports; 0 picks all ports")
     parser.add_argument("--no-open", action="store_true", help="do not open the served site in a browser")
     parser.add_argument("--no-install", action="store_true",
-                        help="require an existing managed PDF environment; do not create/install one")
+                        help="reuse existing PDF/D2 dependencies; do not install PDF packages or download D2 tools")
     parser.add_argument("--format", choices=EXPORT_FORMATS, action="append",
                         help="override configured export formats; repeat for multiple (build/export only)")
     parser.add_argument("--template", type=Path,
@@ -422,7 +427,7 @@ def process_books(args, definitions, books, ports) -> int:
     for definition, paths in zip(definitions, books):
         print(f"Processing {paths.config_file.relative_to(REPOSITORY)}", flush=True)
         output_formats = args.format or definition.export_formats
-        features = {name: getattr(definition, name) for name in ("mermaid", "svgbob")
+        features = {name: getattr(definition, name) for name in ("mermaid", "svgbob", "d2")
                     if getattr(definition, name, None) is not None}
         try:
             status = command(args.action, paths, ports[0] if ports else None, not args.no_open,

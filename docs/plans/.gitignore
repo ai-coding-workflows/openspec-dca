@@ -1,0 +1,4 @@
+# BEGIN Lambda Flow managed local artifact protection
+/2026-10-12-plan.meta
+/2026-10-12-plan.meta.*.tmp
+# END Lambda Flow managed local artifact protection

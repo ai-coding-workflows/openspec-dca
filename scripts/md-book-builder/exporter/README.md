@@ -59,8 +59,8 @@ backend via `MDBOOK_OUTPUT` and captures the full JSON RenderContext in an isola
 temporary destination. One capture per selected book is reused across formats;
 capture files are normally cleaned up. Maintained Markdown and existing HTML
 outputs are never replaced by export. Managed diagram setup can permanently update
-the native configuration before capture: per-book `mermaid`/`svgbob` omitted means
-native-table autodetection, `true` provisions missing standard preprocessors, and
+the native configuration before capture: per-book `mermaid`/`svgbob`/`d2` omitted means
+native-table autodetection, `true` adds missing standard setup, and
 `false` disables managed setup without erasing author configuration. Custom commands
 and valid author assets remain author-managed and preserved.
 
@@ -193,3 +193,9 @@ Markdown exports remain text-only, replacing image embeds with their alt text.
 Captured chapter paths must stay within the configured source tree. Part titles
 and separators are omitted from the combined export. Empty HTML anchors are
 supported for chapter links; arbitrary HTML remains outside the Typst subset.
+
+D2 setup added by the common CLI restricts processing to HTML. These exports
+therefore retain fenced D2 source blocks; D2 rendering in Typst/PDF is not supplied.
+For existing D2 tables, set `renderers = ["html"]` explicitly to avoid capturing
+inline SVG outside the Typst converter's supported subset. See the
+[builder guide](../../book.md#optional-d2-diagrams).

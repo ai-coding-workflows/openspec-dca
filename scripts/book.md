@@ -88,9 +88,9 @@ Each `[books.alias]` accepts `export-formats`, a nonempty list of `markdown`,
 `typst`, or `pdf`, defaulting to `['markdown']`. Duplicates are removed while
 retaining order. The legacy singular `export-format = 'markdown'` remains
 supported; specifying both fields together or an empty list is invalid.
-`serve` defaults to `true`. Optional `mermaid` and `svgbob` booleans control managed
+`serve` defaults to `true`. Optional `mermaid`, `svgbob`, and `d2` booleans control managed
 diagram setup independently for each book: omitted means autodetect the native
-preprocessor table; `true` provisions a missing standard preprocessor; `false`
+preprocessor table; `true` adds missing standard setup; `false`
 disables managed setup without removing author configuration. For example, add
 `mermaid = true` to `[books.ar42]` to enable Mermaid without editing its native
 configuration first. Existing custom commands are preserved, never replaced or
@@ -311,7 +311,8 @@ It reuses a validated, complete environment; it never changes global Python or
 existing project virtual environments and never uses global `typst` for PDF.
 No `uv` is required.
 
-`--no-install` disables environment creation and dependency installation, but allows
+`--no-install` disables D2 downloads, PDF environment creation, and PDF dependency
+installation, but allows
 reuse of a valid managed environment. If none is ready, PDF fails while remaining
 formats are still attempted. This is not a general offline switch: it does not
 prevent mdBook toolchain downloads or Typst registry network access. Cached/offline
@@ -326,6 +327,65 @@ access for Merman and Cheq.
 The standalone `exporter/export_book.py` remains a low-level tool using the invoking
 interpreter, without automatic installation. For its manual virtual-environment
 setup, see the [exporter guide](md-book-builder/exporter/README.md#standalone-pdf-dependencies).
+
+## Optional D2 diagrams
+
+Enable D2 per book in `book-builder.toml`:
+
+```toml
+[books.handbook]
+config = "book.toml"
+d2 = true
+```
+
+Alternatively, configure the native book directly:
+
+```toml
+[preprocessor.d2]
+renderers = ["html"]
+inline = true
+fail-on-error = true
+# layout = "dagre"
+```
+
+Write diagrams in fenced `d2` blocks, for example:
+
+````markdown
+```d2
+reader -> book: reads
+```
+````
+
+Native mode uses `mdbook-d2` and `d2` from `PATH` first, then the builder-local
+`<builder>/.cache/native-tools/` cache. Missing tools are downloaded automatically
+from the official [mdbook-d2 releases](https://github.com/danieleades/mdbook-d2/releases)
+and [D2 releases](https://github.com/d2lang/d2/releases).
+The versions (mdbook-d2 0.3.9 and D2 0.7.1) and SHA-256 archive checksums are pinned
+in `md-book-builder/d2-toolchain.json`. Downloads support Linux x86-64/ARM64,
+macOS Intel/Apple Silicon, and Windows x86-64/ARM64. Only the executable is extracted;
+no host Rust/Go installation or global install is needed. Executables are checked
+for cache corruption and downloads are serialized per cache entry. Cached tools
+work without network access. `--no-install` allows PATH/cache reuse but rejects
+missing D2 tools instead of downloading them.
+
+`[preprocessor.d2].path` can select another D2 executable, relative to the native
+book configuration directory or absolute. In Docker, paths must exist inside the
+container; host executable paths are not translated.
+
+`--docker` builds mdbook-d2 0.3.9 and D2 0.7.1 in optional Rust/Go stages; host
+Rust, Go, and D2 installations are unnecessary. The first enabled build needs
+network access and can take several minutes; Docker caches subsequent builds.
+Books without managed D2 skip these stages. Custom preprocessor commands remain
+author-managed and do not activate the standard Docker tools.
+
+Newly added D2 tables use the native options shown above. Existing tables and
+options are preserved. `inline = false` is rejected for managed D2 because it
+writes generated files into maintained book sources. Keep `renderers = ["html"]`
+for exports: HTML contains SVG, while Markdown, Typst, and PDF retain the D2 code
+block. D2 diagram rendering in Typst/PDF is not supplied. Existing tables without
+a renderer restriction also run during export capture, producing raw SVG outside
+the Typst converter's supported subset. Upstream defaults `fail-on-error` to false;
+set it to true in existing tables to fail builds for invalid diagrams.
 
 ## Directory roles
 

@@ -1,5 +1,73 @@
 # The core idea
 
+
+```d2
+
+vars: {
+  d2-config: {
+    theme-id: 3 # terrastruct
+    sketch: true
+    layout-engine: elk
+  }
+  colors: {
+    c2: "#C7F1FF" # light turkuaz
+    c3: "#B5AFF6" # dark purple
+    c4: "#DEE1EB" # gray
+    c5: "#88DCF7" # turkuaz
+    c6: "#E4DBFE" # purple
+  }
+}
+
+LangUnits: {
+  style.fill: ${colors.c6}
+  RegexVal: {
+    ds
+  }
+  SQLSelect: {
+    ds
+  }
+  PythonTr: {
+    ds
+  }
+  langunit ₙ: {
+    style.multiple: true
+    style.stroke-dash: 10
+    style.stroke: black
+    style.animated: 1
+    "... ds"
+  }
+}
+
+LangUnits <- ExperimentHost.Dataset: "load dataset"
+Dataset UI -> LangUnits: "manage datasets"
+
+Dataset UI: {
+  style.fill: ${colors.c4}
+}
+
+ExperimentHost: {
+  style.fill: ${colors.c4}
+  Experiment: {
+    style.multiple: true
+  }
+  Dataset
+  # Experiment <-> Dataset
+}
+ExperimentHost.Experiment -> Experiment
+
+Experiment.ModelConfigurations: {
+  style.multiple: true
+}
+Experiment.LangUnit
+
+Experiment.ModelConfigurations -> ModelConfiguration
+
+ModelConfiguration.Prompting
+ModelConfiguration.Model
+ModelConfiguration.LangUnit
+
+```
+
 Contract delivery is coordinated through a **change**. Lasting behavior is owned by
 **main specs**.
 OpenSpec keeps a proposed contract change as a delta until it is synchronized into

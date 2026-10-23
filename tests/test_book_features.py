@@ -18,3 +18,15 @@ class FeatureTests(unittest.TestCase):
             config.write_text('[book]\ntitle="Book"\n')
             self.assertFalse(feature_policy(config).mermaid)
             self.assertTrue(feature_policy(config, mermaid=True).mermaid)
+
+    def test_d2_is_optional_and_preserves_custom_commands(self):
+        with tempfile.TemporaryDirectory() as directory:
+            config = Path(directory) / 'book.toml'
+            config.write_text('[book]\ntitle="Book"\n')
+            self.assertFalse(feature_policy(config).d2)
+            self.assertTrue(feature_policy(config, d2=True).d2)
+            config.write_text('[preprocessor.d2]\nlayout="elk"\n')
+            self.assertTrue(feature_policy(config).d2)
+            self.assertFalse(feature_policy(config, d2=False).d2)
+            config.write_text('[preprocessor.d2]\ncommand="custom-d2"\n')
+            self.assertFalse(feature_policy(config, d2=True).d2)
