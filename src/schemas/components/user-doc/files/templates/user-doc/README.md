@@ -1,111 +1,83 @@
 # User documentation templates
 
-Use these optional starters for people who use or configure the product. They are
-not the product manual and not extra OpenSpec artifacts. Remove authoring comments
-and sections that do not help the reader when writing a real page. Keep the project's
-chosen language and explain necessary technical terms before relying on them.
+These are reusable content types, not extra OpenSpec artifacts, mandatory chapters
+or permanent catch-all files. Use the [base documentation policy](../documentation-policy.md)
+for audiences, granularity and check classes. A project's users may be administrators,
+operators, integrators or developers. Installation, setup, operation, integration
+and everyday use belong when relevant; separate books are not mandatory.
 
-## Where the files belong
+## Locations and ownership
 
-| Purpose | Location |
+The installed library is `openspec/schemas/openspec-ddd/templates/user-doc/`.
+Maintained content defaults to project-root `user-doc/`; reuse an explicitly selected
+existing root rather than migrate it. Optional planning drafts can live under
+`openspec/changes/<change>/user-doc/`. The library is not a completed manual.
+
+Planning is change-local. Apply delivers explicitly mapped descriptive sources in
+the local development checkout, preserving current/unrelated edits. The entire
+`openspec/specs/**` tree and maintained models/ADRs/catalog remain protected even
+when an index/view looks descriptive. Prepare protected revisions in the change;
+actual publication and dependent links use the base non-checkbox Integration Handoff.
+Do not link transient drafts or invent missing targets. Task completion, integration,
+acceptance and deployment are separate; this component grants no deployment authority.
+
+## Choose a type, then name the actual topic
+
+| Reader need | Reusable starter |
 | --- | --- |
-| Installed template library | `openspec/schemas/openspec-ddd/templates/user-doc/` |
-| Optional planning drafts and supporting assets | `openspec/changes/<change>/user-doc/` |
-| Maintained user documentation | `user-doc/` at the project root |
-| Maintained system architecture, when arc42 is selected | `openspec/system-architecture/` |
-
-Planning stays change-local and read-only at maintained destinations. Drafts are optional
-when useful, not a mandatory second editable copy. Apply updates explicitly mapped descriptive
-maintained pages, navigation, assets, and approved reference sources in the repository-local
-development checkout alongside code, outside openspec/specs/**. That entire tree stays
-read-only during planning and Apply, including local views/assets/indexes: no direct or
-generated create/edit/remove/rename. Prepare/check protected proposals and mappings inside
-the change in the same Apply checklist; actual publication and dependent links require
-separately authorized sync/archive-stage integration in the non-checkbox handoff. A draft alone does not complete a documentation task.
-A spec sync does not publish user pages; direct shared canonical store writes and site
-deployment remain outside this Apply permission.
-
-An existing project-root documentation directory may be retained when explicitly
-chosen in project instructions and design mappings. Do not move it automatically.
-The builder installs templates, not a populated root handbook. Copying this README
-as the user's handbook would publish process instructions, not product help.
-
-## Choose a page for the reader's question
-
-| Need | Starter |
-| --- | --- |
-| Learn a first complete task with a controlled example | [Tutorial](tutorial.md) |
-| Complete a real task, including configuration | [How-to](how-to.md) |
-| Look up exact values, settings, or supported options | [Reference](reference.md) |
-| Understand a concept, outcome, or important limit | [Explanation](explanation.md) |
+| Learn a first complete outcome with a controlled example | [Tutorial](tutorial.md) |
+| Complete a real task, including installation or configuration | [How-to](how-to.md) |
+| Look up exact settings, commands or supported options | [Reference](reference.md) |
+| Understand a concept or important limit | [Explanation](explanation.md) |
 | Recognize and safely recover from a problem | [Troubleshooting](troubleshooting.md) |
 
-Start with a short purpose and expected outcome. Name real entry points and needed
-permissions. Keep warnings before the affected action; missing, cleared, rejected,
-and retried values must not become interchangeable just to shorten the text.
-Do not publish guessed menus, defaults, commands, role names, or results. Record
-unknowns in the change's working artifacts until resolved for the affected page.
+Name pages for actual reader questions; template filenames are not required targets.
+A tutorial may connect installation, setup and first use. A reference may cover
+related commands. Split independent topics when navigation or prerequisites demand
+it, not at an arbitrary word count. Keep coherent procedures and local warnings
+together. Distinguish source topics from generated single-file books or exports.
 
-## Reading structure, not architecture structure
+Expose audiences, prerequisites, supported versions and outcomes through the title,
+introduction or navigation where sufficient; do not require per-page metadata blocks.
+Explain needed terms using the shared language and link authoritative definitions
+accessible to the reader in the intended output. No competing rule/value lists.
+Technical detail belongs when useful to the actual reader, not merely because it
+appeared in a change or source file. Keep history distinct from current guidance.
 
-Design navigation around reader goals and audiences. A function overview can link
-to several tasks; one task may cross several specs. No page-per-spec rule, mandatory
-folder tree, or arc42 numbering applies. Configuration instructions and complete
-setting references serve different questions: link them rather than repeat every
-value in both places. Keep internal evidence paths and draft review notes out of
-public prose unless they genuinely serve the reader.
+Use screenshots/diagrams only to explain a real question; provide captions or text
+alternatives, safe sample data and accurate versioned sources. Never invent screens,
+roles, commands, settings/defaults or results. Keep unknowns in working artifacts
+and report what they block. Do not publish unfilled starters or authoring prompts.
 
-When pages become difficult to scan, first look for mixed goals or audiences. Split
-independently useful topics and retain a short overview and links. Keep a coherent
-procedure together when a split would make the task harder. A long parameter list
-may remain a single reference if it is easy to search and navigate. Length signals
-need review, not automatic deletion or arbitrary page splitting.
+## Plan and verify within the existing workflow
 
-Use a screenshot to locate a control, a flow diagram to explain a user's choices,
-or a concept diagram to explain a relationship. Include text steps, captions or
-text alternatives, and the important conditions. Reuse accurate sources, keep an
-editable diagram source, use safe sample data, and check the supported product
-version. Do not invent screenshots or copy internal component diagrams without a
-reader need. No renderer is required merely because a template mentions diagrams.
+Impact assesses affected readers and whole units, including reuse/no-impact. Design
+keeps one map of audience/need, inspected basis, action/target and checks, referencing
+the existing project profile. Include navigation/assets/configuration references,
+old links/anchors and approved generator sources/outputs. Tasks has one Apply list;
+verification records current results, actual evidence and exceptions. No eighth
+artifact or repeated inventory. A page edit needs no dummy documentation requirement.
 
-## Participate in the existing DDD process
+Read maintained targets before editing; review reused surrounding content and overlaps,
+not only new paragraphs. Run selected structural gates and investigate size/growth/
+duplication signals. Record split/consolidate/keep decisions and justified exceptions
+without filling a form for every page. Check intended published destinations, not
+only source-file existence. A render/link pass does not prove a procedure works.
+Execute only authorized risk-relevant examples in isolation, without live credentials,
+unapproved external writes or arbitrary extracted code blocks. Distinguish inspection,
+execution, Not run and limits in the existing verification evidence.
 
-Impact owns the reader/page coverage assessment, including reasoned no-change results.
-Design owns page structure and maps inspected source/basis, create/update/remove/rename/reuse
-action, maintained target, concrete checks, and optional draft references. Tasks contains the
-one Apply checklist; each task names its reader goal, mapped maintained target, and concrete
-completion checks. Verification records actual maintained results, checks, and gaps. The
-non-checkbox Integration Handoff covers protected-tree publication/dependent links and
-remaining separate contract/model/ADR/catalog/release work, not ordinary completed doc edits
-outside the tree; invent no Pending publication when none remains, but do not claim none
-while it remains or label staged local views delivered/maintained-current.
-Main spec.md sync, maintained model companions, ADR records/status/supersession, and
-openspec/catalog.json remain protected/separate. Defer references requiring absent protected
-targets to handoff; create no placeholders or maintained links to transient drafts.
-Model meanings and normative guarantees remain in their existing owning sources.
-Add documentation requirements only for actual changed obligations, not every edit.
+Use approved generator mappings and inspect incidental output. Forbid writes into
+protected targets. Do not introduce tools, CI, services or deployment merely to make
+a check pass. Native sync merges requirements, not these pages or their companions.
 
-Check syntax, links/navigation, exact examples/settings, and important user tasks at
-appropriate levels. Review actual updated maintained pages with reused content, not only
-isolated drafts, accounting for additions, renames, removals, and unchanged context. Generated
-references use only existing approved generator/source/output mappings; inspect incidental
-outputs. Forbid reference generators and incidental outputs that write into openspec/specs/**.
-Do not introduce tools, CI, services, or deployment merely to pass checks. Use safe,
-authorized examples without real secrets or unapproved external writes. Record the
-product/docs snapshot, roles, commands or walkthroughs, actual results, and limits.
-A green build does not prove the procedure works. A source test is not a test run.
+## Component and starter scope
 
-Before Apply writes, read the current destination, reconcile concurrent changes, preserve
-pre-existing dirty/unrelated content, and update mapped targets only. Check actual results
-against required scope, availability in the intended product version, and final links and
-navigation. Rendering for review is not deployment. Task completion is not acceptance,
-release, or site deployment; ready for acceptance and accepted are distinct states.
+This component is independent of arc42. It installs no splitter, linter rules, CI,
+reference generator or publisher. Existing accepted documentation obligations remain
+binding when the component is absent. Merge generated guidance deliberately.
 
-## Scope of this component
-
-This component has no dependency on arc42 or architecture reconstruction. It
-supplies prose hooks and these support templates only: no eighth artifact, native
-configuration flag, index schema, automatic splitter, mdBook setup, linter rules,
-CI, generated reference pipeline, or runtime implementation. Tools and existing
-documentation obligations are adopted explicitly by the project. Not selecting
-this component never waives already accepted documentation requirements.
+The fresh-project starter creates only book configuration, a draft landing page
+and minimal navigation. It does not instantiate each content type. Select useful
+topics from this library, write and verify them, then link them. The draft landing
+page must be replaced before publication; a preview is not a ready handbook.

@@ -1,3 +1,4 @@
-<!-- User-doc: add concrete mapped maintained source/navigation/asset edits and
-safe checks to the checklist above. Reuse the single design map. Keep remaining
-protected-reference work in the base handoff; no second backlog or deployment task. -->
+<!-- User-doc: map maintained content/navigation/asset changes and selected safe
+checks into the checklist above. Include whole-unit review and mapped restructuring,
+not just appended text. Reuse design's map; resolve relevant findings/exceptions.
+Protected publication stays in the base handoff; no extra backlog/deployment task. -->

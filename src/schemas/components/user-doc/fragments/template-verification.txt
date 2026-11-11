@@ -1,5 +1,6 @@
 ## User documentation evidence
-<!-- Record supported product version/role, checked actual pages, procedure steps,
-link/preview checks and limitations in Results above. Distinguish inspection from
-execution. During integration reconcile publication-dependent references and record
-affected pages/navigation in the shared closure receipt. -->
+<!-- Use Results and Documentation review above, referencing the single design map.
+Record actual product version/readers, whole units checked, safe procedures executed
+versus inspected, output/link/navigation checks, resolved review signals and limits.
+During integration reconcile publication-dependent references, including moved topics,
+and record affected pages/navigation in the shared closure receipt. -->

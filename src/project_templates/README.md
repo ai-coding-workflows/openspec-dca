@@ -1,6 +1,6 @@
 # Fresh-project template sources
 
-`python3 build.py project_templates` composes the four v3 selections into
+`python3 build.py project_templates` composes the four schema selections into
 `build/project_templates/<variant>/`; the root default build also builds schemas.
 The installed schema directory matches the variant identifier:
 `openspec/schemas/<variant>/`, selected by `schema: <variant>` in
@@ -13,9 +13,10 @@ no legacy project starter.
   Its README source uses `{{schema-name}}` so generated project commands name the
   selected variant.
 - `arc42/`: book configuration/navigation and mappings to canonical arc42 templates.
-- `user-doc/`: reader landing page/navigation/configuration and mappings to canonical
-  user-doc writing templates. The schema library README is deliberately
-  not published as the reader landing page.
+- `user-doc/`: draft landing page, minimal navigation and book configuration only.
+  Writing templates remain in the composed schema library; instantiate useful topics,
+  not one permanent chapter per type. Replace the draft landing page before publication.
+  The schema library README is not published as the reader landing page.
 - `documentation/`: shared wrapper/guide mappings and an explicit maintained book-tool
   payload and shared agent-guidance intro, selected once when an active component
   belongs to the documentation group or one of its descendants.

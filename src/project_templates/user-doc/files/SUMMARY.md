@@ -2,8 +2,5 @@
 
 [User documentation](README.md)
 
-- [Tutorial](tutorial.md)
-- [How-to](how-to.md)
-- [Reference](reference.md)
-- [Explanation](explanation.md)
-- [Troubleshooting](troubleshooting.md)
+<!-- Add verified, actual topic pages as needed. No mandatory chapters per template
+or audience. Keep this navigation consistent with the reader entry point. -->

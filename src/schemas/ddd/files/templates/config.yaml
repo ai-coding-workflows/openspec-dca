@@ -10,6 +10,8 @@ context: |
   Follow the policy's Ubiquitous Language rules for concepts AND named processes; keep
   definitions at their owners and glossary links navigable. Align code/tests/current docs
   with the change overlay; maintained language definitions have model/spec protection.
+  Follow the selected templates/documentation-policy.md for whole-unit review,
+  project-specific checks and exceptions; no fixed audience or folder tree.
   Planning stays change-local. During Apply protect all openspec/specs/** content,
   maintained models, ADR records/status and the catalog, including generated writes.
   Deliver only mapped outside-tree descriptive docs; preserve prior dirty/unrelated work.

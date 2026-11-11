@@ -1,1 +1,1 @@
-- Deliver mapped maintained user pages, navigation and assets; verify real interface details and safe procedures, not merely rendered output.
+- Deliver mapped documentation and review whole affected units/navigation against the project profile; resolve gate findings and review signals, not merely rendered output.

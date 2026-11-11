@@ -1,6 +1,7 @@
-Architecture and user documentation serve different audiences and retain their
-own sources and navigation. The selected sections below define their responsibilities;
-selecting both does not merge the books or make user pages part of the arc42 handbook.
+Architecture and user documentation have distinct responsibilities; their readers
+may overlap. Select navigation and outputs for the actual project. This starter
+keeps selected books separate, but that is not a schema requirement for every product.
+Selecting both components does not make user pages part of the arc42 model baseline.
 The DDD foundation's lifecycle, ownership, protected-publication, and acceptance
 boundaries apply to every documentation component.
 

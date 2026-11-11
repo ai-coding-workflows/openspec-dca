@@ -1,8 +1,12 @@
 ## User documentation plan
-| Source / inspected basis | Action / maintained target | Reader goal and check |
-| --- | --- | --- |
-<!-- Single user-doc mapping. Respect the existing root, default project user-doc/.
-Include affected configuration/API references, navigation/assets/approved generated
-sources and safe procedure checks. Outside-tree descriptive sources are Apply delivery;
-drafts are optional.
-Protected references follow the base handoff. Preserve warnings and incoming links. -->
+| Audience / reader need / prerequisites | Inspected basis | Action / maintained target | Checks / review signals |
+| --- | --- | --- | --- |
+<!-- One mapping, not another documentation inventory. Reference the existing project
+profile; use the base documentation policy and chosen root, default user-doc/.
+Cover affected whole units, configuration/API references, assets/navigation and
+approved generated sources/outputs. Include split/consolidate/reuse where justified;
+no mandatory directory tree, one-task-per-file rule or universal size quota.
+Preserve warnings and incoming links/anchors. Choose deterministic gates, configurable
+review signals/exceptions and risk-based safe procedures. Do not publish unfilled
+starters. Outside-tree descriptive sources are Apply delivery; drafts are optional.
+Protected references follow the base handoff. -->

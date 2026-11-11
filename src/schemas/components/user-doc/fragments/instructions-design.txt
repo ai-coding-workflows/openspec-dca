@@ -1,8 +1,8 @@
-User-doc: map affected pages/assets/navigation to inspected sources, action, actual
-maintained target and checks in User documentation plan. Respect the chosen root.
-Group pages by reader goal and select only useful page types. Plan safe procedure,
-source and link/preview checks for the supported product version. Preserve warnings
-and incoming links. Explain owned contracts for readers without creating a competing
-normative rule; include affected configuration/API references in the mapping.
-Use approved tools/generator mappings and inspect incidental
-output. Protected targets and their dependent links follow the base handoff.
+User-doc: reuse the project documentation profile and base documentation-policy.md.
+Map audience/reader need, inspected basis, action, maintained page/assets/navigation
+and checks in one User documentation plan. No mandatory folders or task-per-file
+rule; coherent learning paths may include installation/setup/use. Templates are
+content types, not permanent catch-all pages. Plan whole-unit review, selected gates,
+review signals/exceptions and safe procedures. Preserve warnings and old links;
+include affected configuration/API references without duplicating owned contracts.
+Use approved generator/source/output mappings; protected work uses the base handoff.

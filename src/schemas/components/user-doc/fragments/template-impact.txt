@@ -1,4 +1,6 @@
 ## User documentation impact
-| Reader task / visible change | Existing page or gap | Action / reason |
+| Audience / task / changed prerequisites | Existing unit / navigation / gap | Action / reason |
 | --- | --- | --- |
-<!-- Omit rows with a reason when no reader-facing information changes. -->
+<!-- Assess the whole affected unit and overlap with other current pages. Reuse the
+project's readers/profile, not assumed roles; include installation/setup when relevant.
+Create/update/remove/rename/split/consolidate/reuse or a brief no-impact reason. -->

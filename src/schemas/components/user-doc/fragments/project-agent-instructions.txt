@@ -1,7 +1,10 @@
 ### User documentation
-Assess affected reader tasks, settings and errors. Keep a single page/asset mapping
-in design; Apply delivers mapped descriptive sources at the selected documentation
-root. Preserve exact conditions and safety warnings and verify procedures with
-approved safe fixtures. Do not invent labels, defaults or screenshots. Distinguish
-link/render checks from executed user procedures. The base publication boundary
-and closure reconciliation apply; this component does not authorize deployment.
+Use the base documentation policy for readers, coherent units and check classes.
+Installation/setup, operation, integration and use are in scope when relevant to
+the actual readers; do not enforce separate books or a universal directory tree.
+Keep one design map of audience/need, basis, action/target and checks. Apply delivers
+mapped descriptive sources; review whole units, overlaps and navigation, not only
+new paragraphs. Resolve review signals with reasons; publish no unfilled starters.
+Keep warnings at the action; do not invent interface details. Distinguish actual
+safe procedure tests from inspection/rendering. Base publication boundaries and
+closure reconciliation apply; this component does not authorize deployment.

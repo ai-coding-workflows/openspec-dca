@@ -14,7 +14,9 @@ Explain any consequences before connecting to external systems or writing data.}
 2. {The next action and what should now be visible.}
 3. {Complete the example.}
 
-<!-- Guide one path first. Put full option lists in reference pages and broad rationale
+<!-- Use a topic-specific filename. A coherent learning path may include installation,
+setup and first use; do not split solely to separate technical from everyday tasks.
+Guide one path first. Put full option lists in reference pages and broad rationale
 in explanation pages. Use a screenshot or small diagram only to resolve a real ambiguity;
 include descriptive text and no secrets. Never invent observed screens or results. -->
 

@@ -10,6 +10,8 @@ Treat maintained language definitions as protected model/spec content wherever s
 Write complete, precise sentences; distinguish evidence, proposals and decisions.
 Give each normative rule one authoritative home; reference it elsewhere. Keep one
 current design, Apply task list and verification conclusion; separate dated history.
+Follow templates/documentation-policy.md in the selected schema for coherent content,
+project-specific checks and justified exceptions; no fixed audience or folder tree.
 
 The seven artifacts separate outcome, impact, model meaning, requirement deltas,
 implementation design, decisions and tasks. No-change model/ADR assessments are

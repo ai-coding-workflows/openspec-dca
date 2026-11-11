@@ -1,1 +1,1 @@
-- Reconcile user documentation references affected by companion publication and include affected pages/navigation in the base closure receipt.
+- Reconcile documentation/glossary navigation and definition access in the intended output after companion publication, including mapped moved anchors; record affected targets in the base closure receipt.

@@ -57,7 +57,12 @@ copying rules. Definitions need no separate file per term or mandatory filesyste
 Group the glossary by bounded context/scope; separate genuinely shared domain terms
 and technical terms when needed. Sort context sections alphabetically and entries
 by canonical display term, case-insensitively. Optional kind subgroups remain
-alphabetically sorted internally. Follow glossary.md for the compact layout.
+alphabetically sorted internally. Follow glossary.md for layout and growth.
+One logical glossary need not be one file or one file per context. Split by useful
+scope/kind only when needed; retain entry-point navigation and one maintained entry
+per scoped meaning. Additional global indexes link to or are generated from those
+entries. Check links in the intended publication format, not only in the repository.
+Use documentation-policy.md for granularity and project-specific checks.
 
 Use recognizable terms across code, tests, specifications, diagrams, current docs
 and active changes. Allow native identifier conventions and explicitly mapped

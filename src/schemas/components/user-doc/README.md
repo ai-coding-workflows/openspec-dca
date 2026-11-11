@@ -1,87 +1,49 @@
 # Optional user-doc component
 
-This component follows the existing component manifest and additive-hook model.
-Select `user-doc` when composing the DDD schema with the project's builder.
-It has no required component: DDD alone, DDD + arc42, DDD + user-doc, and
-DDD + both are valid intended selections. The seven artifacts and their dependencies
-stay in the DDD foundation. Disabling arc42 does not disable user-doc.
+Select `user-doc` through the existing builder's component selection. It is
+independent of arc42 and adds guidance/templates through existing hooks, without
+changing the seven-artifact graph. Availability is not activation; no new native
+OpenSpec configuration key or runtime component mechanism is introduced.
 
-The directory's presence makes it available, not enabled. Only explicit builder
-selection injects its guidance and copies its support templates. No native `enabled`
-flag, project-config extension key, or component runtime is introduced. Follow the
-existing builder's CLI rather than an invented command in this package.
+The [template guide](files/templates/user-doc/README.md) applies the base DDD
+`documentation-policy.md` to reader-facing material. Coverage follows actual readers
+and tasks, including installation/setup/administration when relevant. No mandatory
+folder tree, audience split, task-per-file rule or size quota applies.
 
-## What it contributes
+## Contributions
 
-| Contribution | Responsibility |
+| Existing stage | Added responsibility |
 | --- | --- |
-| Project context | Selected documentation root and component-specific locations/conventions |
-| Project agent instructions | Reader-oriented execution, ownership, safe checks, and pending durable links |
-| Project README | Reader-friendly component role and planning/delivery lifecycle |
-| Apply/archive operation guidance | Scoped delivery/check reminders and maintained-target/link closure review |
-| Proposal instructions | Reader groups and likely visible effects |
-| Impact instructions/template | User task and page coverage; a reasoned no-impact result is valid |
-| Specs instructions | Preserve actual documentation obligations without creating one per page |
-| Design instructions/template | Reader-oriented structure, exact page/asset mapping, proposed checks |
-| Tasks instructions/template | Maintained edits/checks in one checklist; separate work only in handoff |
-| Apply instructions | Update mapped maintained pages in development; preserve unrelated edits |
-| Verification template | Actual maintained results, examples, navigation/procedure checks and gaps |
-| Support index and files | Six optional page-writing starters under templates/user-doc/ |
+| Proposal/impact | Readers, tasks/prerequisites, whole affected units and overlap; reasoned no-impact |
+| Design | One map of audience/need, inspected basis, action/target and checks; reuse project profile |
+| Tasks/Apply | Deliver mapped descriptive sources, review whole units/navigation, resolve findings |
+| Verification/integration | Actual safe procedure/structure checks, exceptions and durable-link reconciliation |
+| Support library | Reusable topic templates; not populated manual chapters |
 
-The domain-model and architectural-decisions artifacts remain the sources of model
-meaning and significant decision rationale. They do not need another user-doc assessment
-or repeated definitions. The component uses the existing scopes and generic hooks only.
+Model meaning and significant decisions remain in their existing owners. No page
+becomes a native spec owner merely by documenting it; changing explanatory prose
+needs no dummy normative delta. Accepted documentation obligations remain binding
+whether or not this component is selected.
 
-## Files versus content
+## Delivery and publication
 
-Builder output places starters at:
-`openspec/schemas/openspec-ddd/templates/user-doc/`.
-That is the template library, not the handover of a complete handbook.
+Use the chosen project root, default `user-doc/`. Planning stays change-local.
+Apply delivers mapped outside-tree descriptive sources in the local checkout after
+reading targets and preserving concurrent work. Protected models, ADRs/catalog and
+all `openspec/specs/**` content remain protected, including generated changes and
+moves. Their publication/dependent links belong to separately authorized integration
+using the base mappings, handoff and closure receipt. A draft is not delivery; a
+completed task or preview is not acceptance or deployment.
 
-Real maintained pages belong at `user-doc/` in the project root unless project
-instructions/design explicitly select an existing root; that choice wins without migration.
-Planning remains change-local and read-only at maintained destinations. Optional drafts may
-live at `openspec/changes/<change>/user-doc/`; no second editable copy is required.
-Apply updates explicitly mapped descriptive pages, navigation, assets, and approved reference
-sources in the repo-local development checkout alongside code. Read current destinations,
-reconcile concurrent edits, preserve dirty/unrelated content, and check actual results,
-including additions, deletions, and renames. A draft alone does not complete a task.
+Inspect approved generator output and required navigation changes. Keep warnings
+at the action. Use only safe authorized examples; do not invent observed behavior.
+Use the shared docs helper when applicable and installed; it is not a semantic or
+page-size checker. This component installs no automatic splitter, linter rules, CI,
+reference generator or publisher. Tool changes require project authority.
 
-The entire `openspec/specs/**` tree is read-only during planning and Apply, including local
-architecture, diagrams/assets, models, and indexes: no direct or generated create/edit/remove/
-rename. Prepare/check protected proposals and source-to-maintained-target mappings inside the
-change in the one Apply checklist; actual publication and dependent links are non-checkbox
-handoff work at separately authorized sync/archive-stage integration. Native sync merges only
-requirement deltas, never local architecture or other non-spec documents automatically.
-Maintained model companions, ADR records/status/supersession and `openspec/catalog.json`
-remain protected/separate even outside the tree. References requiring absent protected
-targets go to the non-checkbox Integration Handoff, not placeholders or maintained links to
-transient drafts. Handoff covers protected-tree publication/dependent links and remaining
-separate contract/model/ADR/catalog/release work; do not invent Pending publication for
-ordinary completed docs outside the tree, or claim none while publication remains pending.
-Staged local views are not delivered or maintained-current. Task completion is not
-acceptance, release, or site deployment. Direct shared canonical store writes and deployment
-remain outside Apply permission. Generated references use only existing approved generator/
-source/output mappings with incidental outputs inspected; forbid generators/incidental
-outputs that write into `openspec/specs/**`. Introduce no tools or services to
-pass checks.
-
-All new public pages must answer a reader question. A change with no documentation
-impact can use a short reason in impact and omit empty downstream tables. User pages
-are not native spec owners, and their references are not contract dependency edges.
-Accepted documentation requirements remain binding whether or not this optional
-component is selected; component selection is not a waiver mechanism.
-
-## Scope of this update
-
-This addition handles the DDD process and optional writing support first. It does
-not change arc42, architecture reconstruction, the native artifact graph, existing
-review outcomes, or the builder. It installs no publisher, linter, automatic splitter,
-CI workflow, reference generator, new handbook baseline, or user-doc reconstruction
-process. Selecting a component is not permission to rewrite installed project guidance.
-Review and merge generated config, agent-instruction, and README starters into active
-project-owned files deliberately, preserving customizations.
-
-See [the template guide](files/templates/user-doc/README.md) for writing and
-verification rules. See the [builder README](../../../../scripts/schema-builder/README.md) for composition,
-destination-specific hooks, custom component migration, and integration checks.
+The project starter now copies only configuration, a draft entry point and minimal
+navigation. Topic templates remain in the schema library. No auto-created empty
+chapters; replace the draft entry point before publication. This changes future
+starters, not existing project files. Deliberately merge generated guidance and
+manifest changes through the original repository's builder; do not overwrite adopted
+customizations. The included reference composer does not build project starters.

@@ -1,2 +1,4 @@
-User documentation lives at project-root user-doc/ unless an existing project
-location is explicitly selected. Organize by reader goals, not spec folders.
+User documentation lives at the selected project root, default user-doc/. Coverage
+and structure follow actual readers/tasks, not a fixed nontechnical audience or
+folder tree. Installation, setup and administration belong when relevant. Use the
+base documentation policy and the project's profile; templates are reusable types.

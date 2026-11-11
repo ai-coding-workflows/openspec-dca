@@ -7,7 +7,8 @@ Their templates provide headings, not evidence or automatic approval.
 ## Reusable policy and foundation
 
 - [Architecture policy](architecture-policy.md): ownership, dependencies and Ubiquitous Language.
-- [Glossary](glossary.md): context-grouped, alphabetically ordered links to concept and process definitions; reuse an existing index.
+- [Documentation policy](documentation-policy.md): project-adaptive audiences, coherent units, navigation and check classes.
+- [Glossary](glossary.md): grouped, alphabetically ordered concept/process references; one logical index may span several linked sources.
 - [Project setup prompt](project-setup.md): adopt the schema and build tested project boundaries.
 - [Implementation map](project-architecture.md): concrete modules, ports, bindings and runnable checks.
 - [Config](config.yaml), [agent guidance](agent-instructions.md), and

@@ -2,7 +2,9 @@
 
 <!-- Support starter. A change-local planning draft is optional. Apply writes the explicitly
 mapped maintained page in the development checkout, preserving current/unrelated content.
-Remove these comments and irrelevant headings in the real page. -->
+Use a topic-specific filename; this is not the target for all how-tos.
+Installation/setup are valid tasks for the appropriate readers. Rename/remove
+headings to fit non-UI products. Remove these comments in the real page. -->
 
 {Explain the goal, intended reader, and when this is the right procedure.}
 
@@ -11,7 +13,7 @@ Remove these comments and irrelevant headings in the real page. -->
 {Required role, permissions, data, supported version, and preparation. Link exact
 configuration options rather than repeat a complete reference.}
 
-## Open the function
+## Starting point
 
 {The verified menu path, command, screen, or other entry point. A screenshot may help
 orientation but does not replace names and text instructions.}

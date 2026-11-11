@@ -19,7 +19,20 @@ separate concepts/relationships, processes/use cases, actions, states/outcomes a
 events. Use a consistent subgroup order and sort entries alphabetically within each
 subgroup. No empty sections or compulsory file per term. A context-local glossary
 needs only that context's table or kind subgroups, not redundant context headings.
-The headings below are a layout starter, not new required domain owners. -->
+The headings below are a layout starter, not new required domain owners.
+
+Scale by need: one logical glossary may use one file or several linked source units.
+Do not require one file per context, kind or term. When a page becomes hard to use,
+split by useful scope/kind and keep a short entry point linking to the resulting
+pages. Reuse this template only for applicable leaf groups, without empty sections.
+Maintain each scoped entry once; extra global/A-Z indexes link to canonical entries
+or are generated from them, not independently edited copies. Sort context navigation
+and leaf entries using the same rules. No universal entry-count limit applies.
+Review affected entry points, definition links and incoming anchors after splits.
+Check access in the intended output; a repository-only definition link may not
+work in a published handbook. Use approved links or generated read views of the
+same owned source, not a second definition. Source units and single-file exports
+can differ. Follow documentation-policy.md for review signals and exceptions. -->
 
 ## Shared domain terms
 

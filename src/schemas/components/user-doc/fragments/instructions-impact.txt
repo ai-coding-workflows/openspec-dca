@@ -1,3 +1,4 @@
-User-doc: identify affected reader tasks and pages/assets, with create/update/
-remove/rename/split/reuse dispositions. Explain no-impact briefly. Name unknown
-labels, defaults or behavior and the writing/checks they block; do not invent them.
+User-doc: assess affected reader needs, prerequisites and whole pages/navigation,
+not only added sections. Map create/update/remove/rename/split/consolidate/reuse
+with reasons; explain no-impact briefly. Identify mixed scope, stale overlaps and
+unknown labels/defaults/behavior without inventing them.

@@ -1,93 +1,133 @@
-# OpenSpec DDD bundle
+# OpenSpec DDD modular bundle
 
-Editable sources live here: `schemas/ddd/`, `schemas/components/`,
-`schemas/legacy/`, `schemas/ddd/helpers/`, `schemas/helper-packs/docs/`, and
-`addons/mdbook/`, and `project_templates/`.
-Build and install a selected schema from the repository root:
+
+
+## Contents
+
+- `schemas/ddd/`: canonical base schema, support templates and read-only helpers.
+- `schemas/components/`: optional arc42 and user-doc fragments/templates/helpers.
+- `schemas/helper-packs/docs/`, `addons/`: retained documentation support.
+- `project_templates/`: starter sources; the user-doc manifest intentionally stops
+  instantiating empty type-based chapters. The base manifest still maps the canonical
+  setup prompt to `PROJECT_SETUP.md`. Existing project files are not migrated/deleted.
+- `dist/schemas/`: four generated, installable compositions, not additional sources.
+- `tools/compose_schemas.py`: small reference composer for this archive's hook format.
+- `tests/`: executable helper, composition, failure-path and reproducibility tests.
+
+The uploaded archive did **not** include its referenced `build.py`, original schema
+and starter builders, or the reusable mdBook builder. The reference composer builds
+schemas plus helpers only; it does not claim to replace those tools or generate full
+project starters/books. Merge these source changes into the corresponding locations
+of the original repository and use that repository's normal builder when available.
+
+## Install one generated schema
+
+For example, copy `dist/schemas/ddd+arc42+user-doc/` to the new project's
+`openspec/schemas/ddd+arc42+user-doc/`. Choose `ddd`, `ddd+arc42`, or `ddd+user-doc`
+instead when those components are not needed. Keep the adjacent `helpers/` directory.
+
+Merge the selected output's `templates/config.yaml` into `openspec/config.yaml`
+and its `templates/agent-instructions.md` into the project's actual agent guidance.
+Preserve existing settings and do not activate a second conflicting instruction file.
+Native OpenSpec, not this archive, generates agent commands/skills.
+
+With the project's installed, compatible CLI:
 
 ```sh
-python3 build.py
-mkdir -p /path/to/project/openspec/schemas
-cp -R build/schemas/ddd /path/to/project/openspec/schemas/openspec-ddd
+openspec --version
+openspec schema which ddd+arc42+user-doc
+openspec schema validate ddd+arc42+user-doc
 ```
 
-Select another generated variant when needed. Set `schema: openspec-ddd` in the
-project's configuration and merge the selected output's `templates/config.yaml`
-and `templates/agent-instructions.md`, preserving existing settings.
-The five-artifact worked example uses `build/schemas/legacy/`.
+Use `templates/project-setup.md` with the actual goal, stack constraints and first
+use case. It authorizes foundation Apply work only, not protected publication or
+archive. `templates/project-architecture.md` is the concrete implementation-map
+starter. A framework/language is not chosen by this bundle.
 
-Every composed v3 schema includes its `helpers/` directory automatically; do not
-copy helpers a second time. The historical five-artifact `legacy` output adds no
-helpers. If desired, copy the optional canonical helpers separately for legacy:
+`templates/glossary.md` supplies a context-scoped index for concepts AND processes,
+even without arc42. Reuse a suitable existing glossary; `openspec/glossary.md` is a
+suggested new location, not an automatically installed second index. Conceptual
+meanings stay in the domain model; process scope and behavior stay in their owning
+feature/use-case specification. The arc42 glossary starter follows this same policy.
+Follow the base template's grouped, alphabetically ordered layout. Use one file or
+several linked units as useful; an entry point/global index references or is generated
+from canonical entries rather than independently maintaining them. Review navigation,
+ordering and definition access in the intended output, including after integration.
+The bundle does not include a sorter/splitter or silently move existing project files.
+Stage links to unpublished definitions until authorized integration.
+
+`templates/documentation-policy.md` is the common policy. The optional Documentation
+profile section in `project-architecture.md` references existing audiences, roots,
+outputs, checks and exceptions rather than creating another configuration format.
+Use actual project tooling/CI for enforcement; helper documentation states which
+checks are and are not implemented. No tool or deployment is authorized by a policy.
+
+To adopt starter changes in the modular source repository, merge
+`project_templates/user-doc/manifest.json`, its landing/navigation sources and shared
+guidance. Copying only a generated schema does not update an external starter builder.
+Do not delete adopted pages merely because they were removed from the new manifest.
+
+After a real change is created, check its effective instructions rather than assuming
+that editing the project default changed existing change metadata:
 
 ```sh
-cp -R src/schemas/ddd/helpers /path/to/project/openspec/schemas/openspec-ddd/helpers
+openspec status --change CHANGE --json
+openspec instructions design --change CHANGE --json
+openspec instructions apply --change CHANGE --json
+openspec instructions archive --change CHANGE --json
 ```
 
-The catalog commands use `openspec/catalog.json`; the separate metadata checker
-also works without a catalog. For optional architecture publishing, install the
-separate [mdBook addon](addons/mdbook/README.md).
+Check the installed CLI's support for `skip_specs`, operation guidance, and any
+retirement/already-synced archive options actually used. No dummy spec files are an
+acceptable workaround for incompatible CLI behavior.
 
-OpenSpec installs its own agent commands with `openspec init --tools pi` (or another
-supported integration). This bundle does not copy or fork generated commands.
+## Regenerate and test this bundle
 
-From the adopting project's root, the installed helper reads an
-`openspec/catalog.json` catalog:
+The reference composer uses Python 3.10+ and the standard library. It refuses to
+replace an existing output directory; select a new disposable directory:
 
 ```sh
-python3 openspec/schemas/openspec-ddd/helpers/ddd.py check
-python3 openspec/schemas/openspec-ddd/helpers/ddd.py context lending.return
-python3 openspec/schemas/openspec-ddd/helpers/ddd.py impact lending.domain
-python3 openspec/schemas/openspec-ddd/helpers/check.py --root .
+python3 tools/compose_schemas.py --output /tmp/ddd-schema-build
 ```
 
-The shared standard-library `project_root.py` resolves the default root from the
-installed helpers' nearest `openspec` ancestor to its project parent, not a fixed
-path depth. Explicit `--root` is supported (`ddd.py --root PATH check`). The older
-`openspec/ddd/` installation remains a supported fallback, not the primary layout.
+The tests additionally use PyYAML to parse rendered schema/configuration files:
 
-Both arc42 and user-doc select the shared generic documentation helper pack. Its
-`docs-check.py` uses adjacent `check.py` for DDD metadata and a separately installed
-`md-book-builder/book.py` for generic source/include/HTML checks and builds. Select
-that builder with `--builder` or `BOOK_BUILDER`; it may live in arbitrary folders.
-Use `--ddd-helper` for an alternate metadata checker or ambiguous multi-schema
-installations. No arc42-specific conformance checker is distributed.
+```sh
+python3 -m pip install -r requirements-dev.txt
+python3 -m unittest discover -s tests -v
+```
 
-`ddd.py` commands produce JSON and never write files. `context` accepts catalog IDs, spec
-files, or spec directories and returns prerequisite owners before consumers.
-`impact` reports transitive consumers to review; it does not add them to change scope.
-Main spec paths must live under `openspec/specs/`. Detailed contract, architecture,
-and ADR files may live anywhere inside the project but must be listed explicitly.
+All Python helper implementations, including `closure.py`, are unchanged from
+revision 2. Their guide clarifies how existing receipt fields cover supporting
+sections inside a main spec. Helpers are independent of the application language
+and are not an architecture or prose-quality analysis engine.
 
-Every entry needs a unique `id` and `path`. `depends_on` is an array of consumed
-owner IDs. Optional `contracts`, `architecture`, and `decisions` arrays contain
-project-relative existing files. `kind` and other descriptive metadata are retained
-but have no executable meaning. Cycles, unknown dependencies, duplicate owner paths,
-missing files, and paths escaping the project are rejected. Unlisted main specs are
-reported so a partial catalog cannot silently appear complete.
+## Integration is a separate gate
 
-New proposed owners remain in the change's impact review until their main specs are
-created; then update the catalog. The helper checks the baseline graph only. Agents
-must also read proposed deltas and manually review newly introduced dependencies.
-It does not discover unlisted ADRs or external consumers and does not infer drift.
+The schema requires three outcomes before closure:
 
-Use OpenSpec for creating changes, artifact status, task progress, validation,
-synchronization, and archive. No active-change pointer, `change.json`, or separate
-planning engine is introduced. Full setup and workflow guidance is in
-[the tooling chapter](../docs/09-tooling.md).
+```text
+Requirement deltas integrated
+AND required model / language / architecture / ADR / contract companions explicitly published
+AND glossary / supporting content / dependent references / translations / maps / catalog reconciled
+```
 
-For an empty new project, `python3 build.py project_templates` generates the four v3
-compositions under `build/project_templates/`. Their manifests in `project_templates/` map existing
-composed schema templates to project destinations and add project-only skeletons.
-Documentation variants include selected books and the canonical reusable book tool;
-DDD-only has no publishing dependency. Group declarations and component metadata
-assemble a reviewable `AGENTS.proposal.md`, not an active `AGENTS.md`. Shared intros
-and packages occur once through group/ancestor activation; canonical agent fragments
-are not copied into a second maintained source. `python3 build.py` builds both collections.
-Do not use starters to overwrite existing projects. See
-[the starter builder](../scripts/starter-builder/README.md).
+Apply prepares change-local drafts, evidence and a pending `integration.json`.
+Separately authorized integration reconciles the current baseline and performs the
+actual publications. Finalize the reviewed receipt, then run the selected helper:
 
-For the modular v3 variant, see [the Python schema builder](../scripts/schema-builder/README.md).
-Its sources live under `src/schemas/`; select DDD alone or add arc42,
-user documentation, and separately selected architecture-reconstruction guidance.
-Components contribute additive blocks through shared hooks and own their support files.
+```sh
+python3 openspec/schemas/ddd+arc42+user-doc/helpers/closure.py --root . inputs --change CHANGE
+python3 openspec/schemas/ddd+arc42+user-doc/helpers/closure.py --root . check --change CHANGE
+```
+
+`inputs` prints change-relative fingerprints; it does not mark work complete.
+Read [the helper guide](schemas/ddd/helpers/README.md) before creating the receipt.
+The checker verifies declared states, snapshots, delta coverage, file/reference
+existence, completed tasks and relevant metadata. It neither publishes nor proves
+semantic correctness, actual test execution, link-anchor validity or authority.
+
+`operations.archive.guidance` is advisory. A required project CI check or integration
+wrapper must invoke the helper to make failure a hard gate. A bare native archive
+command is not intercepted. Check after integration and before the final archive
+move; do not force Apply to publish protected files to satisfy a premature gate.

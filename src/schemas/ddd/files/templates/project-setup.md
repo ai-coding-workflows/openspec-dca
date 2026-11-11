@@ -25,7 +25,8 @@ archive, shared-store writes, production operations, or deployment.
    compatible one; record consequential choices. Identify only justified contexts.
    Establish the supplied concepts AND named processes, their authoritative model/spec
    definitions and glossary links; reuse an existing index or stage glossary.md.
-   Follow the base glossary template for context grouping and alphabetical ordering.
+   Follow the base glossary template for context grouping and alphabetical ordering;
+   choose one or several navigable sources without duplicating scoped entries.
    Mark proposals/unknowns and agree important translations; do not invent agreement.
    Define context-first modules/packages where practical and map framework-required
    entry points explicitly. Use functions/protocols/module APIs as ports where
@@ -63,6 +64,12 @@ archive, shared-store writes, production operations, or deployment.
    scoped by context with explicit external/history exceptions; use the selected
    change overlay during Apply. Do not reject every word absent from the glossary.
    Review or lint glossary grouping and alphabetical ordering; record the method.
+   For affected documentation follow documentation-policy.md: reuse the project
+   profile or record missing audiences, reader needs, sources/outputs and checks in
+   existing settings/maps. Installation/setup belong when relevant to those readers.
+   Distinguish required structural gates from configurable review signals and safe
+   procedure checks; no universal page quota or mandatory documentation tree.
+   Templates are not completed pages; do not publish unfilled starter content.
    Record exact commands, prerequisites, exclusions and scope in the
    change-local implementation map. Do not claim remote branch protection is enabled
    merely because a CI file exists. Extend rules and mappings on later boundary changes.
@@ -93,6 +100,9 @@ not an automatic archive hook. Do not rerun a non-idempotent native merge blindl
   precise not-applicable/blocked explanation for an unprovided business slice.
 - [ ] Architecture checks scan real code, reject intended invalid fixtures, cover
   the stack's dependency forms, and run with their controls in required CI checks.
+- [ ] Affected documentation/glossary has a navigable, audience-appropriate structure;
+  actual checks and reviewed exceptions are recorded. Unfilled starters are not
+  publishable; missing product evidence stays explicit rather than invented.
 - [ ] Actual test results, scope limits and protected-baseline comparisons are
   recorded; the foundation has no unexplained silent skips.
 - [ ] Apply stops with honest integration status; later closure checks requirement

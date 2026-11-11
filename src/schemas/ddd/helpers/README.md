@@ -1,7 +1,7 @@
 # DDD helpers
 
 These read-only, standard-library Python 3.10+ tools work without arc42 or mdBook.
-Every composed v4 schema variant includes this optional `helpers/` directory;
+Every composed DDD schema variant includes this optional `helpers/` directory;
 install it with the selected schema under `openspec/schemas/openspec-ddd/`.
 Existing helper APIs are unchanged; `closure.py` adds a read-only integration
 receipt check. The original alternate `openspec/ddd/` location remains supported.
@@ -75,9 +75,13 @@ Use the same receipt format for language work. A separately maintained model or
 language definition is a companion; definitions inside `spec.md` follow requirement
 merge/supporting-section reconciliation above. A glossary's own file is a companion
 when explicitly published from a draft, or a `reconciliation.files` index when reviewed
-or updated in place. Choose its mapped action, not a new receipt section. Index-only
-outside-tree edits follow existing Apply documentation rules; stage links requiring
-unpublished definitions. Definitions retain model/spec protection at any location.
+or updated in place. Choose its mapped action, not a new receipt section.
+For a multi-file glossary, map the entry point and each affected leaf/index through
+these same fields; no new receipt section is needed. Fingerprint final content and
+list known durable definition targets. Check navigation and old anchors separately;
+the helper does not discover undeclared links. Index-only outside-tree edits follow
+existing Apply documentation rules; stage links requiring unpublished definitions.
+Definitions retain model/spec protection at any location.
 
 List the durable definition files under `reconciliation.references`; check their
 actual Markdown links and section anchors with project tooling or review. The helper

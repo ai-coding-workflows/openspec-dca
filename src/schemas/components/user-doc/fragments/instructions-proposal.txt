@@ -1,2 +1,3 @@
-User-doc: identify affected readers and tasks/settings/error recovery. Use the
-selected project root, default user-doc/. A page is not a new contract owner.
+User-doc: identify affected readers and tasks for the actual product. Readers may
+include administrators, operators, integrators or developers; installation/setup
+belong when relevant. Use the selected root, default user-doc/. User pages are not spec owners.

@@ -1,4 +1,4 @@
 ## User documentation support
-[Reader-focused templates](user-doc/README.md) support user tasks and reference
-material independently of arc42. Use only needed pages; the DDD base owns the
-shared publication boundary and closure reconciliation.
+[Reader-focused templates](user-doc/README.md) are reusable content types, not fixed
+handbook chapters. Audience, granularity and check rules come from the base
+[documentation policy](documentation-policy.md); select only useful topics.

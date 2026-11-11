@@ -15,6 +15,9 @@ Do not link a destination until it exists; preserve its planned location in the 
 The DDD glossary indexes concepts AND named processes. Reuse an existing glossary, or
 use openspec/glossary.md; definitions remain with their domain model or feature owner.
 The schema's glossary.md template is navigation, not an additional behavior contract.
+It supports one or several linked source units with one maintained entry per scoped
+meaning. Follow templates/documentation-policy.md in the selected schema; record or
+reference actual readers, source/output locations and check choices, not a fixed tree.
 
 ## Change lifecycle
 

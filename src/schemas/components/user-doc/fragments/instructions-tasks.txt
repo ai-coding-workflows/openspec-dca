@@ -1,4 +1,5 @@
-User-doc: add mapped maintained page/navigation/asset edits and concrete safe
-checks to the existing Apply checklist. A draft or passing render is not verified
-delivery. Use approved generators without writing protected targets. Record real
-results/version/role; no artificial task for a reasoned no-impact assessment.
+User-doc: include mapped content/navigation/asset changes, split/consolidation
+work and selected safe checks in the existing Apply checklist. Reuse the design map;
+record whole-unit review and exceptions, not just the added paragraph or a passing
+render. Approved generators may not write protected targets. No artificial task
+for a reasoned no-impact assessment; separate publication stays in the base handoff.

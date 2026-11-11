@@ -1,9 +1,8 @@
-User-doc: update mapped maintained sources at the selected project root after
-reading current targets and preserving concurrent work. Confirm real entry points,
-labels, defaults, roles and outcomes from evidence. Retain qualifications and place
-warnings before consequential actions. Test only authorized safe examples; no live
-data/credentials or unapproved services. Inspect generator output and keep protected
-destinations unchanged. Check changed/reused pages, links and procedures; record
-what was read versus executed, product version and limitations in verification.md.
-Do not add tools/CI/deployment merely to pass a docs check without authorization.
-Publication-dependent links remain in the shared handoff until targets exist.
+User-doc: read current mapped targets and preserve concurrent work. Check real
+entry points, labels, defaults, prerequisites and outcomes. Review whole affected
+units and navigation; split/consolidate as mapped, retaining warnings and old links.
+No unfilled starters in published deliverables. Run selected checks and resolve
+review signals with reasons, including justified exceptions. Test only authorized
+safe procedures; distinguish inspection from execution/version/role in verification.
+Inspect generated output; do not add tools/CI/deployment merely to pass a check.
+Protected targets and publication-dependent links remain in the base handoff.

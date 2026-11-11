@@ -8,7 +8,9 @@
 | --- | --- | --- |
 | {Exact name} | {Short explanation} | {Link to its detailed entry} |
 
-<!-- Use a compact overview only when it helps. Do not bury detailed conditions in
+<!-- Use a topic-specific filename; related settings/commands may stay together.
+Split by reader need when discovery suffers, not by a universal size limit.
+Use a compact overview only when it helps. Do not bury detailed conditions in
 wide tables. Explain one authoritative value set; task pages link here instead of
 independently maintaining the same defaults. No fabricated options or defaults. -->
 

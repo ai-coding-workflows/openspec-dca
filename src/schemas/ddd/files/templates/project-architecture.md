@@ -34,6 +34,17 @@ checks; definition-link and scoped terminology checks where useful; closure chec
 Name the repository's required CI entry point. External branch protection still needs
 actual hosting configuration and must not be claimed merely because YAML was written. -->
 
+## Documentation profile (when relevant)
+<!-- Reuse/reference existing project settings rather than create a second inventory.
+Only fill missing choices: readers and tasks; versions/languages; source roots and
+published formats; editable vs generated units; selected glossary entry point(s).
+Use documentation-policy.md. No mandatory directory layout or metadata per page.
+Record exact checks in Local and CI commands above: scope, required failure gates,
+configurable size/growth/entry-count review signals, exceptions with reasons/review
+triggers, and risk-based safe procedure checks. No universal size thresholds.
+Distinguish template/draft/history/include exclusions from publishable content.
+A docs profile is not a newly required artifact or a new openspec/config.yaml key. -->
+
 ## Composition and evolution
 <!-- How configuration and implementations are bound, consistency ownership where
 needed, boundary-change maintenance, and accepted decision references. -->

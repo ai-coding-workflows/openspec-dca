@@ -1,5 +1,5 @@
 name: openspec-ddd
-version: 5
+version: 6
 description: Domain-centered delivery with shared language, ports, adapters, executable boundaries, and separate publication
 artifacts:
   - id: proposal
@@ -46,6 +46,8 @@ artifacts:
       tests, current docs, translations/aliases, views, ADRs, supporting information and
       companion contracts, including configuration/API references. Identify exact
       files/sections and consumers of renamed keys or changed meanings, not just links.
+      Review affected documentation as whole units and navigation under
+      templates/documentation-policy.md; identify split/consolidate/reuse needs.
       Keep definitions, publication mappings, and rationale in their owning artifacts.
       New owners stay change-local until explicit integration.
       {{hook:instructions.impact}}
@@ -66,7 +68,8 @@ artifacts:
       Keep conceptual definitions here or in one linked model draft. Process behavior
       belongs to its owning feature/use-case spec; reference it, do not copy it. Glossaries
       index those owners, not redefine them. Do not invent concepts or process types.
-      Follow glossary.md for context grouping and alphabetical ordering.
+      Follow glossary.md for context grouping and alphabetical ordering;
+      one logical index may span linked files without duplicated entries.
       Normative obligations and scenarios stay in the owning spec deltas. Reconcile
       impact/specs when meaning changes an obligation, including removing skip_specs.
       Map model/language definitions and glossary updates from reviewed sources and their
@@ -139,6 +142,9 @@ artifacts:
       duplicating them. Reuse this implementation map as publication input when sufficient.
       Planning stays change-local. Apply updates mapped descriptive docs outside
       openspec/specs/**; protected views/models/ADRs remain drafts for integration.
+      Reuse project documentation settings and existing maps for audience, scope,
+      editable/published units and checks. Separate deterministic gates, configurable
+      review signals and procedure review; do not prescribe a universal page quota.
       Plan domain/application tests without framework or real infrastructure, real
       adapter contract/integration checks, a composition smoke check, and executable
       dependency rules. Select levels by affected risk; document genuine non-applicability.
@@ -209,7 +215,9 @@ apply:
     Check language against the baseline overlaid with this change's proposals, not
     against unpublished protected targets. Align code, tests and current docs; preserve
     historical wording. Verify definition links and process meaning, not spelling alone.
-    Review affected glossary grouping and alphabetical ordering against glossary.md.
+    Review affected glossary grouping and alphabetical ordering against glossary.md,
+    including multi-file navigation. Review whole affected documentation units and
+    outputs, resolve applicable quality findings and record justified exceptions.
     Implement through the mapped application boundary and owned ports, inject concrete
     adapters in composition, and enforce the chosen source dependency rules.
     Work test-first where practical; run focused core tests, affected real-adapter

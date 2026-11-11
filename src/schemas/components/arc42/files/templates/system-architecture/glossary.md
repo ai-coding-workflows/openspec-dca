@@ -9,7 +9,9 @@ alphabetical ordering, not a separate flat-table convention. -->
 ## Domain language index
 
 <!-- Link to the selected index, or insert the base glossary.md layout here.
-Keep technical terms in its optional Technical terms section; sort there too. -->
+Keep technical terms in its optional Technical terms section; sort there too.
+The selected index may span linked files; this page can remain a short entry point.
+Use the base scalability and publication-link rules, not another editable term list. -->
 
 <!-- Include named processes/use cases, not only concepts/types. Link conceptual
 meanings to domain models and process behavior to owning feature/use-case specs.

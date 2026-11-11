@@ -28,6 +28,18 @@ including optional kind subgroups; state whether inspected or tool-checked.
 Name-only checks are not semantic evidence; historical and
 external vocabulary may intentionally differ. Record limitations and unresolved terms. -->
 
+## Documentation review (when affected)
+<!-- Follow documentation-policy.md and the project's selected checks. Reuse Results
+and the existing target map, not another page inventory. Review the whole affected
+unit and navigation, current/historical scope, audience/prerequisites and coherence.
+Include multi-file glossary discovery, sort order, unique scoped entries and access
+to definitions in the intended output. Preserve needed warnings and mapped old links.
+Record deterministic gate results, reviewed size/growth/duplication signals and
+justified exceptions; distinguish prose/code/tables and source vs generated output.
+Scope template/draft/include/history exclusions; no unfilled published starters.
+Record safe procedures actually executed, inspected-only parts and Not run checks.
+A render, word count or file fingerprint alone does not prove useful documentation. -->
+
 ## Apply write-boundary review
 <!-- Compare protected sources, including additions/deletions/renames/generated writes,
 and mapped outside-tree targets against their initial state; preserve prior dirty work. -->
@@ -38,7 +50,8 @@ requirement merge review, actual companion publication, and dependent link/ancho
 symbol/map/catalog checks. Review coverage of mapped supporting sections and companion
 contracts, including configuration/API references and obsolete keys/meanings.
 Reconcile glossary links, definitions, translations and concurrent terminology changes;
-restore alphabetical ordering after merging entries. A passing
+restore alphabetical ordering after merging entries, including split glossary pages
+and their navigation. Recheck published definition access and mapped old anchors. A passing
 link check does not establish content coverage. For no work, state a reviewed reason.
 Use integration.json for final machine-checked file snapshots and three closure states.
 Required unfinished work stays pending. Record acceptance separately; a helper pass does not grant it. -->

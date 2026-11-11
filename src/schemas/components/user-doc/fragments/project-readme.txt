@@ -1,4 +1,5 @@
-The user-doc component provides tutorials, how-to pages, references, explanations
-and troubleshooting at the selected project documentation root (user-doc/ by
-default). Apply delivers affected descriptive sources and checks; no page-per-spec
-rule applies. Protected references use the base integration/closure handoff.
+The user-doc component supplies reusable tutorial, how-to, reference, explanation
+and troubleshooting templates at the selected root (user-doc/ by default). Actual
+reader needs determine topics and grouping; installation/setup are not excluded.
+No fixed tree, one-file-per-type or one-task-per-file rule applies. Apply delivers
+mapped descriptive sources/checks; protected references use the base handoff.
